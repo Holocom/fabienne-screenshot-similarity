@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import CategoryPage from "./pages/CategoryPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,12 +23,15 @@ const App = () => (
           <Route path="/formations" element={<NotFound />} />
           <Route path="/hors-champ" element={<NotFound />} />
           <Route path="/contact" element={<NotFound />} />
-          <Route path="/roman" element={<NotFound />} />
-          <Route path="/art" element={<NotFound />} />
-          <Route path="/jeunesse" element={<NotFound />} />
-          <Route path="/cuisine" element={<NotFound />} />
-          <Route path="/collectifs" element={<NotFound />} />
-          <Route path="/commandes" element={<NotFound />} />
+          
+          {/* Routes pour les catégories de livres */}
+          <Route path="/roman" element={<CategoryPage />} />
+          <Route path="/art" element={<CategoryPage />} />
+          <Route path="/jeunesse" element={<CategoryPage />} />
+          <Route path="/cuisine" element={<CategoryPage />} />
+          <Route path="/collectifs" element={<CategoryPage />} />
+          <Route path="/commandes" element={<CategoryPage />} />
+          
           <Route path="/books/:bookId" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
