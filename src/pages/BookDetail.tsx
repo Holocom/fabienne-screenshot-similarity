@@ -14,6 +14,24 @@ const BookDetail = () => {
     enabled: !!bookId
   });
 
+  // Fonction utilitaire pour formater les URLs d'images
+  const formatImageUrl = (url: string | null) => {
+    if (!url) return "/placeholder.svg";
+    
+    // Si l'URL contient "public/", on le supprime
+    if (url.includes("public/")) {
+      return url.replace("public/", "");
+    }
+    
+    // Si l'URL commence par "/", on retourne telle quelle
+    if (url.startsWith("/")) {
+      return url;
+    }
+    
+    // Sinon on retourne l'URL telle quelle
+    return url;
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white">
@@ -51,7 +69,7 @@ const BookDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
           <div>
             <img 
-              src={book.cover_image ? book.cover_image.replace('public/', '') : "/placeholder.svg"} 
+              src={formatImageUrl(book.cover_image)} 
               alt={book.title} 
               className="w-full h-auto shadow-lg rounded"
             />
