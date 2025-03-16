@@ -46,7 +46,7 @@ const BookGrid = () => {
           <Link key={book.id} to={`/books/${book.id}`} className="block transition-transform hover:scale-105">
             <div className="book-cover aspect-[3/4] overflow-hidden relative">
               <img
-                src={book.cover_image || "/placeholder.svg"}
+                src={book.cover_image ? book.cover_image.replace('public/', '') : "/placeholder.svg"}
                 alt={book.title}
                 className="w-full h-full object-cover"
                 loading="lazy"

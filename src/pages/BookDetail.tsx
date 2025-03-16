@@ -51,7 +51,7 @@ const BookDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
           <div>
             <img 
-              src={book.cover_image || "/placeholder.svg"} 
+              src={book.cover_image ? book.cover_image.replace('public/', '') : "/placeholder.svg"} 
               alt={book.title} 
               className="w-full h-auto shadow-lg rounded"
             />
