@@ -39,11 +39,9 @@ const BookGrid = () => {
     );
   }
 
-  // Fonction utilitaire simplifiée pour formater les URLs d'images
+  // Fonction utilitaire pour formater les URLs d'images
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
-    
-    // Utiliser l'URL telle quelle, qu'elle soit dans lovable-uploads ou autre
     return url;
   };
 

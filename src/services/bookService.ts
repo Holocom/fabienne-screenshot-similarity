@@ -36,16 +36,15 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     return [];
   }
   
-  // Traitement des livres - utiliser l'image téléchargée pour Brown Baby
-  const books = data || [];
-  return books.map(book => {
-    if (book.title === 'Brown Baby') {
-      return {
-        ...book,
-        cover_image: '/lovable-uploads/e68e18f1-3f5f-4aeb-8962-c6981d55dca7.png'
-      };
-    }
-    return book;
+  // Process the books to ensure they conform to our interface
+  return (data || []).map(book => {
+    // Format the cover image URL
+    const coverImage = formatImageUrl(book.cover_image);
+    
+    return {
+      ...book,
+      cover_image: coverImage
+    } as Book;
   });
 };
 
@@ -64,13 +63,33 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
     return null;
   }
   
-  // Traitement spécial pour Brown Baby - utiliser l'image téléchargée
-  if (data && data.title === 'Brown Baby') {
-    return {
-      ...data,
-      cover_image: '/lovable-uploads/e68e18f1-3f5f-4aeb-8962-c6981d55dca7.png'
-    };
+  if (!data) return null;
+  
+  // Format the cover image URL
+  const coverImage = formatImageUrl(data.cover_image);
+  
+  return {
+    ...data,
+    cover_image: coverImage
+  } as Book;
+};
+
+// Helper function to format image URLs
+const formatImageUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  
+  // Handle different URL patterns
+  if (url.startsWith('public/') || url.startsWith('/public/')) {
+    // Remove 'public/' prefix for storage URLs
+    const cleanedUrl = url.replace(/^(\/)?public\//, '');
+    return cleanedUrl;
   }
   
-  return data;
+  // Handle fully formed URLs or special cases like Lovable uploads
+  if (url.startsWith('/lovable-uploads/') || url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  // Default case
+  return url;
 };
