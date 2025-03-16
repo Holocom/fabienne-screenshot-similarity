@@ -1,44 +1,52 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
-// Structure pour les livres
-interface Book {
-  id: number;
-  title: string;
-  coverImage: string;
-  path: string;
-  category: string;
-}
+import { useQuery } from '@tanstack/react-query';
+import { getBooks } from '@/services/bookService';
+import { Book } from '@/integrations/supabase/schema';
 
 const BookGrid = () => {
   const location = useLocation();
   const currentCategory = location.pathname.substring(1) || 'all';
+  
+  const { data: books = [], isLoading, error } = useQuery({
+    queryKey: ['books', currentCategory],
+    queryFn: () => getBooks(currentCategory)
+  });
 
-  // Données fictives pour les livres - gardons uniquement Brown Baby
-  const books: Book[] = [
-    {
-      id: 10,
-      title: "Brown Baby",
-      coverImage: "/lovable-uploads/6f865865-87e4-46f2-80e6-17ca6e53b868.png",
-      path: "/books/brown-baby",
-      category: "roman"
-    }
-  ];
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
+        <p>Chargement des livres...</p>
+      </div>
+    );
+  }
 
-  // Filtrer les livres en fonction de la catégorie actuelle
-  const filteredBooks = currentCategory === 'all' 
-    ? books 
-    : books.filter(book => book.category === currentCategory);
+  if (error) {
+    console.error('Error loading books:', error);
+    return (
+      <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
+        <p>Une erreur est survenue lors du chargement des livres.</p>
+      </div>
+    );
+  }
+
+  if (books.length === 0) {
+    return (
+      <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
+        <p>Aucun livre dans cette catégorie pour le moment.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
-        {filteredBooks.map((book) => (
-          <Link key={book.id} to={book.path} className="block transition-transform hover:scale-105">
+        {books.map((book) => (
+          <Link key={book.id} to={`/books/${book.id}`} className="block transition-transform hover:scale-105">
             <div className="book-cover aspect-[3/4] overflow-hidden relative">
               <img
-                src={book.coverImage}
+                src={book.cover_image || "/placeholder.svg"}
                 alt={book.title}
                 className="w-full h-full object-cover"
                 loading="lazy"
