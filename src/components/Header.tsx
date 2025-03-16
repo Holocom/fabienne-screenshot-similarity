@@ -10,8 +10,8 @@ const Header = () => {
           <div className="flex items-center justify-center gap-10 mb-2">
             <div className="hidden md:block">
               <img 
-                src="/lovable-uploads/7c3a8222-1e9a-49ae-85ed-36f658766ac2.png" 
-                alt="Pile de livres à gauche" 
+                src="/lovable-uploads/81859790-6c17-415b-8bf1-48355c95672e.png" 
+                alt="Pile de livres avec une pomme" 
                 className="w-24 h-auto"
               />
             </div>
@@ -23,8 +23,8 @@ const Header = () => {
             
             <div className="hidden md:block">
               <img 
-                src="/lovable-uploads/7c3a8222-1e9a-49ae-85ed-36f658766ac2.png" 
-                alt="Pile de livres à droite" 
+                src="/lovable-uploads/81859790-6c17-415b-8bf1-48355c95672e.png" 
+                alt="Pile de livres avec une pomme" 
                 className="w-24 h-auto"
               />
             </div>
