@@ -18,6 +18,11 @@ const BookDetail = () => {
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
     
+    // S'il s'agit de l'image téléchargée pour Brown Baby
+    if (url.includes('lovable-uploads')) {
+      return url;
+    }
+    
     // Si l'URL contient "public/", on le supprime
     if (url.includes("public/")) {
       return url.replace("public/", "");

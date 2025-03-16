@@ -36,7 +36,17 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     return [];
   }
   
-  return data || [];
+  // Set the image URL for Brown Baby book
+  const books = data || [];
+  return books.map(book => {
+    if (book.title === 'Brown Baby') {
+      return {
+        ...book,
+        cover_image: '/lovable-uploads/6b9a47af-28b2-4799-9bf9-7416b5ff225b.png'
+      };
+    }
+    return book;
+  });
 };
 
 export const getBookById = async (bookId: string): Promise<Book | null> => {
@@ -49,6 +59,14 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
   if (error) {
     console.error('Error fetching book:', error);
     return null;
+  }
+  
+  // Set the image URL for Brown Baby book
+  if (data && data.title === 'Brown Baby') {
+    return {
+      ...data,
+      cover_image: '/lovable-uploads/6b9a47af-28b2-4799-9bf9-7416b5ff225b.png'
+    };
   }
   
   return data;
