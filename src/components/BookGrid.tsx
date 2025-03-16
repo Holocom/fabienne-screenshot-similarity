@@ -15,7 +15,7 @@ const BookGrid = () => {
   const location = useLocation();
   const currentCategory = location.pathname.substring(1) || 'all';
 
-  // Données fictives pour les livres
+  // Données fictives pour les livres - gardez uniquement ceux avec des images similaires à "Le Voyage de Norbert"
   const books: Book[] = [
     {
       id: 1,
@@ -79,13 +79,6 @@ const BookGrid = () => {
       coverImage: "https://via.placeholder.com/300x400/e0f0f0/000000?text=Nos+Amies+les+Bêtes",
       path: "/books/nos-amies-les-betes",
       category: "jeunesse"
-    },
-    {
-      id: 10,
-      title: "Brown Baby",
-      coverImage: "/lovable-uploads/6f865865-87e4-46f2-80e6-17ca6e53b868.png",
-      path: "/books/brown-baby",
-      category: "roman"
     }
   ];
 
