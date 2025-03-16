@@ -85,6 +85,11 @@ const BookManagement = () => {
     return url;
   };
 
+  // Fonction pour obtenir le nom de la catégorie du livre
+  const getCategoryName = (book: Book) => {
+    return book.categories ? (book.categories as any).name : '-';
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -131,7 +136,7 @@ const BookManagement = () => {
                     <TableCell className="font-medium">{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {book.categories?.name || '-'}
+                      {getCategoryName(book)}
                     </TableCell>
                     <TableCell className="text-right space-x-2">
                       <Button 

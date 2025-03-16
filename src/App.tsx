@@ -20,6 +20,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/category/:categorySlug" element={<CategoryPage />} />
           <Route path="/roman" element={<CategoryPage />} />
           <Route path="/art" element={<CategoryPage />} />
           <Route path="/jeunesse" element={<CategoryPage />} />
