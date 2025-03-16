@@ -1,12 +1,22 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Header from '../components/Header';
+import Navigation from '../components/Navigation';
+import BookCategories from '../components/BookCategories';
+import BookGrid from '../components/BookGrid';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col items-center">
+      <Header />
+      <Navigation />
+      <main className="flex-1 w-full flex flex-col items-center">
+        <BookCategories />
+        <BookGrid />
+      </main>
+      <footer className="w-full py-8 text-center text-sm text-gray-500">
+        <p>© {new Date().getFullYear()} Fabienne Jonca. Tous droits réservés.</p>
+      </footer>
     </div>
   );
 };
