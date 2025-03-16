@@ -85,9 +85,10 @@ const BookManagement = () => {
     return url;
   };
 
-  // Fonction pour obtenir le nom de la catégorie du livre
+  // Function to get the category name from the book
   const getCategoryName = (book: Book) => {
-    return book.categories ? (book.categories as any).name : '-';
+    if (!book.categories) return '-';
+    return book.categories.name;
   };
 
   return (
