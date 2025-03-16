@@ -17,15 +17,17 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/a-paraitre" element={<NotFound />} />
           <Route path="/biographie" element={<NotFound />} />
-          <Route path="/actus" element={<NotFound />} />
           <Route path="/rencontres" element={<NotFound />} />
+          <Route path="/formations" element={<NotFound />} />
+          <Route path="/hors-champ" element={<NotFound />} />
           <Route path="/contact" element={<NotFound />} />
-          <Route path="/albums" element={<NotFound />} />
-          <Route path="/romans-illustres" element={<NotFound />} />
-          <Route path="/romans-ados" element={<NotFound />} />
+          <Route path="/roman" element={<NotFound />} />
+          <Route path="/art" element={<NotFound />} />
+          <Route path="/jeunesse" element={<NotFound />} />
+          <Route path="/cuisine" element={<NotFound />} />
           <Route path="/collectifs" element={<NotFound />} />
+          <Route path="/commandes" element={<NotFound />} />
           <Route path="/books/:bookId" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -81,6 +81,9 @@ const BookGrid = () => {
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                <h3 className="text-white text-sm md:text-base font-medium">{book.title}</h3>
+              </div>
             </div>
           </Link>
         ))}

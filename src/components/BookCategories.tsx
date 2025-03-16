@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 const BookCategories = () => {
   const categories = [
     { label: 'TOUS', path: '/' },
-    { label: 'ALBUMS', path: '/albums' },
-    { label: 'ROMANS ILLUSTRÉS', path: '/romans-illustres' },
-    { label: 'ROMANS ADOS', path: '/romans-ados' },
+    { label: 'ROMAN', path: '/roman' },
+    { label: 'ART', path: '/art' },
+    { label: 'JEUNESSE', path: '/jeunesse' },
+    { label: 'CUISINE', path: '/cuisine' },
     { label: 'COLLECTIFS', path: '/collectifs' },
+    { label: 'COMMANDES', path: '/commandes' },
   ];
 
   return (

@@ -5,11 +5,11 @@ import { Facebook, Instagram } from 'lucide-react';
 
 const Navigation = () => {
   const mainNavItems = [
-    { label: 'LIVRES', path: '/' },
-    { label: 'À PARAÎTRE', path: '/a-paraitre' },
     { label: 'BIOGRAPHIE', path: '/biographie' },
-    { label: 'ACTUS', path: '/actus' },
+    { label: 'LIVRES', path: '/' },
     { label: 'RENCONTRES', path: '/rencontres' },
+    { label: 'FORMATIONS', path: '/formations' },
+    { label: 'HORS-CHAMP', path: '/hors-champ' },
     { label: 'CONTACT', path: '/contact' },
   ];
 
