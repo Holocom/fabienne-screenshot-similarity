@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/CategoryPage";
 import BookDetail from "./pages/BookDetail";
+import BookManagement from "./pages/BookManagement";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/collectifs" element={<CategoryPage />} />
           <Route path="/commandes" element={<CategoryPage />} />
           <Route path="/books/:bookId" element={<BookDetail />} />
+          <Route path="/admin/books" element={<BookManagement />} />
           <Route path="/biographie" element={<NotFound />} />
           <Route path="/rencontres" element={<NotFound />} />
           <Route path="/formations" element={<NotFound />} />

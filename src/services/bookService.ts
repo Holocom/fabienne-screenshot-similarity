@@ -21,7 +21,7 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     .from('books')
     .select(`
       *,
-      categories(slug)
+      categories(id, name, slug)
     `);
   
   if (categorySlug && categorySlug !== 'all') {
@@ -52,7 +52,10 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
 export const getBookById = async (bookId: string): Promise<Book | null> => {
   const { data, error } = await supabase
     .from('books')
-    .select('*')
+    .select(`
+      *,
+      categories(id, name, slug)
+    `)
     .eq('id', bookId)
     .single();
   
