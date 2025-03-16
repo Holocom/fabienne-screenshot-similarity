@@ -25,7 +25,7 @@ const Header = () => {
               <img 
                 src="/lovable-uploads/81859790-6c17-415b-8bf1-48355c95672e.png" 
                 alt="Pile de livres avec une pomme" 
-                className="w-24 h-auto"
+                className="w-24 h-auto transform scale-x-[-1]"
               />
             </div>
           </div>
