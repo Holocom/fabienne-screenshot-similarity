@@ -14,26 +14,11 @@ const BookDetail = () => {
     enabled: !!bookId
   });
 
-  // Fonction utilitaire pour formater les URLs d'images
+  // Fonction utilitaire simplifiée pour formater les URLs d'images
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
     
-    // S'il s'agit de l'image téléchargée pour Brown Baby
-    if (url.includes('lovable-uploads')) {
-      return url;
-    }
-    
-    // Si l'URL contient "public/", on le supprime
-    if (url.includes("public/")) {
-      return url.replace("public/", "");
-    }
-    
-    // Si l'URL commence par "/", on retourne telle quelle
-    if (url.startsWith("/")) {
-      return url;
-    }
-    
-    // Sinon on retourne l'URL telle quelle
+    // Utiliser l'URL telle quelle, qu'elle soit dans lovable-uploads ou autre
     return url;
   };
 

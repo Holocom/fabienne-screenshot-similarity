@@ -36,13 +36,13 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     return [];
   }
   
-  // Set the image URL for Brown Baby book
+  // Traitement des livres - utiliser l'image téléchargée pour Brown Baby
   const books = data || [];
   return books.map(book => {
     if (book.title === 'Brown Baby') {
       return {
         ...book,
-        cover_image: '/lovable-uploads/6b9a47af-28b2-4799-9bf9-7416b5ff225b.png'
+        cover_image: '/lovable-uploads/319be82b-86a9-4f0d-94d0-9c7355cf57f9.png'
       };
     }
     return book;
@@ -61,11 +61,11 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
     return null;
   }
   
-  // Set the image URL for Brown Baby book
+  // Traitement spécial pour Brown Baby - utiliser l'image téléchargée
   if (data && data.title === 'Brown Baby') {
     return {
       ...data,
-      cover_image: '/lovable-uploads/6b9a47af-28b2-4799-9bf9-7416b5ff225b.png'
+      cover_image: '/lovable-uploads/319be82b-86a9-4f0d-94d0-9c7355cf57f9.png'
     };
   }
   
