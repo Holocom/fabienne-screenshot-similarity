@@ -19,7 +19,7 @@ const BookDetail = () => {
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
     
-    // Utilisons directement l'URL fournie par le service, qui est déjà formatée correctement
+    // L'URL est déjà formatée par le service
     return url;
   };
 

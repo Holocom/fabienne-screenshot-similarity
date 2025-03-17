@@ -87,16 +87,25 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
 const formatImageUrl = (url: string | null, categorySlug?: string | null): string | null => {
   if (!url) return null;
   
+  console.log("Original URL:", url);
+  console.log("Category slug:", categorySlug);
+  
   // Pour les URLs correctes venant de Supabase Storage
   if (url.includes('supabase.co/storage/v1/object/public/')) {
-    // Si l'URL ne contient pas déjà le segment "JEUNESSE" et que la catégorie est "jeunesse"
+    // Vérifier si nous devons insérer JEUNESSE dans le chemin
     if (categorySlug && categorySlug.toLowerCase() === 'jeunesse' && !url.includes('/JEUNESSE/')) {
-      // Ajouter le segment "JEUNESSE" avant le nom du fichier
-      const urlParts = url.split('/bookcovers/');
-      if (urlParts.length === 2) {
-        return `${urlParts[0]}/bookcovers/JEUNESSE/${urlParts[1]}`;
+      // Si l'URL contient déjà bookcovers/ mais pas /JEUNESSE/
+      if (url.includes('/bookcovers/')) {
+        // Insérer JEUNESSE après bookcovers/
+        const urlParts = url.split('/bookcovers/');
+        if (urlParts.length === 2) {
+          const newUrl = `${urlParts[0]}/bookcovers/JEUNESSE/${urlParts[1]}`;
+          console.log("Formatted URL with JEUNESSE:", newUrl);
+          return newUrl;
+        }
       }
     }
+    console.log("Using original URL:", url);
     return url;
   }
   
