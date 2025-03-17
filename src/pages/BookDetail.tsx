@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -54,9 +53,7 @@ const BookDetail = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <Link to="/" className="mb-8 inline-block text-sm hover:underline">
-          &larr; Retour aux livres
-        </Link>
+        
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
           <div>
