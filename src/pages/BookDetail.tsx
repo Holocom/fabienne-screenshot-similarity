@@ -3,6 +3,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBookById } from '@/services/bookService';
+import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -25,6 +26,7 @@ const BookDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-beige">
+        <Header />
         <Navigation />
         <div className="container mx-auto px-4 py-12 text-center">
           <p>Chargement...</p>
@@ -36,6 +38,7 @@ const BookDetail = () => {
   if (error || !book) {
     return (
       <div className="min-h-screen bg-beige">
+        <Header />
         <Navigation />
         <div className="container mx-auto px-4 py-12 text-center">
           <p>Ce livre n'existe pas ou une erreur est survenue.</p>
@@ -70,6 +73,7 @@ const BookDetail = () => {
 
   return (
     <div className="min-h-screen bg-beige">
+      <Header />
       <Navigation />
       
       <div className="container mx-auto px-4 py-8 max-w-5xl">
