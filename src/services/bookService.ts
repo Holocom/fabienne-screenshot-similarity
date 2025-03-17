@@ -25,7 +25,7 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     `);
   
   if (categorySlug && categorySlug !== 'all') {
-    // Join with categories and filter by slug
+    // Joindre les tables books et categories pour filtrer par le slug de la catégorie
     query = query.eq('categories.slug', categorySlug);
   }
   
@@ -36,9 +36,18 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     return [];
   }
   
-  // Process the books to ensure they conform to our interface
-  return (data || []).map(book => {
-    // Format the cover image URL
+  // Vérifier si les livres ont la bonne catégorie (filtrage côté client supplémentaire)
+  let filteredBooks = data || [];
+  
+  if (categorySlug && categorySlug !== 'all') {
+    filteredBooks = filteredBooks.filter(book => 
+      book.categories && book.categories.slug === categorySlug
+    );
+  }
+  
+  // Traiter les livres pour s'assurer qu'ils sont conformes à notre interface
+  return filteredBooks.map(book => {
+    // Formater l'URL de l'image de couverture
     const coverImage = formatImageUrl(book.cover_image);
     
     return {
