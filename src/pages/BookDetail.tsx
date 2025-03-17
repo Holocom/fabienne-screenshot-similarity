@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBookById } from '@/services/bookService';
 import Navigation from '@/components/Navigation';
+import Header from '@/components/Header';
 
 const BookDetail = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -23,6 +24,7 @@ const BookDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white">
+        <Header />
         <Navigation />
         <div className="container mx-auto px-4 py-12 text-center">
           <p>Chargement...</p>
@@ -34,6 +36,7 @@ const BookDetail = () => {
   if (error || !book) {
     return (
       <div className="min-h-screen bg-white">
+        <Header />
         <Navigation />
         <div className="container mx-auto px-4 py-12 text-center">
           <p>Ce livre n'existe pas ou une erreur est survenue.</p>
@@ -47,6 +50,7 @@ const BookDetail = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Header />
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
