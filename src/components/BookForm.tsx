@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface BookFormProps {
   book?: Book;
@@ -48,6 +49,7 @@ const BookForm = ({ book, onSuccess }: BookFormProps) => {
       author: book?.author || '',
       description: book?.description || '',
       category_id: book?.category_id || '',
+      cover_image_url: book?.cover_image || '',
     },
   });
 
@@ -65,10 +67,16 @@ const BookForm = ({ book, onSuccess }: BookFormProps) => {
     reader.readAsDataURL(file);
   };
 
+  // Mettre à jour la prévisualisation lorsque l'URL de l'image change
+  const handleImageUrlChange = (url: string) => {
+    setImageFile(null); // Réinitialiser le fichier, car nous utilisons une URL
+    setImagePreview(url.trim() || null);
+  };
+
   const onSubmit = async (values: any) => {
     setIsLoading(true);
     try {
-      let coverImagePath = book?.cover_image || null;
+      let coverImagePath = values.cover_image_url || null;
       
       // Upload image if a new one was selected
       if (imageFile) {
@@ -219,28 +227,76 @@ const BookForm = ({ book, onSuccess }: BookFormProps) => {
 
         <div className="space-y-2">
           <FormLabel>Image de couverture</FormLabel>
-          <div className="flex flex-col sm:flex-row gap-4 items-start">
-            {imagePreview && (
-              <div className="w-40 h-52 overflow-hidden border rounded-md">
-                <img 
-                  src={imagePreview} 
-                  alt="Aperçu" 
-                  className="w-full h-full object-cover" 
-                />
+          <Tabs defaultValue="upload" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="upload">Téléverser une image</TabsTrigger>
+              <TabsTrigger value="url">Utiliser une URL</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="upload" className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4 items-start">
+                {imagePreview && !form.watch('cover_image_url') && (
+                  <div className="w-40 h-52 overflow-hidden border rounded-md">
+                    <img 
+                      src={imagePreview} 
+                      alt="Aperçu" 
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <Input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleImageChange} 
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    JPG, PNG ou GIF. Max 2MB.
+                  </p>
+                </div>
               </div>
-            )}
-            <div className="flex-1">
-              <Input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleImageChange} 
-                className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:bg-primary/90"
+            </TabsContent>
+            
+            <TabsContent value="url">
+              <FormField
+                control={form.control}
+                name="cover_image_url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input 
+                        placeholder="https://exemple.com/image.jpg" 
+                        {...field} 
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleImageUrlChange(e.target.value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Entrez l'URL complète de l'image
+                    </p>
+                  </FormItem>
+                )}
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                JPG, PNG ou GIF. Max 2MB.
-              </p>
-            </div>
-          </div>
+              
+              {imagePreview && form.watch('cover_image_url') && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium mb-2">Aperçu :</p>
+                  <div className="w-40 h-52 overflow-hidden border rounded-md">
+                    <img 
+                      src={imagePreview} 
+                      alt="Aperçu" 
+                      className="w-full h-full object-cover" 
+                      onError={() => setImagePreview("/placeholder.svg")}
+                    />
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
         </div>
 
         <Button type="submit" disabled={isLoading} className="w-full">

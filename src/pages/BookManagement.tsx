@@ -21,9 +21,10 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { Pencil, Plus, Trash2, ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const BookManagement = () => {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -119,6 +120,7 @@ const BookManagement = () => {
                   <TableHead>Titre</TableHead>
                   <TableHead>Auteur</TableHead>
                   <TableHead className="hidden md:table-cell">Catégorie</TableHead>
+                  <TableHead className="hidden md:table-cell">URL de l'image</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -138,6 +140,32 @@ const BookManagement = () => {
                     <TableCell>{book.author}</TableCell>
                     <TableCell className="hidden md:table-cell">
                       {getCategoryName(book)}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {book.cover_image ? (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                className="h-8"
+                                onClick={() => navigator.clipboard.writeText(book.cover_image || '')}
+                              >
+                                <span className="truncate w-36 text-xs">
+                                  {book.cover_image}
+                                </span>
+                                <ExternalLink size={12} className="ml-1" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Cliquez pour copier l'URL</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      ) : (
+                        '-'
+                      )}
                     </TableCell>
                     <TableCell className="text-right space-x-2">
                       <Button 
