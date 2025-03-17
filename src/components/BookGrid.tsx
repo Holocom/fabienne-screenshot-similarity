@@ -4,11 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 
 const BookGrid = () => {
   const location = useLocation();
@@ -54,33 +49,28 @@ const BookGrid = () => {
     <div className="w-full max-w-6xl mx-auto px-4">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
         {books.map((book) => (
-          <HoverCard key={book.id}>
-            <HoverCardTrigger asChild>
-              <Link 
-                to={`/books/${book.id}`} 
-                className="block transition-transform hover:scale-105"
-              >
-                <div className="book-cover aspect-[3/4] overflow-hidden relative">
-                  <img
-                    src={formatImageUrl(book.cover_image)}
-                    alt={book.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </Link>
-            </HoverCardTrigger>
-            <HoverCardContent className="w-auto">
-              <div className="flex flex-col space-y-1">
-                <h3 className="text-lg font-serif">{book.title}</h3>
+          <Link 
+            key={book.id} 
+            to={`/books/${book.id}`} 
+            className="group block overflow-hidden"
+          >
+            <div className="book-cover aspect-[3/4] overflow-hidden relative">
+              <img
+                src={formatImageUrl(book.cover_image)}
+                alt={book.title}
+                className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex flex-col justify-end opacity-0 group-hover:opacity-100 p-4">
+                <h3 className="text-white font-serif text-base md:text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{book.title}</h3>
                 {book.categories && (
-                  <p className="text-sm text-gray-500 font-sans">
+                  <p className="text-white/80 font-sans text-xs md:text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150">
                     {book.categories.name}
                   </p>
                 )}
               </div>
-            </HoverCardContent>
-          </HoverCard>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
