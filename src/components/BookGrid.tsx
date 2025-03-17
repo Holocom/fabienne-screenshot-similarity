@@ -1,13 +1,16 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getBooks } from '@/services/bookService';
+import { getBooks, checkImageUrl } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
+import { useToast } from '@/hooks/use-toast';
 
 const BookGrid = () => {
   const location = useLocation();
   const currentCategory = location.pathname.substring(1) || 'all';
+  const { toast } = useToast();
+  const [coverErrors, setCoverErrors] = useState<Record<string, boolean>>({});
   
   const { data: books = [], isLoading, error } = useQuery({
     queryKey: ['books', currentCategory],
@@ -16,6 +19,14 @@ const BookGrid = () => {
 
   console.log('Current category:', currentCategory);
   console.log('Loaded books:', books.length);
+
+  useEffect(() => {
+    // Check for books without cover images and show toast
+    const booksWithoutCovers = books.filter(book => !book.cover_image);
+    if (booksWithoutCovers.length > 0) {
+      console.log('Books without cover images:', booksWithoutCovers.length);
+    }
+  }, [books]);
 
   if (isLoading) {
     return (
@@ -44,9 +55,16 @@ const BookGrid = () => {
   }
 
   // Function to format image URLs
-  const formatImageUrl = (url: string | null) => {
-    if (!url) return "/placeholder.svg";
+  const formatImageUrl = (url: string | null, bookId: string) => {
+    if (!url || coverErrors[bookId]) return "/placeholder.svg";
     return url;
+  };
+
+  // Handle image load errors
+  const handleImageError = (bookId: string, bookTitle: string, coverUrl: string | null) => {
+    console.error(`Error loading image for "${bookTitle}":`, coverUrl);
+    setCoverErrors(prev => ({ ...prev, [bookId]: true }));
+    return "/placeholder.svg";
   };
 
   return (
@@ -60,13 +78,12 @@ const BookGrid = () => {
           >
             <div className="aspect-[3/4] overflow-hidden">
               <img
-                src={formatImageUrl(book.cover_image)}
+                src={formatImageUrl(book.cover_image, book.id)}
                 alt={book.title}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 loading="lazy"
                 onError={(e) => {
-                  console.error(`Error loading image for ${book.title}:`, book.cover_image);
-                  (e.target as HTMLImageElement).src = "/placeholder.svg";
+                  (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
                 }}
               />
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>

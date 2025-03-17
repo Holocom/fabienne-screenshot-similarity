@@ -33,6 +33,7 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
     // Filter by category on the client side if a categorySlug is provided
     let filteredBooks = booksData || [];
     console.log('Total books fetched:', filteredBooks.length);
+    console.log('Books with cover images:', filteredBooks.filter(book => book.cover_image).length);
     
     if (categorySlug && categorySlug !== 'all') {
       // Get the category ID for the provided slug
@@ -76,4 +77,45 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
   if (!data) return null;
   
   return data as Book;
+};
+
+// Utility function to check if an image URL is valid
+export const checkImageUrl = async (url: string): Promise<boolean> => {
+  if (!url) return false;
+  
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.error('Error checking image URL:', error);
+    return false;
+  }
+};
+
+// Get all available book covers from storage
+export const getAvailableBookCovers = async (): Promise<string[]> => {
+  try {
+    const { data, error } = await supabase
+      .storage
+      .from('bookcovers')
+      .list('', { sortBy: { column: 'name', order: 'asc' } });
+    
+    if (error) {
+      console.error('Error fetching book covers:', error);
+      return [];
+    }
+    
+    return data
+      .filter(item => !item.id.endsWith('/')) // Filter out folders
+      .map(item => {
+        const url = supabase.storage
+          .from('bookcovers')
+          .getPublicUrl(item.name).data.publicUrl;
+        
+        return url;
+      });
+  } catch (error) {
+    console.error('Error getting available book covers:', error);
+    return [];
+  }
 };

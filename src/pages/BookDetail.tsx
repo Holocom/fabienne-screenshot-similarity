@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBookById } from '@/services/bookService';
@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 
 const BookDetail = () => {
   const { bookId } = useParams<{ bookId: string }>();
+  const [imageError, setImageError] = useState(false);
   
   const { data: book, isLoading, error } = useQuery({
     queryKey: ['book', bookId],
@@ -17,9 +18,7 @@ const BookDetail = () => {
 
   // Fonction utilitaire pour formater les URLs d'images
   const formatImageUrl = (url: string | null) => {
-    if (!url) return "/placeholder.svg";
-    
-    // L'URL est déjà formatée par le service
+    if (!url || imageError) return "/placeholder.svg";
     return url;
   };
 
@@ -66,6 +65,7 @@ const BookDetail = () => {
               src={formatImageUrl(book.cover_image)} 
               alt={book.title} 
               className="w-full h-auto shadow-lg rounded"
+              onError={() => setImageError(true)}
             />
           </div>
           
