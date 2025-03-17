@@ -17,35 +17,45 @@ export const getCategories = async (): Promise<Category[]> => {
 };
 
 export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
-  let query = supabase
-    .from('books')
-    .select(`
-      *,
-      categories(id, name, slug)
-    `);
+  console.log('Fetching books with category slug:', categorySlug);
   
-  if (categorySlug && categorySlug !== 'all') {
-    // Join books and categories tables to filter by category slug
-    query = query.eq('categories.slug', categorySlug);
-  }
-  
-  const { data, error } = await query;
-  
-  if (error) {
-    console.error('Error fetching books:', error);
+  try {
+    // First, fetch all books
+    const { data: booksData, error: booksError } = await supabase
+      .from('books')
+      .select('*, categories(id, name, slug)');
+    
+    if (booksError) {
+      console.error('Error fetching books:', booksError);
+      return [];
+    }
+
+    // Filter by category on the client side if a categorySlug is provided
+    let filteredBooks = booksData || [];
+    console.log('Total books fetched:', filteredBooks.length);
+    
+    if (categorySlug && categorySlug !== 'all') {
+      // Get the category ID for the provided slug
+      const { data: categoryData } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', categorySlug)
+        .single();
+      
+      const categoryId = categoryData?.id;
+      console.log('Category ID for slug', categorySlug, ':', categoryId);
+      
+      if (categoryId) {
+        filteredBooks = filteredBooks.filter(book => book.category_id === categoryId);
+        console.log('Books after category filtering:', filteredBooks.length);
+      }
+    }
+    
+    return filteredBooks as Book[];
+  } catch (error) {
+    console.error('Unexpected error in getBooks:', error);
     return [];
   }
-  
-  // Filter books with the correct category (additional client-side filtering)
-  let filteredBooks = data || [];
-  
-  if (categorySlug && categorySlug !== 'all') {
-    filteredBooks = filteredBooks.filter(book => 
-      book.categories && book.categories.slug === categorySlug
-    );
-  }
-  
-  return filteredBooks as Book[];
 };
 
 export const getBookById = async (bookId: string): Promise<Book | null> => {

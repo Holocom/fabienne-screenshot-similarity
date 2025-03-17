@@ -14,6 +14,9 @@ const BookGrid = () => {
     queryFn: () => getBooks(currentCategory)
   });
 
+  console.log('Current category:', currentCategory);
+  console.log('Loaded books:', books.length);
+
   if (isLoading) {
     return (
       <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
@@ -27,6 +30,7 @@ const BookGrid = () => {
     return (
       <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
         <p>Une erreur est survenue lors du chargement des livres.</p>
+        <p className="text-sm text-gray-500 mt-2">Détail: {error.toString()}</p>
       </div>
     );
   }
@@ -39,11 +43,9 @@ const BookGrid = () => {
     );
   }
 
-  // Fonction utilitaire pour formater les URLs d'images
+  // Function to format image URLs
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
-    
-    // L'URL est déjà formatée par le service
     return url;
   };
 
@@ -62,6 +64,10 @@ const BookGrid = () => {
                 alt={book.title}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 loading="lazy"
+                onError={(e) => {
+                  console.error(`Error loading image for ${book.title}:`, book.cover_image);
+                  (e.target as HTMLImageElement).src = "/placeholder.svg";
+                }}
               />
               <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
               <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
