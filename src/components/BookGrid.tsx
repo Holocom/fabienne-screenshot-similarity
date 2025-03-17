@@ -52,19 +52,20 @@ const BookGrid = () => {
           <Link 
             key={book.id} 
             to={`/books/${book.id}`} 
-            className="group block overflow-hidden"
+            className="group relative block overflow-hidden"
           >
-            <div className="book-cover aspect-[3/4] overflow-hidden relative">
+            <div className="aspect-[3/4] overflow-hidden">
               <img
                 src={formatImageUrl(book.cover_image)}
                 alt={book.title}
-                className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-300 flex flex-col justify-end opacity-0 group-hover:opacity-100 p-4">
-                <h3 className="text-white font-serif text-base md:text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">{book.title}</h3>
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-white font-serif text-base md:text-lg mb-1">{book.title}</h3>
                 {book.categories && (
-                  <p className="text-white/80 font-sans text-xs md:text-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150">
+                  <p className="text-white/80 font-sans text-xs md:text-sm">
                     {book.categories.name}
                   </p>
                 )}
