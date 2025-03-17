@@ -4,6 +4,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const BookGrid = () => {
   const location = useLocation();
@@ -49,19 +54,33 @@ const BookGrid = () => {
     <div className="w-full max-w-6xl mx-auto px-4">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
         {books.map((book) => (
-          <Link key={book.id} to={`/books/${book.id}`} className="block transition-transform hover:scale-105">
-            <div className="book-cover aspect-[3/4] overflow-hidden relative">
-              <img
-                src={formatImageUrl(book.cover_image)}
-                alt={book.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                <h3 className="text-white text-sm md:text-base font-medium">{book.title}</h3>
+          <HoverCard key={book.id}>
+            <HoverCardTrigger asChild>
+              <Link 
+                to={`/books/${book.id}`} 
+                className="block transition-transform hover:scale-105"
+              >
+                <div className="book-cover aspect-[3/4] overflow-hidden relative">
+                  <img
+                    src={formatImageUrl(book.cover_image)}
+                    alt={book.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </Link>
+            </HoverCardTrigger>
+            <HoverCardContent className="w-auto">
+              <div className="flex flex-col space-y-1">
+                <h3 className="text-lg font-serif">{book.title}</h3>
+                {book.categories && (
+                  <p className="text-sm text-gray-500 font-sans">
+                    {book.categories.name}
+                  </p>
+                )}
               </div>
-            </div>
-          </Link>
+            </HoverCardContent>
+          </HoverCard>
         ))}
       </div>
     </div>
