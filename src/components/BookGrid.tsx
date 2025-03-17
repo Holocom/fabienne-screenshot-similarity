@@ -42,6 +42,12 @@ const BookGrid = () => {
   // Fonction utilitaire pour formater les URLs d'images
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
+    
+    // Si l'URL contient déjà le chemin complet vers Supabase Storage, la retourner telle quelle
+    if (url.includes('supabase.co/storage/v1/object/public/')) {
+      return url;
+    }
+    
     return url;
   };
 

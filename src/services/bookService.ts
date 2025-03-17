@@ -87,6 +87,11 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
 const formatImageUrl = (url: string | null): string | null => {
   if (!url) return null;
   
+  // Pour les URLs correctes venant de Supabase Storage
+  if (url.includes('supabase.co/storage/v1/object/public/')) {
+    return url;
+  }
+  
   // Handle different URL patterns
   if (url.startsWith('public/') || url.startsWith('/public/')) {
     // Remove 'public/' prefix for storage URLs

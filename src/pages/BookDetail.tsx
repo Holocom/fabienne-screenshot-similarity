@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -17,6 +18,12 @@ const BookDetail = () => {
   // Fonction utilitaire pour formater les URLs d'images
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
+    
+    // Si l'URL contient déjà le chemin complet vers Supabase Storage, la retourner telle quelle
+    if (url.includes('supabase.co/storage/v1/object/public/')) {
+      return url;
+    }
+    
     return url;
   };
 
@@ -53,7 +60,9 @@ const BookDetail = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        
+        <Link to="/" className="mb-8 inline-block text-sm hover:underline">
+          &larr; Retour aux livres
+        </Link>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
           <div>
