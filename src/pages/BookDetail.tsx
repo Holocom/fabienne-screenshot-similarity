@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -19,11 +18,7 @@ const BookDetail = () => {
   const formatImageUrl = (url: string | null) => {
     if (!url) return "/placeholder.svg";
     
-    // Si l'URL contient déjà le chemin complet vers Supabase Storage, la retourner telle quelle
-    if (url.includes('supabase.co/storage/v1/object/public/')) {
-      return url;
-    }
-    
+    // Utilisons directement l'URL fournie par le service, qui est déjà formatée correctement
     return url;
   };
 

@@ -48,7 +48,7 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
   // Traiter les livres pour s'assurer qu'ils sont conformes à notre interface
   return filteredBooks.map(book => {
     // Formater l'URL de l'image de couverture
-    const coverImage = formatImageUrl(book.cover_image);
+    const coverImage = formatImageUrl(book.cover_image, book.categories?.slug);
     
     return {
       ...book,
@@ -75,7 +75,7 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
   if (!data) return null;
   
   // Format the cover image URL
-  const coverImage = formatImageUrl(data.cover_image);
+  const coverImage = formatImageUrl(data.cover_image, data.categories?.slug);
   
   return {
     ...data,
@@ -84,11 +84,19 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
 };
 
 // Helper function to format image URLs
-const formatImageUrl = (url: string | null): string | null => {
+const formatImageUrl = (url: string | null, categorySlug?: string | null): string | null => {
   if (!url) return null;
   
   // Pour les URLs correctes venant de Supabase Storage
   if (url.includes('supabase.co/storage/v1/object/public/')) {
+    // Si l'URL ne contient pas déjà le segment "JEUNESSE" et que la catégorie est "jeunesse"
+    if (categorySlug && categorySlug.toLowerCase() === 'jeunesse' && !url.includes('/JEUNESSE/')) {
+      // Ajouter le segment "JEUNESSE" avant le nom du fichier
+      const urlParts = url.split('/bookcovers/');
+      if (urlParts.length === 2) {
+        return `${urlParts[0]}/bookcovers/JEUNESSE/${urlParts[1]}`;
+      }
+    }
     return url;
   }
   
