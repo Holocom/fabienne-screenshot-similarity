@@ -90,22 +90,44 @@ const formatImageUrl = (url: string | null, categorySlug?: string | null): strin
   console.log("Original URL:", url);
   console.log("Category slug:", categorySlug);
   
-  // Pour les URLs correctes venant de Supabase Storage
+  // Pour les URLs de Supabase Storage
   if (url.includes('supabase.co/storage/v1/object/public/')) {
-    // Vérifier si nous devons insérer JEUNESSE dans le chemin
-    if (categorySlug && categorySlug.toLowerCase() === 'jeunesse' && !url.includes('/JEUNESSE/')) {
-      // Si l'URL contient déjà bookcovers/ mais pas /JEUNESSE/
-      if (url.includes('/bookcovers/')) {
-        // Insérer JEUNESSE après bookcovers/
-        const urlParts = url.split('/bookcovers/');
-        if (urlParts.length === 2) {
-          const newUrl = `${urlParts[0]}/bookcovers/JEUNESSE/${urlParts[1]}`;
-          console.log("Formatted URL with JEUNESSE:", newUrl);
-          return newUrl;
+    // Cas spécifique pour la catégorie jeunesse
+    if (categorySlug && categorySlug.toLowerCase() === 'jeunesse') {
+      // Si l'URL ne contient pas déjà /JEUNESSE/
+      if (!url.includes('/JEUNESSE/')) {
+        // Plusieurs cas de figure selon le format de l'URL
+        if (url.includes('/bookcovers/')) {
+          // Format: .../bookcovers/filename.jpg
+          const urlParts = url.split('/bookcovers/');
+          if (urlParts.length === 2) {
+            const newUrl = `${urlParts[0]}/bookcovers/JEUNESSE/${urlParts[1]}`;
+            console.log("URL reformatée avec JEUNESSE:", newUrl);
+            return newUrl;
+          }
+        } else if (url.includes('/public/bookcovers/')) {
+          // Format: .../public/bookcovers/filename.jpg
+          const urlParts = url.split('/public/bookcovers/');
+          if (urlParts.length === 2) {
+            const newUrl = `${urlParts[0]}/public/bookcovers/JEUNESSE/${urlParts[1]}`;
+            console.log("URL reformatée avec JEUNESSE:", newUrl);
+            return newUrl;
+          }
+        } else {
+          // Cas particulier pour les noms de fichiers directs (comme dans l'exemple du père noël)
+          const filename = url.split('/').pop();
+          if (filename) {
+            // On reconstruit l'URL avec /JEUNESSE/ avant le nom du fichier
+            const baseUrl = url.substring(0, url.lastIndexOf('/'));
+            const newUrl = `${baseUrl}/JEUNESSE/${filename}`;
+            console.log("URL reconstruite avec JEUNESSE:", newUrl);
+            return newUrl;
+          }
         }
       }
     }
-    console.log("Using original URL:", url);
+    
+    console.log("Utilisation de l'URL originale:", url);
     return url;
   }
   
