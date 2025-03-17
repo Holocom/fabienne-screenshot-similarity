@@ -8,14 +8,29 @@ const BookCategories = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   
-  const { data: categories = [], isLoading } = useQuery({
+  const { data: categoriesData = [], isLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories
   });
   
+  // Définir l'ordre souhaité des catégories
+  const desiredOrder = ['roman', 'art', 'jeunesse', 'cuisine', 'collectifs', 'commandes'];
+  
+  // Créer un nouveau tableau avec les catégories ordonnées
+  const sortedCategories = [...categoriesData].sort((a, b) => {
+    const indexA = desiredOrder.indexOf(a.slug.toLowerCase());
+    const indexB = desiredOrder.indexOf(b.slug.toLowerCase());
+    
+    // Si une catégorie n'est pas dans l'ordre prédéfini, la placer à la fin
+    if (indexA === -1) return 1;
+    if (indexB === -1) return -1;
+    
+    return indexA - indexB;
+  });
+  
   const allCategories = [
     { name: 'TOUS', slug: '' },
-    ...categories.map(cat => ({ 
+    ...sortedCategories.map(cat => ({ 
       name: cat.name.toUpperCase(),
       slug: cat.slug
     }))
