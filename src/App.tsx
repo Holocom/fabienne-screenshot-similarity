@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import CategoryPage from "./pages/CategoryPage";
 import BookDetail from "./pages/BookDetail";
 import BookManagement from "./pages/BookManagement";
+import UnderConstruction from "./components/UnderConstruction";
 
 const queryClient = new QueryClient();
 
@@ -29,11 +30,14 @@ const App = () => (
           <Route path="/commandes" element={<CategoryPage />} />
           <Route path="/books/:bookId" element={<BookDetail />} />
           <Route path="/admin/books" element={<BookManagement />} />
-          <Route path="/biographie" element={<NotFound />} />
-          <Route path="/rencontres" element={<NotFound />} />
-          <Route path="/formations" element={<NotFound />} />
-          <Route path="/hors-champ" element={<NotFound />} />
-          <Route path="/contact" element={<NotFound />} />
+          
+          {/* Pages en construction */}
+          <Route path="/biographie" element={<UnderConstruction pageName="Biographie" />} />
+          <Route path="/rencontres" element={<UnderConstruction pageName="Rencontres" />} />
+          <Route path="/formations" element={<UnderConstruction pageName="Formations" />} />
+          <Route path="/hors-champ" element={<UnderConstruction pageName="Hors-champ" />} />
+          <Route path="/contact" element={<UnderConstruction pageName="Contact" />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
