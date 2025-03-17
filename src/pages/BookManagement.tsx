@@ -1,8 +1,8 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
-import Header from '@/components/Header';
 import Navigation from '@/components/Navigation';
 import BookForm from '@/components/BookForm';
 import { 
@@ -86,6 +86,7 @@ const BookManagement = () => {
     return url;
   };
 
+  // Function to get the category name from the book
   const getCategoryName = (book: Book) => {
     if (!book.categories) return '-';
     return book.categories.name;
@@ -93,7 +94,6 @@ const BookManagement = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
@@ -192,6 +192,7 @@ const BookManagement = () => {
           </div>
         )}
 
+        {/* Form Dialog */}
         <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
           <DialogContent className="sm:max-w-md md:max-w-xl">
             <DialogHeader>
@@ -209,6 +210,7 @@ const BookManagement = () => {
           </DialogContent>
         </Dialog>
 
+        {/* Delete Confirmation Dialog */}
         <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>

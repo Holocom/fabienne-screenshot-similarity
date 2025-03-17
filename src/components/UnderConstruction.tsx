@@ -1,42 +1,40 @@
 
 import React from 'react';
+import { Construction, Hammer, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Header from '@/components/Header';
-import Navigation from '@/components/Navigation';
-import { Wrench, Construction, HomeIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
-interface UnderConstructionProps {
-  pageName: string;
-}
-
-const UnderConstruction = ({ pageName }: UnderConstructionProps) => {
+const UnderConstruction = ({ pageName }: { pageName: string }) => {
   return (
-    <div className="min-h-screen bg-beige flex flex-col">
-      <Header />
-      <Navigation />
-      
-      <div className="flex-1 flex flex-col items-center justify-center p-4">
-        <div className="animate-bounce mb-4 flex gap-4">
-          <Construction size={48} className="text-amber-500" />
-          <Wrench size={48} className="text-amber-500" />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-md mx-auto text-center space-y-6">
+        <div className="flex justify-center gap-4 text-amber-500 animate-pulse">
+          <Construction size={48} />
+          <Hammer size={48} />
         </div>
         
-        <h1 className="text-3xl font-bold mb-4 text-center">
+        <h1 className="text-3xl font-serif font-bold text-gray-800">
           Page en construction
         </h1>
         
-        <p className="text-xl mb-8 text-center max-w-md">
-          La page <span className="font-semibold">{pageName}</span> est actuellement 
-          en cours de développement. Merci de votre patience ! 🙏
-        </p>
+        <Alert className="bg-amber-50 border-amber-200">
+          <AlertTitle className="text-amber-800 text-lg font-medium">
+            {pageName} 🚧
+          </AlertTitle>
+          <AlertDescription className="text-amber-700 mt-2">
+            Cette page est en cours de construction. Merci de votre patience ! Nous travaillons pour vous offrir un contenu de qualité très prochainement.
+          </AlertDescription>
+        </Alert>
         
-        <Link 
-          to="/" 
-          className="flex items-center gap-2 bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition-colors"
-        >
-          <HomeIcon size={18} />
-          Retour à l'accueil
-        </Link>
+        <div className="pt-6">
+          <Button variant="outline" asChild className="gap-2">
+            <Link to="/">
+              <ArrowLeft size={16} />
+              Retour à l'accueil
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
   );
