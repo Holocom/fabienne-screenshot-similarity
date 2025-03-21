@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -10,9 +9,10 @@ const Header = () => {
         <Link to="/" className="flex flex-col items-center group">
           <div className="flex items-center justify-center gap-8 md:gap-10 mb-2 relative">
             <div className="hidden md:block transition-transform duration-300 group-hover:transform group-hover:-translate-y-1">
-              <BookOpen 
-                size={32}
-                className="text-[#9b87f5] drop-shadow-lg"
+              <img 
+                src="/lovable-uploads/81859790-6c17-415b-8bf1-48355c95672e.png" 
+                alt="Pile de livres avec une pomme" 
+                className="w-24 h-auto drop-shadow-lg"
               />
             </div>
             
@@ -28,9 +28,10 @@ const Header = () => {
             </div>
             
             <div className="hidden md:block transition-transform duration-300 group-hover:transform group-hover:-translate-y-1">
-              <BookOpen
-                size={32}
-                className="text-[#9b87f5] transform scale-x-[-1] drop-shadow-lg"
+              <img 
+                src="/lovable-uploads/81859790-6c17-415b-8bf1-48355c95672e.png" 
+                alt="Pile de livres avec une pomme" 
+                className="w-24 h-auto transform scale-x-[-1] drop-shadow-lg"
               />
             </div>
           </div>
