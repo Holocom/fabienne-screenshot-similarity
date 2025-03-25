@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/carlito');
 
 @tailwind base;
 @tailwind components;
@@ -48,15 +49,59 @@
   }
 
   body {
-    @apply bg-beige text-foreground font-sans min-h-screen;
+    @apply bg-beige text-foreground min-h-screen;
+    font-family: 'Carlito', sans-serif;
   }
   
   /* Styles spécifiques pour la page de détail du livre */
+  .book-detail h1 {
+    @apply text-4xl md:text-5xl font-bold tracking-wider uppercase mb-6;
+    font-family: 'Carlito', sans-serif;
+    letter-spacing: 0.05em;
+  }
+  
+  .book-detail .editorial-info {
+    @apply text-[#ea384c] text-lg md:text-xl mb-10;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .description {
+    @apply leading-relaxed text-base md:text-lg mb-10;
+    font-family: 'Carlito', sans-serif;
+    line-height: 1.6;
+  }
+  
+  .book-detail .press-title {
+    @apply text-[#7DC242] font-bold text-xl mb-4;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .press-link {
+    @apply text-[#7DC242] hover:underline block mb-2;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .awards-title {
+    @apply text-[#F29D35] font-bold text-xl mb-4 mt-8;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .award-item {
+    @apply text-[#F29D35] mb-2;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .isbn {
+    @apply text-gray-500 text-sm mt-10;
+    font-family: 'Carlito', sans-serif;
+  }
+  
   .prose p {
-    @apply leading-relaxed text-base md:text-lg font-sans mb-4;
+    @apply leading-relaxed text-base md:text-lg mb-4;
+    font-family: 'Carlito', sans-serif;
   }
   
   .prose h1, .prose h2, .prose h3 {
-    @apply font-serif;
+    font-family: 'Carlito', sans-serif;
   }
 }

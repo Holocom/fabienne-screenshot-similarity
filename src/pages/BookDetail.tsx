@@ -72,32 +72,29 @@ const BookDetail = () => {
   const editorialText = `${book.categories?.name || "Jeunesse"} – illustré par ${bookInfo.illustrator || "Non spécifié"} – ${bookInfo.publisher || "Non spécifié"} – ${bookInfo.year || "2024"} – ${bookInfo.pages || "0"} pages`;
 
   return (
-    <div className="min-h-screen bg-beige">
+    <div className="min-h-screen bg-white">
       <Header />
       <Navigation />
       
-      <div className="container max-w-3xl mx-auto px-4 py-16">
+      <div className="container max-w-3xl mx-auto px-6 py-20 book-detail">
         <Link to="/" className="mb-8 inline-block text-sm hover:underline">
           &larr; Retour aux livres
         </Link>
         
-        <div className="mt-12 prose max-w-none">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-wider uppercase mb-4">
-            {book.title}
-          </h1>
+        <div className="mt-12">
+          <h1>{book.title?.toUpperCase()}</h1>
           
-          <p className="text-red-600 text-lg md:text-xl font-medium mb-8">
+          <p className="editorial-info">
             {editorialText}
           </p>
           
-          <div className="my-8 leading-relaxed text-lg">
+          <div className="description">
             <p>{book.description || "Aucune description disponible pour ce livre."}</p>
           </div>
           
           {(bookInfo.press_links && bookInfo.press_links.length > 0) && (
-            <div className="mt-12">
-              <Separator className="my-6" />
-              <h3 className="text-xl font-serif text-green-600 mb-4">PRESSE</h3>
+            <div>
+              <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
                 {bookInfo.press_links.map((link, index) => (
                   <li key={index}>
@@ -105,7 +102,7 @@ const BookDetail = () => {
                       href={link.url} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-green-600 hover:text-green-800 hover:underline"
+                      className="press-link"
                     >
                       {link.label || link.url}
                     </a>
@@ -116,11 +113,11 @@ const BookDetail = () => {
           )}
           
           {(bookInfo.awards && bookInfo.awards.length > 0) && (
-            <div className="mt-8">
-              <h3 className="text-xl font-serif text-amber-600 mb-4">PRIX ET DISTINCTIONS</h3>
+            <div>
+              <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
                 {bookInfo.awards.map((award, index) => (
-                  <li key={index} className="text-amber-700">
+                  <li key={index} className="award-item">
                     {award}
                   </li>
                 ))}
@@ -129,7 +126,7 @@ const BookDetail = () => {
           )}
           
           {bookInfo.isbn && (
-            <div className="mt-10 text-sm text-gray-500">
+            <div className="isbn">
               ISBN : {bookInfo.isbn}
             </div>
           )}

@@ -67,7 +67,7 @@ export default {
 			},
 			fontFamily: {
 				'serif': ['Playfair Display', 'serif'],
-				'sans': ['Courier New', 'monospace'],
+				'sans': ['Carlito', 'Courier New', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
