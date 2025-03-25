@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -26,7 +25,6 @@ const BookDetailPage = () => {
   const [preventUpdates, setPreventUpdates] = useState(false);
   const [isEditionsOpen, setIsEditionsOpen] = useState(false);
   
-  // Mutations for updating complete book information
   const updateBookMutation = useMutation({
     mutationFn: (data: {
       bookId: string,
@@ -44,7 +42,6 @@ const BookDetailPage = () => {
       data.editions
     ),
     onSuccess: () => {
-      // Invalidate queries to force data reload
       if (bookId) {
         queryClient.invalidateQueries({ queryKey: ['book', bookId] });
         queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
@@ -53,12 +50,11 @@ const BookDetailPage = () => {
         queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
       }
       
-      // Show a single success toast, only if it's not a page reload
       if (!hasUpdatedRef.current) {
         console.log('Book information updated successfully');
         toast.success('Informations du livre mises à jour avec succès');
         hasUpdatedRef.current = true;
-        setPreventUpdates(true); // Prevent any more updates after a successful one
+        setPreventUpdates(true);
       }
     },
     onError: (error) => {
@@ -67,23 +63,20 @@ const BookDetailPage = () => {
         toast.error('Erreur lors de la mise à jour des informations');
         hasUpdatedRef.current = true;
       }
-      setPreventUpdates(true); // Prevent retries after error
+      setPreventUpdates(true);
     }
   });
   
-  // Store book ID in session storage to prevent multiple updates during navigation
   useEffect(() => {
     const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
     const updatedBooksObj = JSON.parse(updatedBooks);
     
     if (bookId && updatedBooksObj[bookId]) {
-      // Book was already updated in this session
       setPreventUpdates(true);
       hasUpdatedRef.current = true;
     }
     
     return () => {
-      // Save update state when component unmounts
       if (bookId && hasUpdatedRef.current) {
         const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
         const updatedBooksObj = JSON.parse(updatedBooks);
@@ -93,7 +86,6 @@ const BookDetailPage = () => {
     };
   }, [bookId]);
   
-  // Queries to fetch current data
   const {
     data: book,
     isLoading: isLoadingBook,
@@ -139,20 +131,16 @@ const BookDetailPage = () => {
     queryKey: ['editions', bookId],
     queryFn: () => getEditions(bookId || ''),
     enabled: !!bookId,
-    // Increase stale time to avoid unnecessary refetches
-    staleTime: 5 * 60 * 1000 // 5 minutes
+    staleTime: 5 * 60 * 1000
   });
   
-  // Effect to update book information once
   useEffect(() => {
-    // Skip updates if we've already done them or if we're explicitly preventing updates
     if (preventUpdates || !bookId || hasUpdatedRef.current) {
       return;
     }
     
     console.log("Checking if book needs update:", bookId);
     
-    // Avoid updates if already done, in progress, or if errors were encountered
     if (
       updateBookMutation.isPending || 
       isLoadingBook || 
@@ -163,16 +151,12 @@ const BookDetailPage = () => {
       return;
     }
     
-    // Check if the book is "Un flamboyant père-Noël"
     if (book.title.toLowerCase().includes("flamboyant") && book.title.toLowerCase().includes("noël") && book.id) {
       try {
-        // Mark as updated before starting to avoid multiple updates
         hasUpdatedRef.current = true;
         
-        // Updated description according to the image
         const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
         
-        // New book details according to the image
         const newDetails = {
           publisher: "Atelier des nomades",
           illustrator: "Iloë", 
@@ -181,33 +165,41 @@ const BookDetailPage = () => {
           isbn: "9782919300297"
         };
         
-        // New awards according to the image
         const newAwards = [
           { name: "Prix Afrilivres", year: "2020" },
           { name: "Prix Jeanne de Cavally", year: "2022" },
           { name: "Finaliste du Prix Vanille Illustration", year: "2020" }
         ];
         
-        // New editions according to the image
         const newEditions = [
           { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
           { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
           { name: "Edition bilingue français-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
-          { name: "Atelier des nomades", publisher: "Edition Vallesse", year: null, language: null },
+          { name: "Atelier des nomades", publisher: null, year: null, language: null },
+          { name: "Edition Vallesse", publisher: null, year: null, language: null },
           { name: "Edition Filigrane", publisher: null, year: null, language: null }
         ];
         
-        // New press links according to the image
         const newPressLinks = [
           { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Nol/1282122", label: "Babelio" },
           { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "Super Chouette" }
         ];
         
-        // Check if data needs to be updated
-        const needsUpdate = false; // Setting to false to prevent any more updates
+        const needsUpdate = true;
         
-        if (false) { // This condition will never be true, effectively disabling the update
-          // ... keep existing code (update logic)
+        if (needsUpdate) {
+          console.log("Updating book information...");
+          
+          updateBookMutation.mutate({
+            bookId: book.id,
+            bookData: {
+              description: newDescription
+            },
+            detailsData: newDetails,
+            pressLinks: newPressLinks,
+            awards: newAwards,
+            editions: newEditions
+          });
         } else {
           console.log("Updates are disabled for this session");
         }
@@ -217,14 +209,11 @@ const BookDetailPage = () => {
         setPreventUpdates(true);
       }
     } else {
-      // Mark as updated if it's not the target book
       hasUpdatedRef.current = true;
       setPreventUpdates(true);
     }
     
-    // Reset the ref when unmounting
     return () => {
-      // This is handled by the session storage effect
     };
   }, [book, bookId, isLoadingBook, isBookError, updateBookMutation, preventUpdates]);
   
@@ -258,18 +247,15 @@ const BookDetailPage = () => {
   
   const details = bookDetails || fallbackDetails;
   
-  // Stricter deduplication of press links - filtering by URL
   const uniquePressLinks = Array.from(new Map(
     (pressLinks.length > 0 ? pressLinks : fallbackPressLinks)
     .map(link => [link.url, link])
   ).values());
   
-  // Stricter deduplication of awards by name and year
   const uniqueAwards = Array.from(new Map(
     awards.map(award => [`${award.name}-${award.year || 'none'}`, award])
   ).values());
   
-  // Properly sorted and deduplicated editions
   const uniqueEditions = editions && editions.length > 0 
     ? editions.sort((a, b) => a.name.localeCompare(b.name))
     : [];
