@@ -68,10 +68,10 @@ const BookGrid = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4">
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-6 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-3">
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5">
         {books.map((book) => (
-          <div key={book.id} className="break-inside-avoid mb-6">
+          <div key={book.id} className="break-inside-avoid mb-5">
             <Link 
               to={`/books/${book.id}`} 
               className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-md"
