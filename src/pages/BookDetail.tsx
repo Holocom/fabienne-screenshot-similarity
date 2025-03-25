@@ -102,17 +102,25 @@ const BookDetailPage = () => {
     enabled: !!bookId
   });
   
-  // Effet pour mettre à jour les informations du livre
+  // Ajout d'un drapeau pour éviter les mises à jour en boucle
+  const [hasUpdated, setHasUpdated] = React.useState(false);
+  
+  // Effet pour mettre à jour les informations du livre une seule fois
   useEffect(() => {
-    // Vérifier que toutes les données sont chargées et que le livre est "Un flamboyant père-Noël"
+    // Éviter de faire les mises à jour si déjà effectuées ou en cours
     if (
-      !isLoadingBook && 
-      !isLoadingDetails && 
-      book && 
-      book.title && 
-      book.title.toLowerCase().includes("flamboyant") && 
-      book.title.toLowerCase().includes("noël")
+      hasUpdated || 
+      updateBookMutation.isPending || 
+      isLoadingBook || 
+      isLoadingDetails ||
+      !book || 
+      !book.title
     ) {
+      return;
+    }
+    
+    // Vérifier que le livre est "Un flamboyant père-Noël"
+    if (book.title.toLowerCase().includes("flamboyant") && book.title.toLowerCase().includes("noël")) {
       try {
         // Description mise à jour selon l'image
         const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
@@ -156,12 +164,12 @@ const BookDetailPage = () => {
           (bookDetails?.pages !== newDetails.pages) ||
           (bookDetails?.isbn !== newDetails.isbn) ||
           (book.description !== newDescription) ||
-          (pressLinks.length < newPressLinks.length) ||
-          (awards.length < newAwards.length) ||
-          (editions.length < newEditions.length);
+          (pressLinks.length < 2) ||  // Vérifie seulement si les liens minimum sont présents
+          (awards.length < 3) ||      // Vérifie seulement si les prix minimum sont présents
+          (editions.length < 5);      // Vérifie seulement si les éditions minimum sont présentes
         
         // Si des mises à jour sont nécessaires, mettre à jour les informations
-        if (needsUpdate && !updateBookMutation.isPending) {
+        if (needsUpdate) {
           console.log("Updating book information for:", book.title);
           updateBookMutation.mutate({
             bookId: bookId || '',
@@ -182,11 +190,19 @@ const BookDetailPage = () => {
             )
           });
         }
+        
+        // Marquer comme mis à jour même si aucune mise à jour n'était nécessaire
+        setHasUpdated(true);
       } catch (error) {
         console.error("Error in update effect:", error);
+        // Marquer comme mis à jour pour éviter des tentatives répétées même en cas d'erreur
+        setHasUpdated(true);
       }
+    } else {
+      // Marquer comme mis à jour si ce n'est pas le livre cible
+      setHasUpdated(true);
     }
-  }, [book, bookDetails, pressLinks, awards, editions, isLoadingBook, isLoadingDetails, bookId, updateBookMutation]);
+  }, [book, bookDetails, pressLinks, awards, editions, isLoadingBook, isLoadingDetails, bookId, updateBookMutation, hasUpdated]);
   
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions || updateBookMutation.isPending;
   
