@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+
 const BookDetailPage = () => {
   const {
     bookId
@@ -125,7 +126,7 @@ const BookDetailPage = () => {
         </div>
         
         <div className="mt-4">
-          <h1 className="text-[min(10vw,2.25rem)] md:text-[min(8vw,2.5rem)] lg:text-[min(6vw,2.75rem)] font-bold tracking-wide uppercase whitespace-nowrap overflow-hidden text-ellipsis mx-0">
+          <h1 className="text-[min(9vw,2rem)] md:text-[min(7vw,2.25rem)] lg:text-[min(5vw,2.5rem)] font-bold tracking-wide uppercase whitespace-nowrap overflow-hidden text-ellipsis mx-0">
             {book.title?.toUpperCase()}
           </h1>
           
@@ -175,4 +176,5 @@ const BookDetailPage = () => {
       </div>
     </div>;
 };
+
 export default BookDetailPage;
