@@ -5,7 +5,7 @@ import { Book, Category } from '@/integrations/supabase/schema';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCategories } from '@/services/categoryService';
+import { getCategories } from '@/services/bookService';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';

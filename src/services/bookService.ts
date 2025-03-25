@@ -1,6 +1,19 @@
-
 import { supabase } from "@/integrations/supabase/client";
-import { Book } from "@/integrations/supabase/schema";
+import { Book, Category, BookDetail, PressLink, Award, Edition } from "@/integrations/supabase/schema";
+
+export const getCategories = async (): Promise<Category[]> => {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .order('name');
+  
+  if (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+  
+  return data || [];
+};
 
 export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
   console.log('Fetching books with category slug:', categorySlug);
@@ -60,6 +73,99 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
   return data as Book;
 };
 
+export const getBookDetails = async (bookId: string): Promise<BookDetail | null> => {
+  const { data, error } = await supabase
+    .from('book_details')
+    .select('*')
+    .eq('book_id', bookId)
+    .maybeSingle();
+  
+  if (error) {
+    console.error('Error fetching book details:', error);
+    return null;
+  }
+  
+  return data as BookDetail;
+};
+
+export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('press_links')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('created_at');
+    
+    if (error) {
+      console.error('Error fetching press links:', error);
+      return [];
+    }
+    
+    const uniqueUrls = new Set();
+    const uniqueData = data.filter(link => {
+      if (uniqueUrls.has(link.url)) {
+        return false;
+      }
+      uniqueUrls.add(link.url);
+      return true;
+    });
+    
+    return uniqueData as PressLink[];
+  } catch (error) {
+    console.error('Unexpected error in getPressLinks:', error);
+    return [];
+  }
+};
+
+export const updateBookDetails = async (bookId: string, details: Partial<BookDetail>): Promise<BookDetail | null> => {
+  const { data: existingData } = await supabase
+    .from('book_details')
+    .select('*')
+    .eq('book_id', bookId)
+    .maybeSingle();
+
+  let result;
+  
+  if (existingData) {
+    const { data, error } = await supabase
+      .from('book_details')
+      .update({
+        ...details,
+        updated_at: new Date().toISOString()
+      })
+      .eq('book_id', bookId)
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error updating book details:', error);
+      return null;
+    }
+    
+    result = data;
+  } else {
+    const { data, error } = await supabase
+      .from('book_details')
+      .insert({
+        book_id: bookId,
+        ...details,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error creating book details:', error);
+      return null;
+    }
+    
+    result = data;
+  }
+  
+  return result as BookDetail;
+};
+
 export const updateBook = async (bookId: string, bookData: Partial<Book>): Promise<Book | null> => {
   try {
     const { data, error } = await supabase
@@ -83,5 +189,267 @@ export const updateBook = async (bookId: string, bookData: Partial<Book>): Promi
   } catch (error) {
     console.error('Unexpected error in updateBook:', error);
     return null;
+  }
+};
+
+export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 'created_at'>): Promise<PressLink | null> => {
+  try {
+    const { data: existingLinks } = await supabase
+      .from('press_links')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('url', link.url);
+    
+    if (existingLinks && existingLinks.length > 0) {
+      console.log(`Press link with URL ${link.url} already exists, skipping.`);
+      return existingLinks[0] as PressLink;
+    }
+    
+    const { data, error } = await supabase
+      .from('press_links')
+      .insert({
+        book_id: bookId,
+        url: link.url,
+        label: link.label
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding press link:', error);
+      return null;
+    }
+    
+    return data as PressLink;
+  } catch (error) {
+    console.error('Unexpected error in addPressLink:', error);
+    return null;
+  }
+};
+
+export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'created_at'>): Promise<Award | null> => {
+  try {
+    const { data: existingAwards } = await supabase
+      .from('awards')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('name', award.name);
+    
+    const awardExists = existingAwards?.some(
+      existing => existing.year === award.year
+    );
+    
+    if (awardExists) {
+      console.log(`Award "${award.name}" (${award.year}) already exists, skipping.`);
+      return existingAwards.find(
+        existing => existing.year === award.year
+      ) as Award;
+    }
+    
+    const { data, error } = await supabase
+      .from('awards')
+      .insert({
+        book_id: bookId,
+        name: award.name,
+        year: award.year
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding award:', error);
+      return null;
+    }
+    
+    return data as Award;
+  } catch (error) {
+    console.error('Unexpected error in addAward:', error);
+    return null;
+  }
+};
+
+export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | 'created_at'>): Promise<Edition | null> => {
+  try {
+    const { data: existingEditions } = await supabase
+      .from('editions')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('name', edition.name);
+    
+    if (existingEditions && existingEditions.length > 0) {
+      console.log(`Edition "${edition.name}" already exists, skipping.`);
+      return existingEditions[0] as Edition;
+    }
+    
+    const { data, error } = await supabase
+      .from('editions')
+      .insert({
+        book_id: bookId,
+        name: edition.name,
+        publisher: edition.publisher,
+        year: edition.year,
+        language: edition.language
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding edition:', error);
+      return null;
+    }
+    
+    return data as Edition;
+  } catch (error) {
+    console.error('Unexpected error in addEdition:', error);
+    return null;
+  }
+};
+
+export const getAwards = async (bookId: string): Promise<Award[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('awards')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('created_at');
+    
+    if (error) {
+      console.error('Error fetching awards:', error);
+      return [];
+    }
+    
+    const uniqueKeys = new Set();
+    const uniqueData = data.filter(award => {
+      const key = `${award.name}-${award.year}`;
+      if (uniqueKeys.has(key)) {
+        return false;
+      }
+      uniqueKeys.add(key);
+      return true;
+    });
+    
+    return uniqueData as Award[];
+  } catch (error) {
+    console.error('Unexpected error in getAwards:', error);
+    return [];
+  }
+};
+
+export const getEditions = async (bookId: string): Promise<Edition[]> => {
+  try {
+    console.log(`Fetching editions for book ID: ${bookId}`);
+    
+    const { data, error } = await supabase
+      .from('editions')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('name', { ascending: true });
+    
+    if (error) {
+      console.error('Error fetching editions:', error);
+      return [];
+    }
+    
+    if (!data || data.length === 0) {
+      console.log(`No editions found for book ID: ${bookId}`);
+      return [];
+    }
+    
+    console.log(`Found ${data.length} editions for book ID: ${bookId}`);
+    
+    return data as Edition[];
+  } catch (error) {
+    console.error('Unexpected error in getEditions:', error);
+    return [];
+  }
+};
+
+export const checkImageUrl = async (url: string): Promise<boolean> => {
+  if (!url) return false;
+  
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    return response.ok;
+  } catch (error) {
+    console.error('Error checking image URL:', error);
+    return false;
+  }
+};
+
+export const getAvailableBookCovers = async (): Promise<string[]> => {
+  try {
+    const { data, error } = await supabase
+      .storage
+      .from('bookcovers')
+      .list('', { sortBy: { column: 'name', order: 'asc' } });
+    
+    if (error) {
+      console.error('Error fetching book covers:', error);
+      return [];
+    }
+    
+    return data
+      .filter(item => !item.id.endsWith('/')) // Filter out folders
+      .map(item => {
+        const url = supabase.storage
+          .from('bookcovers')
+          .getPublicUrl(item.name).data.publicUrl;
+        
+        return url;
+      });
+  } catch (error) {
+    console.error('Error getting available book covers:', error);
+    return [];
+  }
+};
+
+export const updateCompleteBookInfo = async (
+  bookId: string, 
+  bookData: Partial<Book>, 
+  detailsData: Partial<BookDetail>,
+  pressLinks: Array<Omit<PressLink, 'id' | 'created_at'>>,
+  awards: Array<Omit<Award, 'id' | 'created_at'>>,
+  editions: Array<Omit<Edition, 'id' | 'created_at'>>
+): Promise<boolean> => {
+  try {
+    if (Object.keys(bookData).length > 0) {
+      const bookUpdateResult = await updateBook(bookId, bookData);
+      if (!bookUpdateResult) {
+        console.warn('Failed to update book data for ID:', bookId);
+      }
+    }
+    
+    if (Object.keys(detailsData).length > 0) {
+      const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
+      if (!detailsUpdateResult) {
+        console.warn('Failed to update book details for ID:', bookId);
+      }
+    }
+    
+    let addedPressLinks = 0;
+    for (const link of pressLinks) {
+      const pressLinkResult = await addPressLink(bookId, link);
+      if (pressLinkResult) addedPressLinks++;
+    }
+    console.log(`Added ${addedPressLinks}/${pressLinks.length} press links`);
+    
+    let addedAwards = 0;
+    for (const award of awards) {
+      const awardResult = await addAward(bookId, award);
+      if (awardResult) addedAwards++;
+    }
+    console.log(`Added ${addedAwards}/${awards.length} awards`);
+    
+    let addedEditions = 0;
+    for (const edition of editions) {
+      const editionResult = await addEdition(bookId, edition);
+      if (editionResult) addedEditions++;
+    }
+    console.log(`Added ${addedEditions}/${editions.length} editions`);
+    
+    return true;
+  } catch (error) {
+    console.error('Error in updateCompleteBookInfo:', error);
+    return false;
   }
 };
