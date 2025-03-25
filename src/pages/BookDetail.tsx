@@ -84,15 +84,17 @@ const BookDetail = () => {
         <div className="mt-12">
           <h1>{book.title?.toUpperCase()}</h1>
           
-          <p className="editorial-info">
-            {editorialText}
-          </p>
-          
-          {bookInfo.isbn && (
-            <p className="editorial-info mt-0">
-              ISBN : {bookInfo.isbn}
+          <div className="mb-10">
+            <p className="editorial-info mb-0">
+              {editorialText}
             </p>
-          )}
+            
+            {bookInfo.isbn && (
+              <p className="editorial-info mt-1">
+                ISBN : {bookInfo.isbn}
+              </p>
+            )}
+          </div>
           
           <div className="description">
             <p>{book.description || "Aucune description disponible pour ce livre."}</p>
