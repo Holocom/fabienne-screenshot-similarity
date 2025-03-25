@@ -88,6 +88,12 @@ const BookDetail = () => {
             {editorialText}
           </p>
           
+          {bookInfo.isbn && (
+            <p className="editorial-info mt-0">
+              ISBN : {bookInfo.isbn}
+            </p>
+          )}
+          
           <div className="description">
             <p>{book.description || "Aucune description disponible pour ce livre."}</p>
           </div>
@@ -122,12 +128,6 @@ const BookDetail = () => {
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
-          
-          {bookInfo.isbn && (
-            <div className="isbn">
-              ISBN : {bookInfo.isbn}
             </div>
           )}
         </div>
