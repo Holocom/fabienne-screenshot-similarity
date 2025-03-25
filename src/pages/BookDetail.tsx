@@ -126,7 +126,7 @@ const BookDetailPage = () => {
         </div>
         
         <div className="mt-4">
-          <h1 className="text-[min(7vw,1.8rem)] md:text-[min(5vw,2rem)] lg:text-[min(4vw,2.25rem)] font-bold tracking-wide uppercase whitespace-nowrap overflow-hidden text-ellipsis mx-0">
+          <h1 className="text-[min(5vw,1.25rem)] md:text-[min(4vw,1.5rem)] lg:text-[min(3vw,1.8rem)] font-bold tracking-wide uppercase whitespace-nowrap overflow-hidden text-ellipsis mx-0">
             {book.title?.toUpperCase()}
           </h1>
           
