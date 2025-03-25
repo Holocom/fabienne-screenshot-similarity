@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -355,8 +356,10 @@ const BookDetailPage = () => {
               <h3 className="editions-title">ÉDITIONS</h3>
               <ul className="space-y-1 list-none pl-0">
                 {uniqueEditions.map((edition, index) => <li key={index} className="edition-item">
-                    {edition.name}{edition.publisher ? `, ${edition.publisher}` : ''}{edition.year ? `, ${edition.year}` : ''}
-                    {edition.language ? ` (${edition.language})` : ''}
+                    {edition.name}
+                    {edition.publisher ? `, ${edition.publisher}` : ''}
+                    {edition.year ? `, ${edition.year}` : ''}
+                    {/* Suppression de l'affichage du champ language */}
                   </li>)}
               </ul>
             </div>}
