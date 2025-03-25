@@ -7,6 +7,8 @@ import Navigation from '@/components/Navigation';
 import Header from '@/components/Header';
 import { Separator } from '@/components/ui/separator';
 import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -106,12 +108,18 @@ const BookDetailPage = () => {
       <Header />
       <Navigation />
       
-      <div className="container max-w-3xl mx-auto px-6 py-20 book-detail">
-        <Link to="/" className="mb-8 inline-block text-sm hover:underline">
-          &larr; Retour aux livres
-        </Link>
+      <div className="container max-w-3xl mx-auto px-6 pt-2 pb-20 book-detail">
+        <div className="mb-6 mt-0">
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-sm text-gray-600 hover:text-[#ea384c] transition-colors group"
+          >
+            <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" />
+            Retour aux livres
+          </Link>
+        </div>
         
-        <div className="mt-12">
+        <div className="mt-4">
           <h1>{book.title?.toUpperCase()}</h1>
           
           <div className="mb-10">
