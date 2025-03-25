@@ -50,4 +50,13 @@
   body {
     @apply bg-beige text-foreground font-sans min-h-screen;
   }
+  
+  /* Styles spécifiques pour la page de détail du livre */
+  .prose p {
+    @apply leading-relaxed text-base md:text-lg font-sans mb-4;
+  }
+  
+  .prose h1, .prose h2, .prose h3 {
+    @apply font-serif;
+  }
 }
