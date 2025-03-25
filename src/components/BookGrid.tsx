@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -97,8 +96,6 @@ const BookGrid = () => {
                 </div>
               </div>
             </Link>
-            <h3 className="text-sm font-serif mt-1 line-clamp-2">{book.title}</h3>
-            <p className="text-xs text-gray-600 font-sans">{book.author}</p>
           </div>
         ))}
       </div>
