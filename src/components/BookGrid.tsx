@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -67,13 +68,13 @@ const BookGrid = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
-      <div className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 gap-4 space-y-4">
+    <div className="w-full max-w-7xl mx-auto px-4">
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-6 space-y-6">
         {books.map((book) => (
-          <div key={book.id} className="break-inside-avoid mb-4">
+          <div key={book.id} className="break-inside-avoid mb-6">
             <Link 
               to={`/books/${book.id}`} 
-              className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-sm"
+              className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-md"
             >
               <div className="w-full">
                 <img
@@ -86,10 +87,10 @@ const BookGrid = () => {
                   }}
                 />
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-2 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="text-white font-serif text-xs md:text-sm mb-1 line-clamp-2">{book.title}</h3>
+                <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-white font-serif text-sm md:text-base mb-1 line-clamp-2">{book.title}</h3>
                   {book.categories && (
-                    <p className="text-white/80 font-sans text-xs hidden md:block">
+                    <p className="text-white/80 font-sans text-xs md:text-sm">
                       {book.categories.name}
                     </p>
                   )}
