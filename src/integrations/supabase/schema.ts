@@ -51,6 +51,5 @@ export interface Edition {
   name: string;
   publisher: string | null;
   year: string | null;
-  language: string | null;
   created_at: string;
 }

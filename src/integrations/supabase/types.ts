@@ -149,7 +149,6 @@ export type Database = {
           book_id: string | null
           created_at: string | null
           id: string
-          language: string | null
           name: string
           publisher: string | null
           year: string | null
@@ -158,7 +157,6 @@ export type Database = {
           book_id?: string | null
           created_at?: string | null
           id?: string
-          language?: string | null
           name: string
           publisher?: string | null
           year?: string | null
@@ -167,7 +165,6 @@ export type Database = {
           book_id?: string | null
           created_at?: string | null
           id?: string
-          language?: string | null
           name?: string
           publisher?: string | null
           year?: string | null
