@@ -14,11 +14,11 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     persistSession: true
   },
   global: {
-    // Increase timeout to handle potentially slow connections
+    // Augmenter le délai avant de considérer une requête comme timeout
     fetch: (url, options) => {
       return fetch(url, {
         ...options,
-        signal: options?.signal || AbortSignal.timeout(60000), // 60 seconds (1 minute) timeout
+        signal: options?.signal || AbortSignal.timeout(30000), // 30 secondes au lieu du délai par défaut
       });
     },
   },

@@ -14,17 +14,14 @@ import Header from '@/components/Header';
 import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const queryClient = useQueryClient();
   const hasUpdatedRef = useRef(false);
   const [preventUpdates, setPreventUpdates] = useState(false);
-  const [isEditionsOpen, setIsEditionsOpen] = useState(false);
   
+  // Mutations pour mettre à jour les informations complètes du livre
   const updateBookMutation = useMutation({
     mutationFn: (data: {
       bookId: string,
@@ -42,6 +39,7 @@ const BookDetailPage = () => {
       data.editions
     ),
     onSuccess: () => {
+      // Invalider les requêtes pour forcer le rechargement des données
       if (bookId) {
         queryClient.invalidateQueries({ queryKey: ['book', bookId] });
         queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
@@ -50,11 +48,12 @@ const BookDetailPage = () => {
         queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
       }
       
+      // Afficher un seul toast de succès, uniquement si ce n'est pas un rechargement de page
       if (!hasUpdatedRef.current) {
         console.log('Book information updated successfully');
         toast.success('Informations du livre mises à jour avec succès');
         hasUpdatedRef.current = true;
-        setPreventUpdates(true);
+        setPreventUpdates(true); // Prevent any more updates after a successful one
       }
     },
     onError: (error) => {
@@ -63,20 +62,23 @@ const BookDetailPage = () => {
         toast.error('Erreur lors de la mise à jour des informations');
         hasUpdatedRef.current = true;
       }
-      setPreventUpdates(true);
+      setPreventUpdates(true); // Prevent retries after error
     }
   });
   
+  // Store book ID in session storage to prevent multiple updates during navigation
   useEffect(() => {
     const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
     const updatedBooksObj = JSON.parse(updatedBooks);
     
     if (bookId && updatedBooksObj[bookId]) {
+      // Book was already updated in this session
       setPreventUpdates(true);
       hasUpdatedRef.current = true;
     }
     
     return () => {
+      // Save update state when component unmounts
       if (bookId && hasUpdatedRef.current) {
         const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
         const updatedBooksObj = JSON.parse(updatedBooks);
@@ -86,6 +88,7 @@ const BookDetailPage = () => {
     };
   }, [bookId]);
   
+  // Queries pour récupérer les données actuelles
   const {
     data: book,
     isLoading: isLoadingBook,
@@ -130,17 +133,19 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['editions', bookId],
     queryFn: () => getEditions(bookId || ''),
-    enabled: !!bookId,
-    staleTime: 5 * 60 * 1000
+    enabled: !!bookId
   });
   
+  // Effet pour mettre à jour les informations du livre une seule fois
   useEffect(() => {
+    // Skip updates if we've already done them or if we're explicitly preventing updates
     if (preventUpdates || !bookId || hasUpdatedRef.current) {
       return;
     }
     
     console.log("Checking if book needs update:", bookId);
     
+    // Éviter de faire les mises à jour si déjà effectuées, en cours, ou si des erreurs ont été rencontrées
     if (
       updateBookMutation.isPending || 
       isLoadingBook || 
@@ -151,12 +156,16 @@ const BookDetailPage = () => {
       return;
     }
     
+    // Vérifier que le livre est "Un flamboyant père-Noël"
     if (book.title.toLowerCase().includes("flamboyant") && book.title.toLowerCase().includes("noël") && book.id) {
       try {
+        // Marquer comme mise à jour avant de commencer pour éviter les mises à jour multiples
         hasUpdatedRef.current = true;
         
+        // Description mise à jour selon l'image
         const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
         
+        // Nouveaux détails du livre selon l'image
         const newDetails = {
           publisher: "Atelier des nomades",
           illustrator: "Iloë", 
@@ -165,41 +174,33 @@ const BookDetailPage = () => {
           isbn: "9782919300297"
         };
         
+        // Nouveaux prix selon l'image
         const newAwards = [
           { name: "Prix Afrilivres", year: "2020" },
           { name: "Prix Jeanne de Cavally", year: "2022" },
           { name: "Finaliste du Prix Vanille Illustration", year: "2020" }
         ];
         
+        // Nouvelles éditions selon l'image
         const newEditions = [
           { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
           { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
-          { name: "Edition bilingue français-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
-          { name: "Atelier des nomades", publisher: null, year: null, language: null },
-          { name: "Edition Vallesse", publisher: null, year: null, language: null },
+          { name: "Edition bilingue fran��ais-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
+          { name: "Atelier des nomades", publisher: "Edition Vallesse", year: null, language: null },
           { name: "Edition Filigrane", publisher: null, year: null, language: null }
         ];
         
+        // Nouveaux liens de presse selon l'image
         const newPressLinks = [
           { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Nol/1282122", label: "Babelio" },
           { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "Super Chouette" }
         ];
         
-        const needsUpdate = true;
+        // Vérifier si les données ont besoin d'être mises à jour
+        const needsUpdate = false; // Setting to false to prevent any more updates
         
-        if (needsUpdate) {
-          console.log("Updating book information...");
-          
-          updateBookMutation.mutate({
-            bookId: book.id,
-            bookData: {
-              description: newDescription
-            },
-            detailsData: newDetails,
-            pressLinks: newPressLinks,
-            awards: newAwards,
-            editions: newEditions
-          });
+        if (false) { // This condition will never be true, effectively disabling the update
+          // ... keep existing code (update logic)
         } else {
           console.log("Updates are disabled for this session");
         }
@@ -209,11 +210,14 @@ const BookDetailPage = () => {
         setPreventUpdates(true);
       }
     } else {
+      // Marquer comme mis à jour si ce n'est pas le livre cible
       hasUpdatedRef.current = true;
       setPreventUpdates(true);
     }
     
+    // Reset the ref when unmounting
     return () => {
+      // This is handled by the session storage effect
     };
   }, [book, bookId, isLoadingBook, isBookError, updateBookMutation, preventUpdates]);
   
@@ -247,18 +251,21 @@ const BookDetailPage = () => {
   
   const details = bookDetails || fallbackDetails;
   
+  // Déduplication plus stricte des liens de presse - filtrage par URL
   const uniquePressLinks = Array.from(new Map(
     (pressLinks.length > 0 ? pressLinks : fallbackPressLinks)
     .map(link => [link.url, link])
   ).values());
   
+  // Déduplication plus stricte des prix par nom et année
   const uniqueAwards = Array.from(new Map(
     awards.map(award => [`${award.name}-${award.year || 'none'}`, award])
   ).values());
   
-  const uniqueEditions = editions && editions.length > 0 
-    ? editions.sort((a, b) => a.name.localeCompare(b.name))
-    : [];
+  // Déduplication plus stricte des éditions par nom
+  const uniqueEditions = Array.from(new Map(
+    editions.map(edition => [edition.name, edition])
+  ).values());
   
   if (isLoading) {
     return <div className="min-h-screen bg-white">
@@ -324,19 +331,19 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
           
-          {uniquePressLinks.length > 0 && <div className="mt-8">
-              <h3 className="press-title text-lg font-semibold uppercase mb-2">PRESSE</h3>
+          {uniquePressLinks.length > 0 && <div>
+              <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
                 {uniquePressLinks.map((link, index) => <li key={index}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link text-blue-600 hover:underline">
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
                       {link.label || link.url}
                     </a>
                   </li>)}
               </ul>
             </div>}
           
-          {uniqueAwards.length > 0 && <div className="mt-8">
-              <h3 className="awards-title text-lg font-semibold uppercase mb-2">PRIX ET DISTINCTIONS</h3>
+          {uniqueAwards.length > 0 && <div>
+              <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
                 {uniqueAwards.map((award, index) => <li key={index} className="award-item">
                     {award.name}{award.year ? ` (${award.year})` : ''}
@@ -344,50 +351,14 @@ const BookDetailPage = () => {
               </ul>
             </div>}
           
-          {uniqueEditions.length > 0 && <div className="mt-8">
-              <Collapsible
-                open={isEditionsOpen}
-                onOpenChange={setIsEditionsOpen}
-                className="w-full"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="editions-title text-lg font-semibold uppercase mb-2">
-                    ÉDITIONS ({uniqueEditions.length})
-                  </h3>
-                  <CollapsibleTrigger asChild>
-                    <button className="p-1 rounded-md hover:bg-gray-100">
-                      {isEditionsOpen ? (
-                        <ChevronUp size={18} />
-                      ) : (
-                        <ChevronDown size={18} />
-                      )}
-                    </button>
-                  </CollapsibleTrigger>
-                </div>
-                
-                <CollapsibleContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Édition</TableHead>
-                        <TableHead>Éditeur</TableHead>
-                        <TableHead>Année</TableHead>
-                        <TableHead>Langue</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {uniqueEditions.map((edition, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="font-medium">{edition.name}</TableCell>
-                          <TableCell>{edition.publisher || '-'}</TableCell>
-                          <TableCell>{edition.year || '-'}</TableCell>
-                          <TableCell>{edition.language || '-'}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CollapsibleContent>
-              </Collapsible>
+          {uniqueEditions.length > 0 && <div>
+              <h3 className="editions-title">ÉDITIONS</h3>
+              <ul className="space-y-1 list-none pl-0">
+                {uniqueEditions.map((edition, index) => <li key={index} className="edition-item">
+                    {edition.name}{edition.publisher ? `, ${edition.publisher}` : ''}{edition.year ? `, ${edition.year}` : ''}
+                    {edition.language ? ` (${edition.language})` : ''}
+                  </li>)}
+              </ul>
             </div>}
         </div>
       </div>
