@@ -292,10 +292,7 @@ export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | '
       .from('editions')
       .insert({
         book_id: bookId,
-        name: edition.name,
-        publisher: edition.publisher,
-        year: edition.year,
-        language: edition.language
+        name: edition.name
       })
       .select()
       .maybeSingle();
@@ -469,4 +466,3 @@ export const updateCompleteBookInfo = async (
     return false;
   }
 };
-

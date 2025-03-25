@@ -150,7 +150,6 @@ export type Database = {
           created_at: string | null
           id: string
           name: string
-          publisher: string | null
           year: string | null
         }
         Insert: {
@@ -158,7 +157,6 @@ export type Database = {
           created_at?: string | null
           id?: string
           name: string
-          publisher?: string | null
           year?: string | null
         }
         Update: {
@@ -166,7 +164,6 @@ export type Database = {
           created_at?: string | null
           id?: string
           name?: string
-          publisher?: string | null
           year?: string | null
         }
         Relationships: [

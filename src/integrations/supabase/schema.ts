@@ -49,7 +49,5 @@ export interface Edition {
   id: string;
   book_id: string;
   name: string;
-  publisher: string | null;
-  year: string | null;
   created_at: string;
 }
