@@ -14,8 +14,8 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="w-full flex flex-col items-center mb-8">
-      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mb-6 px-4">
+    <nav className="w-full flex flex-col items-center mb-12">
+      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 mb-6 px-4">
         {mainNavItems.map((item, index) => (
           <Link 
             key={index} 
