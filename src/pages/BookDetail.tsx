@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -26,8 +25,6 @@ const BookDetail = () => {
     enabled: !!bookId
   });
 
-  // Information éditoriale fictive pour la démonstration
-  // Dans une version réelle, ces données viendraient de la base de données
   const bookInfo: BookInfo = {
     publisher: "Océan Jeunesse",
     illustrator: "Audrey Caron",
@@ -68,7 +65,6 @@ const BookDetail = () => {
     );
   }
 
-  // Construction du texte éditorial
   const editorialText = `${book.categories?.name || "Jeunesse"} – illustré par ${bookInfo.illustrator || "Non spécifié"} – ${bookInfo.publisher || "Non spécifié"} – ${bookInfo.year || "2024"} – ${bookInfo.pages || "0"} pages`;
 
   return (
@@ -87,13 +83,12 @@ const BookDetail = () => {
           <div className="mb-10">
             <p className="editorial-info mb-0">
               {editorialText}
+              {bookInfo.isbn && (
+                <span className="block mt-0">
+                  ISBN : {bookInfo.isbn}
+                </span>
+              )}
             </p>
-            
-            {bookInfo.isbn && (
-              <p className="editorial-info mt-1">
-                ISBN : {bookInfo.isbn}
-              </p>
-            )}
           </div>
           
           <div className="description">
