@@ -60,13 +60,15 @@ const BookDetail = () => {
         </Link>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-          <div>
-            <img 
-              src={formatImageUrl(book.cover_image)} 
-              alt={book.title} 
-              className="w-full h-auto shadow-lg rounded"
-              onError={() => setImageError(true)}
-            />
+          <div className="flex justify-center">
+            <div className="max-w-[300px] w-full">
+              <img 
+                src={formatImageUrl(book.cover_image)} 
+                alt={book.title} 
+                className="w-full h-auto object-contain shadow-md rounded-sm bg-[#f8f8f8]"
+                onError={() => setImageError(true)}
+              />
+            </div>
           </div>
           
           <div>
