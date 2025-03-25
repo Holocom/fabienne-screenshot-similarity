@@ -71,6 +71,10 @@
     line-height: 1.6;
   }
   
+  .book-detail .description p {
+    @apply mb-4;
+  }
+  
   .book-detail .press-title {
     @apply text-[#7DC242] font-bold text-xl mb-4;
     font-family: 'Carlito', sans-serif;

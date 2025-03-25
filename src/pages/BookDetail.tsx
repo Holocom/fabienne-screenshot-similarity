@@ -87,6 +87,20 @@ const BookDetailPage = () => {
 
   const editorialText = `${book.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
 
+  // Remplacer les retours à la ligne dans la description par des balises <p>
+  const renderDescription = () => {
+    if (!book.description) return <p>Aucune description disponible pour ce livre.</p>;
+    
+    // Diviser la description en paragraphes basés sur les retours à la ligne
+    const paragraphs = book.description.split('\n\n');
+    
+    return paragraphs.map((paragraph, index) => (
+      <p key={index} className="mb-4 whitespace-pre-line">
+        {paragraph}
+      </p>
+    ));
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -112,7 +126,7 @@ const BookDetailPage = () => {
           </div>
           
           <div className="description">
-            <p>{book.description || "Aucune description disponible pour ce livre."}</p>
+            {renderDescription()}
           </div>
           
           {pressLinks.length > 0 && (
