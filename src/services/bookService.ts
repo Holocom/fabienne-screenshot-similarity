@@ -193,6 +193,46 @@ export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 
   return data as PressLink;
 };
 
+export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'created_at'>): Promise<Award | null> => {
+  const { data, error } = await supabase
+    .from('awards')
+    .insert({
+      book_id: bookId,
+      name: award.name,
+      year: award.year
+    })
+    .select()
+    .single();
+  
+  if (error) {
+    console.error('Error adding award:', error);
+    return null;
+  }
+  
+  return data as Award;
+};
+
+export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | 'created_at'>): Promise<Edition | null> => {
+  const { data, error } = await supabase
+    .from('editions')
+    .insert({
+      book_id: bookId,
+      name: edition.name,
+      publisher: edition.publisher,
+      year: edition.year,
+      language: edition.language
+    })
+    .select()
+    .single();
+  
+  if (error) {
+    console.error('Error adding edition:', error);
+    return null;
+  }
+  
+  return data as Edition;
+};
+
 export const getAwards = async (bookId: string): Promise<Award[]> => {
   const { data, error } = await supabase
     .from('awards')
@@ -259,5 +299,67 @@ export const getAvailableBookCovers = async (): Promise<string[]> => {
   } catch (error) {
     console.error('Error getting available book covers:', error);
     return [];
+  }
+};
+
+// Fonction pour mettre à jour toutes les informations d'un livre à partir d'un seul appel
+export const updateCompleteBookInfo = async (
+  bookId: string, 
+  bookData: Partial<Book>, 
+  detailsData: Partial<BookDetail>,
+  pressLinks: Array<Omit<PressLink, 'id' | 'created_at'>>,
+  awards: Array<Omit<Award, 'id' | 'created_at'>>,
+  editions: Array<Omit<Edition, 'id' | 'created_at'>>
+): Promise<boolean> => {
+  try {
+    // Mise à jour des données principales du livre
+    if (Object.keys(bookData).length > 0) {
+      const bookUpdateResult = await updateBook(bookId, bookData);
+      if (!bookUpdateResult) {
+        console.error('Failed to update book data');
+        return false;
+      }
+    }
+    
+    // Mise à jour des détails du livre
+    if (Object.keys(detailsData).length > 0) {
+      const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
+      if (!detailsUpdateResult) {
+        console.error('Failed to update book details');
+        return false;
+      }
+    }
+    
+    // Ajout des liens de presse
+    for (const link of pressLinks) {
+      const pressLinkResult = await addPressLink(bookId, link);
+      if (!pressLinkResult) {
+        console.error('Failed to add press link:', link);
+        // Continue even if one fails
+      }
+    }
+    
+    // Ajout des prix et distinctions
+    for (const award of awards) {
+      const awardResult = await addAward(bookId, award);
+      if (!awardResult) {
+        console.error('Failed to add award:', award);
+        // Continue even if one fails
+      }
+    }
+    
+    // Ajout des éditions
+    for (const edition of editions) {
+      const editionResult = await addEdition(bookId, edition);
+      if (!editionResult) {
+        console.error('Failed to add edition:', edition);
+        // Continue even if one fails
+      }
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error in updateCompleteBookInfo:', error);
+    return false;
   }
 };
