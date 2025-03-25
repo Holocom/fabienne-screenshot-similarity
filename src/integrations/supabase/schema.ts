@@ -1,4 +1,5 @@
 
+
 export interface Category {
   id: string;
   name: string;
@@ -51,3 +52,4 @@ export interface Edition {
   name: string;
   created_at: string;
 }
+

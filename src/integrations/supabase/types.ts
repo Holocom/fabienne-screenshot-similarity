@@ -150,21 +150,18 @@ export type Database = {
           created_at: string | null
           id: string
           name: string
-          year: string | null
         }
         Insert: {
           book_id?: string | null
           created_at?: string | null
           id?: string
           name: string
-          year?: string | null
         }
         Update: {
           book_id?: string | null
           created_at?: string | null
           id?: string
           name?: string
-          year?: string | null
         }
         Relationships: [
           {
