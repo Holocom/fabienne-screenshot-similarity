@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -87,7 +88,9 @@ const BookGrid = () => {
                 />
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="text-white font-serif text-sm md:text-base mb-1 line-clamp-1 break-words hyphens-auto">{book.title}</h3>
+                  <h3 className="text-white font-serif text-sm md:text-base mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {book.title}
+                  </h3>
                   {book.categories && (
                     <p className="text-white/80 font-sans text-xs md:text-sm">
                       {book.categories.name}

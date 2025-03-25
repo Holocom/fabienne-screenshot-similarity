@@ -137,11 +137,11 @@ const BookDetailPage = () => {
         </div>
         
         <div className="mt-4">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-wider uppercase mb-6 break-words hyphens-auto leading-tight">
+          <h1 className="text-[min(10vw,2.25rem)] md:text-[min(8vw,2.5rem)] lg:text-[min(6vw,2.75rem)] font-bold tracking-wide uppercase whitespace-nowrap overflow-hidden text-ellipsis">
             {book.title?.toUpperCase()}
           </h1>
           
-          <div className="mb-10">
+          <div className="mb-10 mt-6">
             <p className="editorial-info mb-0">
               {editorialText}
               {details.isbn && (
