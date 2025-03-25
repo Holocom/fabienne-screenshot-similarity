@@ -101,7 +101,6 @@ export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
       return [];
     }
     
-    // Déduplication par URL pour éviter les doublons en base de données
     const uniqueUrls = new Set();
     const uniqueData = data.filter(link => {
       if (uniqueUrls.has(link.url)) {
@@ -119,7 +118,6 @@ export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
 };
 
 export const updateBookDetails = async (bookId: string, details: Partial<BookDetail>): Promise<BookDetail | null> => {
-  // Vérifier si les détails existent déjà
   const { data: existingData } = await supabase
     .from('book_details')
     .select('*')
@@ -129,7 +127,6 @@ export const updateBookDetails = async (bookId: string, details: Partial<BookDet
   let result;
   
   if (existingData) {
-    // Mettre à jour les détails existants
     const { data, error } = await supabase
       .from('book_details')
       .update({
@@ -147,7 +144,6 @@ export const updateBookDetails = async (bookId: string, details: Partial<BookDet
     
     result = data;
   } else {
-    // Créer de nouveaux détails
     const { data, error } = await supabase
       .from('book_details')
       .insert({
@@ -198,7 +194,6 @@ export const updateBook = async (bookId: string, bookData: Partial<Book>): Promi
 
 export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 'created_at'>): Promise<PressLink | null> => {
   try {
-    // Vérifier si un lien avec la même URL existe déjà
     const { data: existingLinks } = await supabase
       .from('press_links')
       .select('*')
@@ -234,7 +229,6 @@ export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 
 
 export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'created_at'>): Promise<Award | null> => {
   try {
-    // Vérifier si un prix avec le même nom et la même année existe déjà
     const { data: existingAwards } = await supabase
       .from('awards')
       .select('*')
@@ -276,7 +270,6 @@ export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'create
 
 export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | 'created_at'>): Promise<Edition | null> => {
   try {
-    // Vérifier si une édition avec le même nom existe déjà
     const { data: existingEditions } = await supabase
       .from('editions')
       .select('*')
@@ -325,7 +318,6 @@ export const getAwards = async (bookId: string): Promise<Award[]> => {
       return [];
     }
     
-    // Déduplication par nom et année pour éviter les doublons en base de données
     const uniqueKeys = new Set();
     const uniqueData = data.filter(award => {
       const key = `${award.name}-${award.year}`;
@@ -345,28 +337,27 @@ export const getAwards = async (bookId: string): Promise<Award[]> => {
 
 export const getEditions = async (bookId: string): Promise<Edition[]> => {
   try {
+    console.log(`Fetching editions for book ID: ${bookId}`);
+    
     const { data, error } = await supabase
       .from('editions')
       .select('*')
       .eq('book_id', bookId)
-      .order('created_at');
+      .order('name', { ascending: true });
     
     if (error) {
       console.error('Error fetching editions:', error);
       return [];
     }
     
-    // Déduplication par nom pour éviter les doublons en base de données
-    const uniqueNames = new Set();
-    const uniqueData = data.filter(edition => {
-      if (uniqueNames.has(edition.name)) {
-        return false;
-      }
-      uniqueNames.add(edition.name);
-      return true;
-    });
+    if (!data || data.length === 0) {
+      console.log(`No editions found for book ID: ${bookId}`);
+      return [];
+    }
     
-    return uniqueData as Edition[];
+    console.log(`Found ${data.length} editions for book ID: ${bookId}`);
+    
+    return data as Edition[];
   } catch (error) {
     console.error('Unexpected error in getEditions:', error);
     return [];
@@ -421,25 +412,20 @@ export const updateCompleteBookInfo = async (
   editions: Array<Omit<Edition, 'id' | 'created_at'>>
 ): Promise<boolean> => {
   try {
-    // Mise à jour des données principales du livre
     if (Object.keys(bookData).length > 0) {
       const bookUpdateResult = await updateBook(bookId, bookData);
       if (!bookUpdateResult) {
         console.warn('Failed to update book data for ID:', bookId);
-        // Continue processing rather than failing completely
       }
     }
     
-    // Mise à jour des détails du livre
     if (Object.keys(detailsData).length > 0) {
       const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
       if (!detailsUpdateResult) {
         console.warn('Failed to update book details for ID:', bookId);
-        // Continue processing
       }
     }
     
-    // Ajout des liens de presse
     let addedPressLinks = 0;
     for (const link of pressLinks) {
       const pressLinkResult = await addPressLink(bookId, link);
@@ -447,7 +433,6 @@ export const updateCompleteBookInfo = async (
     }
     console.log(`Added ${addedPressLinks}/${pressLinks.length} press links`);
     
-    // Ajout des prix et distinctions
     let addedAwards = 0;
     for (const award of awards) {
       const awardResult = await addAward(bookId, award);
@@ -455,7 +440,6 @@ export const updateCompleteBookInfo = async (
     }
     console.log(`Added ${addedAwards}/${awards.length} awards`);
     
-    // Ajout des éditions
     let addedEditions = 0;
     for (const edition of editions) {
       const editionResult = await addEdition(bookId, edition);
@@ -469,4 +453,3 @@ export const updateCompleteBookInfo = async (
     return false;
   }
 };
-
