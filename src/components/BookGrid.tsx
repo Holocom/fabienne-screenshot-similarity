@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getBooks, checkImageUrl } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const BookGrid = () => {
   const location = useLocation();
@@ -70,34 +69,37 @@ const BookGrid = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+      <div className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6 gap-4 space-y-4">
         {books.map((book) => (
-          <Link 
-            key={book.id} 
-            to={`/books/${book.id}`} 
-            className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-sm"
-          >
-            <div className="w-full h-full">
-              <img
-                src={formatImageUrl(book.cover_image, book.id)}
-                alt={book.title}
-                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                loading="lazy"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
-                }}
-              />
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-2 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-white font-serif text-xs md:text-sm mb-1 line-clamp-2">{book.title}</h3>
-                {book.categories && (
-                  <p className="text-white/80 font-sans text-xs hidden md:block">
-                    {book.categories.name}
-                  </p>
-                )}
+          <div key={book.id} className="break-inside-avoid mb-4">
+            <Link 
+              to={`/books/${book.id}`} 
+              className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-sm"
+            >
+              <div className="w-full">
+                <img
+                  src={formatImageUrl(book.cover_image, book.id)}
+                  alt={book.title}
+                  className="w-full h-auto object-contain"
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
+                  }}
+                />
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-2 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <h3 className="text-white font-serif text-xs md:text-sm mb-1 line-clamp-2">{book.title}</h3>
+                  {book.categories && (
+                    <p className="text-white/80 font-sans text-xs hidden md:block">
+                      {book.categories.name}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+            <h3 className="text-sm font-serif mt-1 line-clamp-2">{book.title}</h3>
+            <p className="text-xs text-gray-600 font-sans">{book.author}</p>
+          </div>
         ))}
       </div>
     </div>

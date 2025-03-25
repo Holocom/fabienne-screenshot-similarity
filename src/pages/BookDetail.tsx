@@ -61,18 +61,18 @@ const BookDetail = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
           <div className="flex justify-center">
-            <div className="max-w-[350px] w-full">
+            <div className="max-w-[350px] bg-[#f8f8f8] rounded-sm shadow-sm p-4">
               <img 
                 src={formatImageUrl(book.cover_image)} 
                 alt={book.title} 
-                className="w-full h-auto object-contain shadow-md rounded-sm bg-[#f8f8f8]"
+                className="w-full h-auto object-contain"
                 onError={() => setImageError(true)}
               />
             </div>
           </div>
           
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">{book.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2 font-serif">{book.title}</h1>
             <p className="text-lg mb-6">par {book.author}</p>
             
             {book.description && (
