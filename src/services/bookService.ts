@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { Book, Category, BookDetail, PressLink, Award, Edition } from "@/integrations/supabase/schema";
 
@@ -103,6 +104,93 @@ export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
   }
   
   return data as PressLink[];
+};
+
+export const updateBookDetails = async (bookId: string, details: Partial<BookDetail>): Promise<BookDetail | null> => {
+  // Vérifier si les détails existent déjà
+  const { data: existingData } = await supabase
+    .from('book_details')
+    .select('*')
+    .eq('book_id', bookId)
+    .maybeSingle();
+
+  let result;
+  
+  if (existingData) {
+    // Mettre à jour les détails existants
+    const { data, error } = await supabase
+      .from('book_details')
+      .update({
+        ...details,
+        updated_at: new Date().toISOString()
+      })
+      .eq('book_id', bookId)
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error updating book details:', error);
+      return null;
+    }
+    
+    result = data;
+  } else {
+    // Créer de nouveaux détails
+    const { data, error } = await supabase
+      .from('book_details')
+      .insert({
+        book_id: bookId,
+        ...details,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error creating book details:', error);
+      return null;
+    }
+    
+    result = data;
+  }
+  
+  return result as BookDetail;
+};
+
+export const updateBook = async (bookId: string, bookData: Partial<Book>): Promise<Book | null> => {
+  const { data, error } = await supabase
+    .from('books')
+    .update(bookData)
+    .eq('id', bookId)
+    .select()
+    .single();
+  
+  if (error) {
+    console.error('Error updating book:', error);
+    return null;
+  }
+  
+  return data as Book;
+};
+
+export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 'created_at'>): Promise<PressLink | null> => {
+  const { data, error } = await supabase
+    .from('press_links')
+    .insert({
+      book_id: bookId,
+      url: link.url,
+      label: link.label
+    })
+    .select()
+    .single();
+  
+  if (error) {
+    console.error('Error adding press link:', error);
+    return null;
+  }
+  
+  return data as PressLink;
 };
 
 export const getAwards = async (bookId: string): Promise<Award[]> => {
