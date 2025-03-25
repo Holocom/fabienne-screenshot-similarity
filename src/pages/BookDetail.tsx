@@ -47,6 +47,8 @@ const BookDetailPage = () => {
         queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
       }
       
+      // Afficher un seul toast de succès
+      console.log('Book information updated successfully');
       toast.success('Informations du livre mises à jour avec succès');
     },
     onError: (error) => {
@@ -59,7 +61,8 @@ const BookDetailPage = () => {
   const {
     data: book,
     isLoading: isLoadingBook,
-    error: bookError
+    error: bookError,
+    isError: isBookError
   } = useQuery({
     queryKey: ['book', bookId],
     queryFn: () => getBookById(bookId || ''),
@@ -107,12 +110,13 @@ const BookDetailPage = () => {
   
   // Effet pour mettre à jour les informations du livre une seule fois
   useEffect(() => {
-    // Éviter de faire les mises à jour si déjà effectuées ou en cours
+    // Éviter de faire les mises à jour si déjà effectuées, en cours, ou si des erreurs ont été rencontrées
     if (
       hasUpdated || 
       updateBookMutation.isPending || 
       isLoadingBook || 
       isLoadingDetails ||
+      isBookError ||
       !book || 
       !book.title
     ) {
@@ -168,8 +172,8 @@ const BookDetailPage = () => {
           (awards.length < 3) ||      // Vérifie seulement si les prix minimum sont présents
           (editions.length < 5);      // Vérifie seulement si les éditions minimum sont présentes
         
-        // Si des mises à jour sont nécessaires, mettre à jour les informations
-        if (needsUpdate) {
+        // Si des mises à jour sont nécessaires et que le livre existe, mettre à jour les informations
+        if (needsUpdate && book.id) {
           console.log("Updating book information for:", book.title);
           updateBookMutation.mutate({
             bookId: bookId || '',
@@ -189,6 +193,8 @@ const BookDetailPage = () => {
               )
             )
           });
+        } else {
+          console.log("No updates needed or book doesn't exist in database");
         }
         
         // Marquer comme mis à jour même si aucune mise à jour n'était nécessaire
@@ -202,7 +208,7 @@ const BookDetailPage = () => {
       // Marquer comme mis à jour si ce n'est pas le livre cible
       setHasUpdated(true);
     }
-  }, [book, bookDetails, pressLinks, awards, editions, isLoadingBook, isLoadingDetails, bookId, updateBookMutation, hasUpdated]);
+  }, [book, bookDetails, pressLinks, awards, editions, isLoadingBook, isLoadingDetails, isBookError, bookId, updateBookMutation, hasUpdated]);
   
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions || updateBookMutation.isPending;
   
@@ -234,21 +240,21 @@ const BookDetailPage = () => {
   
   const details = bookDetails || fallbackDetails;
   
-  // Déduplication des liens de presse - filtrage par URL
-  const uniquePressLinks = [...new Map(
+  // Déduplication plus stricte des liens de presse - filtrage par URL
+  const uniquePressLinks = Array.from(new Map(
     (pressLinks.length > 0 ? pressLinks : fallbackPressLinks)
     .map(link => [link.url, link])
-  ).values()];
+  ).values());
   
-  // Déduplication des prix par nom et année
-  const uniqueAwards = [...new Map(
-    awards.map(award => [`${award.name}-${award.year}`, award])
-  ).values()];
+  // Déduplication plus stricte des prix par nom et année
+  const uniqueAwards = Array.from(new Map(
+    awards.map(award => [`${award.name}-${award.year || 'none'}`, award])
+  ).values());
   
-  // Déduplication des éditions par nom
-  const uniqueEditions = [...new Map(
+  // Déduplication plus stricte des éditions par nom
+  const uniqueEditions = Array.from(new Map(
     editions.map(edition => [edition.name, edition])
-  ).values()];
+  ).values());
   
   if (isLoading) {
     return <div className="min-h-screen bg-white">
