@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getCategories } from '@/services/bookService';
+import { getCategories } from '@/services/categoryService';
 
 const BookCategories = () => {
   const location = useLocation();
