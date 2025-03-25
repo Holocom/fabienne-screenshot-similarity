@@ -1,15 +1,12 @@
-
 import { useEffect, useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { 
-  getBookById, 
-  getBookDetails, 
-  getPressLinks, 
-  getAwards, 
-  getEditions,
-  updateCompleteBookInfo
-} from '@/services/bookService';
+import { getBookById } from '@/services/bookService';
+import { getBookDetails } from '@/services/bookDetailService';
+import { getPressLinks } from '@/services/pressLinkService';
+import { getAwards } from '@/services/awardService';
+import { getEditions } from '@/services/editionService';
+import { updateCompleteBookInfo } from '@/services/bookUpdateService';
 import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
 
 export const useBookDetails = (bookId?: string) => {
@@ -264,3 +261,4 @@ export const useBookDetails = (bookId?: string) => {
     category: book?.categories?.name || "Jeunesse"
   };
 };
+

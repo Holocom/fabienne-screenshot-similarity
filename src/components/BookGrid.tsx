@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getBooks, checkImageUrl } from '@/services/bookService';
+import { getBooks } from '@/services/bookService';
+import { checkImageUrl } from '@/services/utils/serviceUtils';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
 
