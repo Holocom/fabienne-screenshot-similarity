@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -136,7 +137,9 @@ const BookDetailPage = () => {
         </div>
         
         <div className="mt-4">
-          <h1 className="truncate max-w-full text-ellipsis overflow-hidden text-3xl md:text-4xl whitespace-nowrap">{book.title?.toUpperCase()}</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-wider uppercase mb-6 break-words hyphens-auto leading-tight">
+            {book.title?.toUpperCase()}
+          </h1>
           
           <div className="mb-10">
             <p className="editorial-info mb-0">
