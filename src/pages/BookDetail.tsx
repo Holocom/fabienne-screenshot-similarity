@@ -233,7 +233,22 @@ const BookDetailPage = () => {
   }];
   
   const details = bookDetails || fallbackDetails;
-  const linksList = pressLinks.length > 0 ? pressLinks : fallbackPressLinks;
+  
+  // Déduplication des liens de presse - filtrage par URL
+  const uniquePressLinks = [...new Map(
+    (pressLinks.length > 0 ? pressLinks : fallbackPressLinks)
+    .map(link => [link.url, link])
+  ).values()];
+  
+  // Déduplication des prix par nom et année
+  const uniqueAwards = [...new Map(
+    awards.map(award => [`${award.name}-${award.year}`, award])
+  ).values()];
+  
+  // Déduplication des éditions par nom
+  const uniqueEditions = [...new Map(
+    editions.map(edition => [edition.name, edition])
+  ).values()];
   
   if (isLoading) {
     return <div className="min-h-screen bg-white">
@@ -299,10 +314,10 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
           
-          {linksList.length > 0 && <div>
+          {uniquePressLinks.length > 0 && <div>
               <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
-                {linksList.map((link, index) => <li key={index}>
+                {uniquePressLinks.map((link, index) => <li key={index}>
                     <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
                       {link.label || link.url}
                     </a>
@@ -310,19 +325,19 @@ const BookDetailPage = () => {
               </ul>
             </div>}
           
-          {awards.length > 0 && <div>
+          {uniqueAwards.length > 0 && <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {awards.map((award, index) => <li key={index} className="award-item">
+                {uniqueAwards.map((award, index) => <li key={index} className="award-item">
                     {award.name}{award.year ? ` (${award.year})` : ''}
                   </li>)}
               </ul>
             </div>}
           
-          {editions.length > 0 && <div>
+          {uniqueEditions.length > 0 && <div>
               <h3 className="editions-title">ÉDITIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {editions.map((edition, index) => <li key={index} className="edition-item">
+                {uniqueEditions.map((edition, index) => <li key={index} className="edition-item">
                     {edition.name}{edition.publisher ? `, ${edition.publisher}` : ''}{edition.year ? `, ${edition.year}` : ''}
                     {edition.language ? ` (${edition.language})` : ''}
                   </li>)}

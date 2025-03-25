@@ -89,18 +89,33 @@ export const getBookDetails = async (bookId: string): Promise<BookDetail | null>
 };
 
 export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
-  const { data, error } = await supabase
-    .from('press_links')
-    .select('*')
-    .eq('book_id', bookId)
-    .order('created_at');
-  
-  if (error) {
-    console.error('Error fetching press links:', error);
+  try {
+    const { data, error } = await supabase
+      .from('press_links')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('created_at');
+    
+    if (error) {
+      console.error('Error fetching press links:', error);
+      return [];
+    }
+    
+    // Déduplication par URL pour éviter les doublons en base de données
+    const uniqueUrls = new Set();
+    const uniqueData = data.filter(link => {
+      if (uniqueUrls.has(link.url)) {
+        return false;
+      }
+      uniqueUrls.add(link.url);
+      return true;
+    });
+    
+    return uniqueData as PressLink[];
+  } catch (error) {
+    console.error('Unexpected error in getPressLinks:', error);
     return [];
   }
-  
-  return data as PressLink[];
 };
 
 export const updateBookDetails = async (bookId: string, details: Partial<BookDetail>): Promise<BookDetail | null> => {
@@ -183,6 +198,18 @@ export const updateBook = async (bookId: string, bookData: Partial<Book>): Promi
 
 export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 'created_at'>): Promise<PressLink | null> => {
   try {
+    // Vérifier si un lien avec la même URL existe déjà
+    const { data: existingLinks } = await supabase
+      .from('press_links')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('url', link.url);
+    
+    if (existingLinks && existingLinks.length > 0) {
+      console.log(`Press link with URL ${link.url} already exists, skipping.`);
+      return existingLinks[0] as PressLink;
+    }
+    
     const { data, error } = await supabase
       .from('press_links')
       .insert({
@@ -207,6 +234,24 @@ export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 
 
 export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'created_at'>): Promise<Award | null> => {
   try {
+    // Vérifier si un prix avec le même nom et la même année existe déjà
+    const { data: existingAwards } = await supabase
+      .from('awards')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('name', award.name);
+    
+    const awardExists = existingAwards?.some(
+      existing => existing.year === award.year
+    );
+    
+    if (awardExists) {
+      console.log(`Award "${award.name}" (${award.year}) already exists, skipping.`);
+      return existingAwards.find(
+        existing => existing.year === award.year
+      ) as Award;
+    }
+    
     const { data, error } = await supabase
       .from('awards')
       .insert({
@@ -231,6 +276,18 @@ export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'create
 
 export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | 'created_at'>): Promise<Edition | null> => {
   try {
+    // Vérifier si une édition avec le même nom existe déjà
+    const { data: existingEditions } = await supabase
+      .from('editions')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('name', edition.name);
+    
+    if (existingEditions && existingEditions.length > 0) {
+      console.log(`Edition "${edition.name}" already exists, skipping.`);
+      return existingEditions[0] as Edition;
+    }
+    
     const { data, error } = await supabase
       .from('editions')
       .insert({
@@ -256,33 +313,64 @@ export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | '
 };
 
 export const getAwards = async (bookId: string): Promise<Award[]> => {
-  const { data, error } = await supabase
-    .from('awards')
-    .select('*')
-    .eq('book_id', bookId)
-    .order('created_at');
-  
-  if (error) {
-    console.error('Error fetching awards:', error);
+  try {
+    const { data, error } = await supabase
+      .from('awards')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('created_at');
+    
+    if (error) {
+      console.error('Error fetching awards:', error);
+      return [];
+    }
+    
+    // Déduplication par nom et année pour éviter les doublons en base de données
+    const uniqueKeys = new Set();
+    const uniqueData = data.filter(award => {
+      const key = `${award.name}-${award.year}`;
+      if (uniqueKeys.has(key)) {
+        return false;
+      }
+      uniqueKeys.add(key);
+      return true;
+    });
+    
+    return uniqueData as Award[];
+  } catch (error) {
+    console.error('Unexpected error in getAwards:', error);
     return [];
   }
-  
-  return data as Award[];
 };
 
 export const getEditions = async (bookId: string): Promise<Edition[]> => {
-  const { data, error } = await supabase
-    .from('editions')
-    .select('*')
-    .eq('book_id', bookId)
-    .order('created_at');
-  
-  if (error) {
-    console.error('Error fetching editions:', error);
+  try {
+    const { data, error } = await supabase
+      .from('editions')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('created_at');
+    
+    if (error) {
+      console.error('Error fetching editions:', error);
+      return [];
+    }
+    
+    // Déduplication par nom pour éviter les doublons en base de données
+    const uniqueNames = new Set();
+    const uniqueData = data.filter(edition => {
+      if (uniqueNames.has(edition.name)) {
+        return false;
+      }
+      uniqueNames.add(edition.name);
+      return true;
+    });
+    
+    return uniqueData as Edition[];
+  } catch (error) {
+    console.error('Unexpected error in getEditions:', error);
     return [];
   }
-  
-  return data as Edition[];
 };
 
 export const checkImageUrl = async (url: string): Promise<boolean> => {
@@ -324,7 +412,6 @@ export const getAvailableBookCovers = async (): Promise<string[]> => {
   }
 };
 
-// Fonction pour mettre à jour toutes les informations d'un livre à partir d'un seul appel
 export const updateCompleteBookInfo = async (
   bookId: string, 
   bookData: Partial<Book>, 
@@ -382,3 +469,4 @@ export const updateCompleteBookInfo = async (
     return false;
   }
 };
+
