@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getBooks, checkImageUrl } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const BookGrid = () => {
   const location = useLocation();
@@ -69,18 +70,18 @@ const BookGrid = () => {
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4">
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
         {books.map((book) => (
           <Link 
             key={book.id} 
             to={`/books/${book.id}`} 
-            className="group relative block overflow-hidden"
+            className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-sm"
           >
-            <div className="aspect-[2/3] overflow-hidden rounded-sm shadow-sm">
+            <div className="w-full h-full">
               <img
                 src={formatImageUrl(book.cover_image, book.id)}
                 alt={book.title}
-                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 bg-[#f8f8f8]"
+                className="w-full h-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);

@@ -61,7 +61,7 @@ const BookDetail = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
           <div className="flex justify-center">
-            <div className="max-w-[300px] w-full">
+            <div className="max-w-[350px] w-full">
               <img 
                 src={formatImageUrl(book.cover_image)} 
                 alt={book.title} 
