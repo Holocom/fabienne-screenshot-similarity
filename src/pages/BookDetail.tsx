@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -45,8 +44,6 @@ const BookDetailPage = () => {
 
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions;
 
-  // Utilisation de données de test en attendant que la base de données soit remplie
-  // Ces données sont mises à jour selon les informations fournies
   const fallbackDetails: BookDetail = {
     id: "temp-id",
     book_id: bookId || '',
@@ -59,7 +56,6 @@ const BookDetailPage = () => {
     updated_at: new Date().toISOString()
   };
 
-  // Données de test pour les liens de presse
   const fallbackPressLinks: PressLink[] = [
     {
       id: "press-1",
@@ -107,16 +103,13 @@ const BookDetailPage = () => {
     );
   }
 
-  // Mise à jour de la description selon les nouvelles informations
   const updatedDescription = book.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
 
   const editorialText = `${book.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
 
-  // Remplacer les retours à la ligne dans la description par des balises <p>
   const renderDescription = () => {
     if (!updatedDescription) return <p>Aucune description disponible pour ce livre.</p>;
     
-    // Diviser la description en paragraphes basés sur les retours à la ligne
     const paragraphs = updatedDescription.split('\n\n');
     
     return paragraphs.map((paragraph, index) => (
@@ -143,7 +136,7 @@ const BookDetailPage = () => {
         </div>
         
         <div className="mt-4">
-          <h1>{book.title?.toUpperCase()}</h1>
+          <h1 className="truncate max-w-full text-ellipsis overflow-hidden text-3xl md:text-4xl whitespace-nowrap">{book.title?.toUpperCase()}</h1>
           
           <div className="mb-10">
             <p className="editorial-info mb-0">
