@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Book, Category, BookDetail, PressLink, Award, Edition } from "@/integrations/supabase/schema";
 
@@ -64,14 +63,12 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
       categories(id, name, slug)
     `)
     .eq('id', bookId)
-    .single();
+    .maybeSingle();
   
   if (error) {
     console.error('Error fetching book:', error);
     return null;
   }
-  
-  if (!data) return null;
   
   return data as Book;
 };
@@ -126,7 +123,7 @@ export const updateBookDetails = async (bookId: string, details: Partial<BookDet
       })
       .eq('book_id', bookId)
       .select()
-      .single();
+      .maybeSingle();
     
     if (error) {
       console.error('Error updating book details:', error);
@@ -159,78 +156,103 @@ export const updateBookDetails = async (bookId: string, details: Partial<BookDet
 };
 
 export const updateBook = async (bookId: string, bookData: Partial<Book>): Promise<Book | null> => {
-  const { data, error } = await supabase
-    .from('books')
-    .update(bookData)
-    .eq('id', bookId)
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error updating book:', error);
+  try {
+    const { data, error } = await supabase
+      .from('books')
+      .update(bookData)
+      .eq('id', bookId)
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error updating book:', error);
+      return null;
+    }
+    
+    if (!data) {
+      console.warn(`No book found with ID: ${bookId}`);
+      return null;
+    }
+    
+    return data as Book;
+  } catch (error) {
+    console.error('Unexpected error in updateBook:', error);
     return null;
   }
-  
-  return data as Book;
 };
 
 export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 'created_at'>): Promise<PressLink | null> => {
-  const { data, error } = await supabase
-    .from('press_links')
-    .insert({
-      book_id: bookId,
-      url: link.url,
-      label: link.label
-    })
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error adding press link:', error);
+  try {
+    const { data, error } = await supabase
+      .from('press_links')
+      .insert({
+        book_id: bookId,
+        url: link.url,
+        label: link.label
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding press link:', error);
+      return null;
+    }
+    
+    return data as PressLink;
+  } catch (error) {
+    console.error('Unexpected error in addPressLink:', error);
     return null;
   }
-  
-  return data as PressLink;
 };
 
 export const addAward = async (bookId: string, award: Omit<Award, 'id' | 'created_at'>): Promise<Award | null> => {
-  const { data, error } = await supabase
-    .from('awards')
-    .insert({
-      book_id: bookId,
-      name: award.name,
-      year: award.year
-    })
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error adding award:', error);
+  try {
+    const { data, error } = await supabase
+      .from('awards')
+      .insert({
+        book_id: bookId,
+        name: award.name,
+        year: award.year
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding award:', error);
+      return null;
+    }
+    
+    return data as Award;
+  } catch (error) {
+    console.error('Unexpected error in addAward:', error);
     return null;
   }
-  
-  return data as Award;
 };
 
 export const addEdition = async (bookId: string, edition: Omit<Edition, 'id' | 'created_at'>): Promise<Edition | null> => {
-  const { data, error } = await supabase
-    .from('editions')
-    .insert({
-      book_id: bookId,
-      name: edition.name,
-      publisher: edition.publisher,
-      year: edition.year,
-      language: edition.language
-    })
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error adding edition:', error);
+  try {
+    const { data, error } = await supabase
+      .from('editions')
+      .insert({
+        book_id: bookId,
+        name: edition.name,
+        publisher: edition.publisher,
+        year: edition.year,
+        language: edition.language
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding edition:', error);
+      return null;
+    }
+    
+    return data as Edition;
+  } catch (error) {
+    console.error('Unexpected error in addEdition:', error);
     return null;
   }
-  
-  return data as Edition;
 };
 
 export const getAwards = async (bookId: string): Promise<Award[]> => {
@@ -316,8 +338,8 @@ export const updateCompleteBookInfo = async (
     if (Object.keys(bookData).length > 0) {
       const bookUpdateResult = await updateBook(bookId, bookData);
       if (!bookUpdateResult) {
-        console.error('Failed to update book data');
-        return false;
+        console.warn('Failed to update book data for ID:', bookId);
+        // Continue processing rather than failing completely
       }
     }
     
@@ -325,37 +347,34 @@ export const updateCompleteBookInfo = async (
     if (Object.keys(detailsData).length > 0) {
       const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
       if (!detailsUpdateResult) {
-        console.error('Failed to update book details');
-        return false;
+        console.warn('Failed to update book details for ID:', bookId);
+        // Continue processing
       }
     }
     
     // Ajout des liens de presse
+    let addedPressLinks = 0;
     for (const link of pressLinks) {
       const pressLinkResult = await addPressLink(bookId, link);
-      if (!pressLinkResult) {
-        console.error('Failed to add press link:', link);
-        // Continue even if one fails
-      }
+      if (pressLinkResult) addedPressLinks++;
     }
+    console.log(`Added ${addedPressLinks}/${pressLinks.length} press links`);
     
     // Ajout des prix et distinctions
+    let addedAwards = 0;
     for (const award of awards) {
       const awardResult = await addAward(bookId, award);
-      if (!awardResult) {
-        console.error('Failed to add award:', award);
-        // Continue even if one fails
-      }
+      if (awardResult) addedAwards++;
     }
+    console.log(`Added ${addedAwards}/${awards.length} awards`);
     
     // Ajout des éditions
+    let addedEditions = 0;
     for (const edition of editions) {
       const editionResult = await addEdition(bookId, edition);
-      if (!editionResult) {
-        console.error('Failed to add edition:', edition);
-        // Continue even if one fails
-      }
+      if (editionResult) addedEditions++;
     }
+    console.log(`Added ${addedEditions}/${editions.length} editions`);
     
     return true;
   } catch (error) {

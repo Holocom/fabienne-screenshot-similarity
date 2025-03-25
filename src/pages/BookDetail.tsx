@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { 
   getBookById, 
@@ -13,14 +13,12 @@ import {
 import Navigation from '@/components/Navigation';
 import Header from '@/components/Header';
 import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
-import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   
   // Mutations pour mettre à jour les informations complètes du livre
   const updateBookMutation = useMutation({
@@ -41,11 +39,13 @@ const BookDetailPage = () => {
     ),
     onSuccess: () => {
       // Invalider les requêtes pour forcer le rechargement des données
-      queryClient.invalidateQueries({ queryKey: ['book', bookId] });
-      queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
-      queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
-      queryClient.invalidateQueries({ queryKey: ['awards', bookId] });
-      queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
+      if (bookId) {
+        queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+        queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
+        queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
+        queryClient.invalidateQueries({ queryKey: ['awards', bookId] });
+        queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
+      }
       
       toast.success('Informations du livre mises à jour avec succès');
     },
@@ -113,62 +113,77 @@ const BookDetailPage = () => {
       book.title.toLowerCase().includes("flamboyant") && 
       book.title.toLowerCase().includes("noël")
     ) {
-      // Description mise à jour selon l'image
-      const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
-      
-      // Nouveaux détails du livre selon l'image
-      const newDetails = {
-        publisher: "Atelier des nomades",
-        illustrator: "Iloë", 
-        year: "2020",
-        pages: "24",
-        isbn: "9782919300297"
-      };
-      
-      // Nouveaux prix selon l'image
-      const newAwards = [
-        { name: "Prix Afrilivres", year: "2020" },
-        { name: "Prix Jeanne de Cavally", year: "2022" },
-        { name: "Finaliste du Prix Vanille Illustration", year: "2020" }
-      ];
-      
-      // Nouvelles éditions selon l'image
-      const newEditions = [
-        { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
-        { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
-        { name: "Edition bilingue français-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
-        { name: "Atelier des nomades", publisher: "Edition Vallesse", year: null, language: null },
-        { name: "Edition Filigrane", publisher: null, year: null, language: null }
-      ];
-      
-      // Nouveaux liens de presse selon l'image
-      const newPressLinks = [
-        { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Nol/1282122", label: "Babelio" },
-        { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "Super Chouette" }
-      ];
-      
-      // Vérifier si les données ont besoin d'être mises à jour
-      const needsUpdate = 
-        (bookDetails?.illustrator !== newDetails.illustrator) || 
-        (bookDetails?.publisher !== newDetails.publisher) ||
-        (bookDetails?.year !== newDetails.year) ||
-        (bookDetails?.pages !== newDetails.pages) ||
-        (bookDetails?.isbn !== newDetails.isbn) ||
-        (book.description !== newDescription) ||
-        (pressLinks.length < newPressLinks.length) ||
-        (awards.length < newAwards.length) ||
-        (editions.length < newEditions.length);
-      
-      // Si des mises à jour sont nécessaires, mettre à jour les informations
-      if (needsUpdate) {
-        updateBookMutation.mutate({
-          bookId: bookId || '',
-          bookData: { description: newDescription },
-          detailsData: newDetails,
-          pressLinks: newPressLinks,
-          awards: newAwards,
-          editions: newEditions
-        });
+      try {
+        // Description mise à jour selon l'image
+        const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
+        
+        // Nouveaux détails du livre selon l'image
+        const newDetails = {
+          publisher: "Atelier des nomades",
+          illustrator: "Iloë", 
+          year: "2020",
+          pages: "24",
+          isbn: "9782919300297"
+        };
+        
+        // Nouveaux prix selon l'image
+        const newAwards = [
+          { name: "Prix Afrilivres", year: "2020" },
+          { name: "Prix Jeanne de Cavally", year: "2022" },
+          { name: "Finaliste du Prix Vanille Illustration", year: "2020" }
+        ];
+        
+        // Nouvelles éditions selon l'image
+        const newEditions = [
+          { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
+          { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
+          { name: "Edition bilingue français-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
+          { name: "Atelier des nomades", publisher: "Edition Vallesse", year: null, language: null },
+          { name: "Edition Filigrane", publisher: null, year: null, language: null }
+        ];
+        
+        // Nouveaux liens de presse selon l'image
+        const newPressLinks = [
+          { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Nol/1282122", label: "Babelio" },
+          { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "Super Chouette" }
+        ];
+        
+        // Vérifier si les données ont besoin d'être mises à jour
+        const needsUpdate = 
+          (bookDetails?.illustrator !== newDetails.illustrator) || 
+          (bookDetails?.publisher !== newDetails.publisher) ||
+          (bookDetails?.year !== newDetails.year) ||
+          (bookDetails?.pages !== newDetails.pages) ||
+          (bookDetails?.isbn !== newDetails.isbn) ||
+          (book.description !== newDescription) ||
+          (pressLinks.length < newPressLinks.length) ||
+          (awards.length < newAwards.length) ||
+          (editions.length < newEditions.length);
+        
+        // Si des mises à jour sont nécessaires, mettre à jour les informations
+        if (needsUpdate && !updateBookMutation.isPending) {
+          console.log("Updating book information for:", book.title);
+          updateBookMutation.mutate({
+            bookId: bookId || '',
+            bookData: { description: newDescription },
+            detailsData: newDetails,
+            pressLinks: newPressLinks.filter(link => 
+              !pressLinks.some(existingLink => existingLink.url === link.url)
+            ),
+            awards: newAwards.filter(award => 
+              !awards.some(existingAward => 
+                existingAward.name === award.name && existingAward.year === award.year
+              )
+            ),
+            editions: newEditions.filter(edition => 
+              !editions.some(existingEdition => 
+                existingEdition.name === edition.name
+              )
+            )
+          });
+        }
+      } catch (error) {
+        console.error("Error in update effect:", error);
       }
     }
   }, [book, bookDetails, pressLinks, awards, editions, isLoadingBook, isLoadingDetails, bookId, updateBookMutation]);
