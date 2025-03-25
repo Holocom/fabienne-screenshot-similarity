@@ -1,6 +1,5 @@
-
 import { supabase } from "@/integrations/supabase/client";
-import { Book, Category } from "@/integrations/supabase/schema";
+import { Book, Category, BookDetail, PressLink, Award, Edition } from "@/integrations/supabase/schema";
 
 export const getCategories = async (): Promise<Category[]> => {
   const { data, error } = await supabase
@@ -20,7 +19,6 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
   console.log('Fetching books with category slug:', categorySlug);
   
   try {
-    // First, fetch all books
     const { data: booksData, error: booksError } = await supabase
       .from('books')
       .select('*, categories(id, name, slug)');
@@ -30,13 +28,11 @@ export const getBooks = async (categorySlug?: string): Promise<Book[]> => {
       return [];
     }
 
-    // Filter by category on the client side if a categorySlug is provided
     let filteredBooks = booksData || [];
     console.log('Total books fetched:', filteredBooks.length);
     console.log('Books with cover images:', filteredBooks.filter(book => book.cover_image).length);
     
     if (categorySlug && categorySlug !== 'all') {
-      // Get the category ID for the provided slug
       const { data: categoryData } = await supabase
         .from('categories')
         .select('id')
@@ -79,7 +75,66 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
   return data as Book;
 };
 
-// Utility function to check if an image URL is valid
+export const getBookDetails = async (bookId: string): Promise<BookDetail | null> => {
+  const { data, error } = await supabase
+    .from('book_details')
+    .select('*')
+    .eq('book_id', bookId)
+    .maybeSingle();
+  
+  if (error) {
+    console.error('Error fetching book details:', error);
+    return null;
+  }
+  
+  return data as BookDetail;
+};
+
+export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
+  const { data, error } = await supabase
+    .from('press_links')
+    .select('*')
+    .eq('book_id', bookId)
+    .order('created_at');
+  
+  if (error) {
+    console.error('Error fetching press links:', error);
+    return [];
+  }
+  
+  return data as PressLink[];
+};
+
+export const getAwards = async (bookId: string): Promise<Award[]> => {
+  const { data, error } = await supabase
+    .from('awards')
+    .select('*')
+    .eq('book_id', bookId)
+    .order('created_at');
+  
+  if (error) {
+    console.error('Error fetching awards:', error);
+    return [];
+  }
+  
+  return data as Award[];
+};
+
+export const getEditions = async (bookId: string): Promise<Edition[]> => {
+  const { data, error } = await supabase
+    .from('editions')
+    .select('*')
+    .eq('book_id', bookId)
+    .order('created_at');
+  
+  if (error) {
+    console.error('Error fetching editions:', error);
+    return [];
+  }
+  
+  return data as Edition[];
+};
+
 export const checkImageUrl = async (url: string): Promise<boolean> => {
   if (!url) return false;
   
@@ -92,7 +147,6 @@ export const checkImageUrl = async (url: string): Promise<boolean> => {
   }
 };
 
-// Get all available book covers from storage
 export const getAvailableBookCovers = async (): Promise<string[]> => {
   try {
     const { data, error } = await supabase

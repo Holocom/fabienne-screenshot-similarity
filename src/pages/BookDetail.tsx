@@ -1,42 +1,62 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getBookById } from '@/services/bookService';
+import { getBookById, getBookDetails, getPressLinks, getAwards, getEditions } from '@/services/bookService';
 import Navigation from '@/components/Navigation';
 import Header from '@/components/Header';
 import { Separator } from '@/components/ui/separator';
+import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
 
-type BookInfo = {
-  publisher?: string;
-  illustrator?: string;
-  year?: string;
-  pages?: string;
-  isbn?: string;
-  press_links?: { url: string; label: string }[];
-  awards?: string[];
-};
-
-const BookDetail = () => {
+const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
   
-  const { data: book, isLoading, error } = useQuery({
+  const { data: book, isLoading: isLoadingBook, error: bookError } = useQuery({
     queryKey: ['book', bookId],
     queryFn: () => getBookById(bookId || ''),
     enabled: !!bookId
   });
 
-  const bookInfo: BookInfo = {
+  const { data: bookDetails, isLoading: isLoadingDetails } = useQuery({
+    queryKey: ['bookDetails', bookId],
+    queryFn: () => getBookDetails(bookId || ''),
+    enabled: !!bookId
+  });
+
+  const { data: pressLinks = [], isLoading: isLoadingPressLinks } = useQuery({
+    queryKey: ['pressLinks', bookId],
+    queryFn: () => getPressLinks(bookId || ''),
+    enabled: !!bookId
+  });
+
+  const { data: awards = [], isLoading: isLoadingAwards } = useQuery({
+    queryKey: ['awards', bookId],
+    queryFn: () => getAwards(bookId || ''),
+    enabled: !!bookId
+  });
+
+  const { data: editions = [], isLoading: isLoadingEditions } = useQuery({
+    queryKey: ['editions', bookId],
+    queryFn: () => getEditions(bookId || ''),
+    enabled: !!bookId
+  });
+
+  const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions;
+
+  // Utilisation de données de test en attendant que la base de données soit remplie
+  const fallbackDetails: BookDetail = {
+    id: "temp-id",
+    book_id: bookId || '',
     publisher: "Océan Jeunesse",
     illustrator: "Audrey Caron",
     year: "2025",
     pages: "48",
     isbn: "9782916533520",
-    press_links: [
-      { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue", label: "Takamtikou BnF" },
-      { url: "http://www.encres-vagabondes.com/magazine/jonca.htm", label: "Encres Vagabondes" }
-    ],
-    awards: ["Prix Vanille 2025"]
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
   };
+
+  const details = bookDetails || fallbackDetails;
 
   if (isLoading) {
     return (
@@ -50,7 +70,7 @@ const BookDetail = () => {
     );
   }
 
-  if (error || !book) {
+  if (bookError || !book) {
     return (
       <div className="min-h-screen bg-white">
         <Header />
@@ -65,7 +85,7 @@ const BookDetail = () => {
     );
   }
 
-  const editorialText = `${book.categories?.name || "Jeunesse"} – illustré par ${bookInfo.illustrator || "Non spécifié"} – ${bookInfo.publisher || "Non spécifié"} – ${bookInfo.year || "2024"} – ${bookInfo.pages || "0"} pages`;
+  const editorialText = `${book.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
 
   return (
     <div className="min-h-screen bg-white">
@@ -83,9 +103,9 @@ const BookDetail = () => {
           <div className="mb-10">
             <p className="editorial-info mb-0">
               {editorialText}
-              {bookInfo.isbn && (
+              {details.isbn && (
                 <span className="block mt-0">
-                  ISBN : {bookInfo.isbn}
+                  ISBN : {details.isbn}
                 </span>
               )}
             </p>
@@ -95,11 +115,11 @@ const BookDetail = () => {
             <p>{book.description || "Aucune description disponible pour ce livre."}</p>
           </div>
           
-          {(bookInfo.press_links && bookInfo.press_links.length > 0) && (
+          {pressLinks.length > 0 && (
             <div>
               <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
-                {bookInfo.press_links.map((link, index) => (
+                {pressLinks.map((link, index) => (
                   <li key={index}>
                     <a 
                       href={link.url} 
@@ -115,13 +135,27 @@ const BookDetail = () => {
             </div>
           )}
           
-          {(bookInfo.awards && bookInfo.awards.length > 0) && (
+          {awards.length > 0 && (
             <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {bookInfo.awards.map((award, index) => (
+                {awards.map((award, index) => (
                   <li key={index} className="award-item">
-                    {award}
+                    {award.name}{award.year ? ` (${award.year})` : ''}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {editions.length > 0 && (
+            <div>
+              <h3 className="editions-title">ÉDITIONS</h3>
+              <ul className="space-y-1 list-none pl-0">
+                {editions.map((edition, index) => (
+                  <li key={index} className="edition-item">
+                    {edition.name}{edition.publisher ? `, ${edition.publisher}` : ''}{edition.year ? `, ${edition.year}` : ''}
+                    {edition.language ? ` (${edition.language})` : ''}
                   </li>
                 ))}
               </ul>
@@ -133,4 +167,4 @@ const BookDetail = () => {
   );
 };
 
-export default BookDetail;
+export default BookDetailPage;

@@ -82,12 +82,22 @@
   }
   
   .book-detail .awards-title {
-    @apply text-[#F29D35] font-bold text-xl mb-4 mt-8;
+    @apply text-[#3B82F6] font-bold text-xl mb-4 mt-8;
     font-family: 'Carlito', sans-serif;
   }
   
   .book-detail .award-item {
-    @apply text-[#F29D35] mb-2;
+    @apply text-[#3B82F6] mb-2;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .editions-title {
+    @apply text-[#F97316] font-bold text-xl mb-4 mt-8;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .edition-item {
+    @apply text-[#F97316] mb-2;
     font-family: 'Carlito', sans-serif;
   }
   
