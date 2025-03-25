@@ -21,7 +21,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           cancelButton:
             "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
         },
-        duration: 2000, // Réduis la durée d'affichage des notifications à 2 secondes
+        duration: 2000, // Reduced toast display duration to 2 seconds
       }}
       {...props}
     />
