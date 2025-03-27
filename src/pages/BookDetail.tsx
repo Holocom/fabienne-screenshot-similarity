@@ -303,17 +303,6 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
           
-          {uniquePressLinks.length > 0 && <div>
-              <h3 className="press-title">PRESSE</h3>
-              <ul className="space-y-2 list-none pl-0">
-                {uniquePressLinks.map((link, index) => <li key={index}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
-                      {link.label || link.url}
-                    </a>
-                  </li>)}
-              </ul>
-            </div>}
-          
           {uniqueAwards.length > 0 && <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
