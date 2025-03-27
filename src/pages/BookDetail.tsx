@@ -169,7 +169,7 @@ const BookDetailPage = () => {
         const newEditions = [
           { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
           { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
-          { name: "Edition bilingue fran��ais-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
+          { name: "Edition bilingue franais-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
           { name: "Atelier des nomades", publisher: "Edition Vallesse", year: null, language: null },
           { name: "Edition Filigrane", publisher: null, year: null, language: null }
         ];
@@ -209,20 +209,6 @@ const BookDetailPage = () => {
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
-  
-  const fallbackPressLinks: PressLink[] = [{
-    id: "press-1",
-    book_id: bookId || '',
-    url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Nol/1282122",
-    label: "Babelio",
-    created_at: new Date().toISOString()
-  }, {
-    id: "press-2",
-    book_id: bookId || '',
-    url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html",
-    label: "Super Chouette",
-    created_at: new Date().toISOString()
-  }];
   
   const details = bookDetails || fallbackDetails;
   
@@ -304,34 +290,46 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
           
-          {!isExpressionsMelanze && uniquePressLinks.length > 0 && <div>
+          {uniquePressLinks.length > 0 && (
+            <div>
               <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
-                {uniquePressLinks.map((link, index) => <li key={index}>
+                {uniquePressLinks.map((link, index) => (
+                  <li key={index}>
                     <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
                       {link.label || link.url}
                     </a>
-                  </li>)}
+                  </li>
+                ))}
               </ul>
-            </div>}
+            </div>
+          )}
           
-          {uniqueAwards.length > 0 && <div>
+          {uniqueAwards.length > 0 && (
+            <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {uniqueAwards.map((award, index) => <li key={index} className="award-item">
+                {uniqueAwards.map((award, index) => (
+                  <li key={index} className="award-item">
                     {award.name}{award.year ? ` (${award.year})` : ''}
-                  </li>)}
+                  </li>
+                ))}
               </ul>
-            </div>}
+            </div>
+          )}
           
-          {uniqueEditions.length > 0 && <div>
+          {uniqueEditions.length > 0 && (
+            <div>
               <h3 className="editions-title">ÉDITIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {uniqueEditions.map((edition, index) => <li key={index} className="edition-item">
+                {uniqueEditions.map((edition, index) => (
+                  <li key={index} className="edition-item">
                     {edition.name}
-                  </li>)}
+                  </li>
+                ))}
               </ul>
-            </div>}
+            </div>
+          )}
         </div>
       </div>
     </div>;
