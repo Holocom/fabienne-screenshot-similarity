@@ -227,8 +227,7 @@ const BookDetailPage = () => {
   const details = bookDetails || fallbackDetails;
   
   const uniquePressLinks = Array.from(new Map(
-    (pressLinks.length > 0 ? pressLinks : fallbackPressLinks)
-    .map(link => [link.url, link])
+    pressLinks.map(link => [link.url, link])
   ).values());
   
   const uniqueAwards = Array.from(new Map(
