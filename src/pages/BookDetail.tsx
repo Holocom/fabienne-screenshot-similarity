@@ -239,6 +239,8 @@ const BookDetailPage = () => {
     editions.map(edition => [edition.name, edition])
   ).values());
   
+  const isExpressionsMelanze = book?.title === "Expressions Melanze";
+  
   if (isLoading) {
     return <div className="min-h-screen bg-white">
         <Header />
@@ -303,7 +305,7 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
           
-          {uniquePressLinks.length > 0 && <div>
+          {!isExpressionsMelanze && uniquePressLinks.length > 0 && <div>
               <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
                 {uniquePressLinks.map((link, index) => <li key={index}>
