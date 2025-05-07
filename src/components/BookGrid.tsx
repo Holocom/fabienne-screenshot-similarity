@@ -100,15 +100,35 @@ const BookGrid = () => {
                 <img
                   src={formatImageUrl(book.cover_image, book.id, book.title)}
                   alt={book.title}
-                  className="w-full h-auto object-contain hover:opacity-90 transition-opacity duration-300"
+                  className="w-full h-auto object-contain transition-all duration-300"
                   loading="lazy"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
                   }}
                 />
+                {/* Overlay sombre avec transition fluide */}
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
               </div>
               
-              <div className="mt-2">
+              {/* Informations en surimpression avec animation */}
+              <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <h3 className="font-serif text-base md:text-lg font-medium tracking-tight text-white mb-1 drop-shadow-md">
+                  {book.title}
+                </h3>
+                {book.author && (
+                  <p className="text-xs md:text-sm text-white/90 drop-shadow-md">
+                    {book.author}
+                  </p>
+                )}
+                {book.categories && (
+                  <p className="text-xs text-white/80 mt-1 drop-shadow-md">
+                    {book.categories.name}
+                  </p>
+                )}
+              </div>
+              
+              {/* Titre et infos visibles sans survol pour l'accessibilité et les appareils tactiles */}
+              <div className="mt-2 md:group-hover:opacity-0 transition-opacity duration-300">
                 <h3 className="font-serif text-sm md:text-base mb-1 font-medium tracking-tight text-gray-900">
                   {book.title}
                 </h3>
