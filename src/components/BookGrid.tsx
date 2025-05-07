@@ -5,7 +5,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const BookGrid = () => {
   const location = useLocation();
@@ -90,31 +89,36 @@ const BookGrid = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3">
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5">
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5">
         {books.map((book) => (
-          <div key={book.id} className="break-inside-avoid mb-5">
+          <div key={book.id} className="mb-5 break-inside-avoid">
             <Link 
-              to={`/books/${book.id}`} 
-              className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-md"
+              to={`/books/${book.id}`}
+              className="block relative group overflow-hidden bg-transparent"
             >
-              <AspectRatio ratio={3/4} className="bg-muted">
+              <div className="w-full overflow-hidden">
                 <img
                   src={formatImageUrl(book.cover_image, book.id, book.title)}
                   alt={book.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto object-contain hover:opacity-90 transition-opacity duration-300"
                   loading="lazy"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
                   }}
                 />
-              </AspectRatio>
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="text-white font-serif text-sm md:text-base mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+              </div>
+              
+              <div className="mt-2">
+                <h3 className="font-serif text-sm md:text-base mb-1 font-medium tracking-tight text-gray-900">
                   {book.title}
                 </h3>
+                {book.author && (
+                  <p className="text-xs md:text-sm text-gray-600">
+                    {book.author}
+                  </p>
+                )}
                 {book.categories && (
-                  <p className="text-white/80 font-sans text-xs md:text-sm">
+                  <p className="text-xs text-gray-500 mt-1">
                     {book.categories.name}
                   </p>
                 )}
