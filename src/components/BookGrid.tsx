@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -62,18 +61,24 @@ const BookGrid = () => {
     );
   }
 
-  // Function to format image URLs
+  // Fonction modifiée pour gérer correctement les URLs de Supabase Storage
   const formatImageUrl = (url: string | null, bookId: string, bookTitle: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
-    // Traitement spécifique pour certains livres
+    // Cas spécifique pour certains livres qui ont des URLs locales
     if (bookTitle === "Ambroise Vollard, un don singulier") {
       return "/lovable-uploads/ba6037dd-e62c-442b-a3bf-8590b334f625.png";
     }
     
-    // Traitement spécifique pour les livres de cuisine
+    // Vérifier si l'URL est déjà une URL complète Supabase Storage
+    if (url.includes('supabase.co/storage/v1/object/public')) {
+      console.log(`URL Supabase détectée pour "${bookTitle}":`, url);
+      return url; // Utiliser directement l'URL complète
+    }
+    
+    // Si le livre est un des livres de cuisine mais n'a pas d'URL Supabase, utiliser une URL spécifique
     if (bookTitle === "MA CUISINE MARMAILLE") {
-      return "/placeholder.svg";
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/CUISINES/ma-cuisine-marmailles-620x788.jpg";
     }
     
     if (bookTitle === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS") {
@@ -96,8 +101,7 @@ const BookGrid = () => {
       return "/placeholder.svg";
     }
     
-    // Si l'URL commence par 'public/', il s'agit d'un chemin local
-    // Nous devons supprimer 'public/' car les fichiers dans ce dossier sont servis à la racine
+    // Traitement pour les chemins locaux
     if (url.startsWith('public/')) {
       return url.replace('public/', '/');
     }
