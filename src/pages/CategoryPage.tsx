@@ -10,7 +10,7 @@ const CategoryPage = () => {
     <div className="min-h-screen flex flex-col items-center">
       <Header />
       <Navigation />
-      <main className="flex-1 w-full flex flex-col items-center">
+      <main className="flex-1 w-full max-w-7xl flex flex-col items-center px-3">
         <BookCategories />
         <BookGrid />
       </main>
