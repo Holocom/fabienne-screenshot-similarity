@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -74,6 +75,19 @@ const BookGrid = () => {
     if (url.includes('supabase.co/storage/v1/object/public')) {
       console.log(`URL Supabase détectée pour "${bookTitle}":`, url);
       return url; // Utiliser directement l'URL complète
+    }
+    
+    // Gestion spécifique pour les livres collectifs
+    if (bookTitle === "CASES CRÉOLES DE LA RÉUNION") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COLLECTIFS/cases-creoles-reunion.jpg";
+    }
+    
+    if (bookTitle === "MANIFESTE POUR LA LECTURE - Les auteurs francophones célèbrent le livre") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COLLECTIFS/manifeste-lecture-600x902.jpg";
+    }
+    
+    if (bookTitle === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COLLECTIFS/petites-histoires-musiques-reunion.jpg";
     }
     
     // Si le livre est un des livres de cuisine mais n'a pas d'URL Supabase, utiliser une URL spécifique
