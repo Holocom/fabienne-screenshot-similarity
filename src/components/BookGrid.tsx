@@ -94,20 +94,20 @@ const BookGrid = () => {
           <div key={book.id} className="mb-5 break-inside-avoid">
             <Link 
               to={`/books/${book.id}`}
-              className="block relative group overflow-hidden bg-transparent"
+              className="block relative group overflow-hidden bg-transparent rounded-md shadow-sm hover:shadow-lg transition-shadow duration-300"
             >
               <div className="w-full overflow-hidden">
                 <img
                   src={formatImageUrl(book.cover_image, book.id, book.title)}
                   alt={book.title}
-                  className="w-full h-auto object-contain transition-all duration-300"
+                  className="w-full h-auto object-contain transition-all duration-300 group-hover:scale-105"
                   loading="lazy"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
                   }}
                 />
-                {/* Overlay sombre avec transition fluide */}
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
+                {/* Overlay semi-transparent avec transition fluide */}
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               </div>
               
               {/* Informations en surimpression avec animation - uniquement au survol */}
