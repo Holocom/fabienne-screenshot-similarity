@@ -110,16 +110,11 @@ const BookGrid = () => {
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               </div>
               
-              {/* Informations en surimpression avec animation - uniquement au survol */}
+              {/* Informations en surimpression avec animation - uniquement titre et catégorie */}
               <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <h3 className="font-serif text-base md:text-lg font-medium tracking-tight text-white mb-1 drop-shadow-md">
                   {book.title}
                 </h3>
-                {book.author && (
-                  <p className="text-xs md:text-sm text-white/90 drop-shadow-md">
-                    {book.author}
-                  </p>
-                )}
                 {book.categories && (
                   <p className="text-xs text-white/80 mt-1 drop-shadow-md">
                     {book.categories.name}
