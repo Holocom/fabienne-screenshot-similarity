@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { getBooks, checkImageUrl } from '@/services/bookService';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
 
@@ -10,15 +10,23 @@ const BookGrid = () => {
   const location = useLocation();
   const currentCategory = location.pathname.substring(1) || 'all';
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [coverErrors, setCoverErrors] = useState<Record<string, boolean>>({});
   
   const { data: books = [], isLoading, error } = useQuery({
     queryKey: ['books', currentCategory],
-    queryFn: () => getBooks(currentCategory)
+    queryFn: () => getBooks(currentCategory),
+    staleTime: 1000 * 60, // 1 minute
+    refetchOnWindowFocus: true
   });
 
   console.log('Current category:', currentCategory);
   console.log('Loaded books:', books.length);
+
+  // Refresh data when switching routes
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['books', currentCategory] });
+  }, [currentCategory, queryClient]);
 
   useEffect(() => {
     // Check for books without cover images and show toast
@@ -57,6 +65,13 @@ const BookGrid = () => {
   // Function to format image URLs
   const formatImageUrl = (url: string | null, bookId: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
+    
+    // Si l'URL commence par 'public/', il s'agit d'un chemin local
+    // Nous devons supprimer 'public/' car les fichiers dans ce dossier sont servis à la racine
+    if (url.startsWith('public/')) {
+      return url.replace('public/', '/');
+    }
+    
     return url;
   };
 

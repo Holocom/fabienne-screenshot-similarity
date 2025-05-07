@@ -374,7 +374,12 @@ export const checkImageUrl = async (url: string): Promise<boolean> => {
   if (!url) return false;
   
   try {
-    const response = await fetch(url, { method: 'HEAD' });
+    // Pour les URLs locales commençant par 'public/', ajuster le chemin
+    const adjustedUrl = url.startsWith('public/') 
+      ? url.replace('public/', '/') 
+      : url;
+    
+    const response = await fetch(adjustedUrl, { method: 'HEAD' });
     return response.ok;
   } catch (error) {
     console.error('Error checking image URL:', error);
