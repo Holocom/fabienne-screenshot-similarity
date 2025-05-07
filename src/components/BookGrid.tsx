@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const BookGrid = () => {
   const location = useLocation();
@@ -63,8 +64,13 @@ const BookGrid = () => {
   }
 
   // Function to format image URLs
-  const formatImageUrl = (url: string | null, bookId: string) => {
+  const formatImageUrl = (url: string | null, bookId: string, bookTitle: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
+    
+    // Traitement spécifique pour le livre "Ambroise Vollard, un don singulier"
+    if (bookTitle === "Ambroise Vollard, un don singulier") {
+      return "/lovable-uploads/ba6037dd-e62c-442b-a3bf-8590b334f625.png";
+    }
     
     // Si l'URL commence par 'public/', il s'agit d'un chemin local
     // Nous devons supprimer 'public/' car les fichiers dans ce dossier sont servis à la racine
@@ -91,27 +97,27 @@ const BookGrid = () => {
               to={`/books/${book.id}`} 
               className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-md"
             >
-              <div className="w-full">
+              <AspectRatio ratio={3/4} className="bg-muted">
                 <img
-                  src={formatImageUrl(book.cover_image, book.id)}
+                  src={formatImageUrl(book.cover_image, book.id, book.title)}
                   alt={book.title}
-                  className="w-full h-auto object-contain"
+                  className="w-full h-full object-cover"
                   loading="lazy"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
                   }}
                 />
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="text-white font-serif text-sm md:text-base mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {book.title}
-                  </h3>
-                  {book.categories && (
-                    <p className="text-white/80 font-sans text-xs md:text-sm">
-                      {book.categories.name}
-                    </p>
-                  )}
-                </div>
+              </AspectRatio>
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <h3 className="text-white font-serif text-sm md:text-base mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                  {book.title}
+                </h3>
+                {book.categories && (
+                  <p className="text-white/80 font-sans text-xs md:text-sm">
+                    {book.categories.name}
+                  </p>
+                )}
               </div>
             </Link>
           </div>
