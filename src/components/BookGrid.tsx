@@ -66,9 +66,34 @@ const BookGrid = () => {
   const formatImageUrl = (url: string | null, bookId: string, bookTitle: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
-    // Traitement spécifique pour le livre "Ambroise Vollard, un don singulier"
+    // Traitement spécifique pour certains livres
     if (bookTitle === "Ambroise Vollard, un don singulier") {
       return "/lovable-uploads/ba6037dd-e62c-442b-a3bf-8590b334f625.png";
+    }
+    
+    // Traitement spécifique pour les livres de cuisine
+    if (bookTitle === "MA CUISINE MARMAILLE") {
+      return "/placeholder.svg";
+    }
+    
+    if (bookTitle === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS") {
+      return "/placeholder.svg";
+    }
+    
+    if (bookTitle === "SAVEURS METISSÉES D'AYMERIC PATAUD") {
+      return "/placeholder.svg";
+    }
+    
+    if (bookTitle === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN") {
+      return "/placeholder.svg";
+    }
+    
+    if (bookTitle === "MA CUISINE BIEN-ÊTRE") {
+      return "/placeholder.svg";
+    }
+    
+    if (bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE") {
+      return "/placeholder.svg";
     }
     
     // Si l'URL commence par 'public/', il s'agit d'un chemin local
@@ -85,6 +110,14 @@ const BookGrid = () => {
     console.error(`Error loading image for "${bookTitle}":`, coverUrl);
     setCoverErrors(prev => ({ ...prev, [bookId]: true }));
     return "/placeholder.svg";
+  };
+
+  // Fonction pour formater les titres longs
+  const formatTitle = (title: string) => {
+    if (title.length > 30) {
+      return title.substring(0, 30) + '...';
+    }
+    return title;
   };
 
   return (
@@ -113,7 +146,7 @@ const BookGrid = () => {
               {/* Informations en surimpression avec animation - uniquement titre et catégorie */}
               <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <h3 className="font-serif text-base md:text-lg font-medium tracking-tight text-white mb-1 drop-shadow-md">
-                  {book.title}
+                  {formatTitle(book.title)}
                 </h3>
                 {book.categories && (
                   <p className="text-xs text-white/80 mt-1 drop-shadow-md">
