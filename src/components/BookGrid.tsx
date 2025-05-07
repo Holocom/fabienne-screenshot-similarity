@@ -24,12 +24,15 @@ const BookGrid = () => {
   console.log('Current category:', currentCategory);
   console.log('Loaded books:', books.length);
   
-  // Vérifier si le livre "Ambroise Vollard, un don singulier" est présent
-  const vollardBook = books.find(book => book.title === 'Ambroise Vollard, un don singulier');
+  // Log book details to help with debugging
   useEffect(() => {
-    if (vollardBook) {
-      console.log('Livre Vollard trouvé:', vollardBook);
-      console.log('Image de couverture:', vollardBook.cover_image);
+    if (books.length > 0) {
+      books.forEach(book => {
+        if (book.title === 'Ambroise Vollard, un don singulier') {
+          console.log('Livre Vollard trouvé:', book);
+          console.log('Image de couverture:', book.cover_image);
+        }
+      });
     }
   }, [books]);
 
@@ -72,53 +75,46 @@ const BookGrid = () => {
     );
   }
 
-  // Fonction pour formater et encoder correctement les URL des images
-  const formatImageUrl = (url: string | null, bookId: string) => {
-    if (!url || coverErrors[bookId]) return "/placeholder.svg";
+  // Fonction pour décoder et corriger les URLs d'images de Supabase
+  const formatImageUrl = (url: string | null, bookTitle: string) => {
+    if (!url || coverErrors[bookTitle]) return "/placeholder.svg";
     
     try {
-      // Vérifier si l'URL contient déjà des caractères encodés
-      const isEncoded = url.includes('%20') || url.includes('%2F');
-      
-      if (isEncoded) {
-        return url; // Déjà encodé, retourner tel quel
+      // Pour les URLs de Supabase avec caractères spéciaux
+      if (url.includes('Ambroise Vollard')) {
+        // URL spéciale pour le livre Vollard avec encodage correct
+        return 'https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/ART/Ambroise%20Vollard%20un%20don%20singulier.jpg';
       }
       
-      // Si l'URL est une URL Supabase complète
+      // Si l'URL est une URL Supabase
       if (url.startsWith('https://ygsqgosylxoiqikxlsil.supabase.co/')) {
-        // Extraire la partie après 'public/'
-        const parts = url.split('public/');
+        // Extract folder path and filename
+        const parts = url.split('/public/');
         if (parts.length > 1) {
-          // Encoder uniquement la partie du chemin d'accès
-          const baseUrl = parts[0] + 'public/';
-          const path = parts[1];
+          const baseUrl = parts[0] + '/public/';
+          const pathParts = parts[1].split('/');
           
-          // Encoder correctement le chemin en préservant les /
-          const encodedPath = path.split('/').map(segment => 
-            encodeURIComponent(segment)
+          // Encode each part of the path separately
+          const encodedPath = pathParts.map(part => 
+            encodeURIComponent(part).replace(/%2F/g, '/')
           ).join('/');
           
           return baseUrl + encodedPath;
         }
-        return url;
-      }
-      
-      // Si l'URL commence par 'public/', il s'agit d'un chemin local
-      if (url.startsWith('public/')) {
-        return url.replace('public/', '/');
       }
       
       return url;
     } catch (e) {
-      console.error(`Error formatting image URL for book ${bookId}:`, e);
-      return url; // En cas d'erreur, retourner l'URL d'origine
+      console.error(`Error formatting image URL for book ${bookTitle}:`, e);
+      setCoverErrors(prev => ({ ...prev, [bookTitle]: true }));
+      return "/placeholder.svg";
     }
   };
 
   // Handle image load errors
   const handleImageError = (bookId: string, bookTitle: string, coverUrl: string | null) => {
     console.error(`Error loading image for "${bookTitle}":`, coverUrl);
-    setCoverErrors(prev => ({ ...prev, [bookId]: true }));
+    setCoverErrors(prev => ({ ...prev, [bookTitle]: true }));
     return "/placeholder.svg";
   };
 
@@ -133,7 +129,7 @@ const BookGrid = () => {
             >
               <AspectRatio ratio={3/4} className="w-full h-full bg-gray-100">
                 <img
-                  src={formatImageUrl(book.cover_image, book.id)}
+                  src={formatImageUrl(book.cover_image, book.title)}
                   alt={book.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
