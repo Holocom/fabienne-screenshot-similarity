@@ -5,8 +5,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent } from '@/components/ui/card';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const BookGrid = () => {
   const location = useLocation();
@@ -69,9 +67,8 @@ const BookGrid = () => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
     // Si l'URL est une URL Supabase complète, la retourner directement
-    // Encoder les espaces dans l'URL pour éviter les problèmes d'affichage
     if (url.startsWith('https://ygsqgosylxoiqikxlsil.supabase.co/')) {
-      return url.replace(/ /g, '%20');
+      return url;
     }
     
     // Si l'URL commence par 'public/', il s'agit d'un chemin local
@@ -89,44 +86,25 @@ const BookGrid = () => {
     return "/placeholder.svg";
   };
 
-  // Déterminer la mise en page en fonction de la catégorie
-  const isArtCategory = currentCategory.toLowerCase() === 'art';
-  
   return (
     <div className="w-full max-w-7xl mx-auto px-3">
-      <div className={`${isArtCategory 
-        ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6' 
-        : 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5'}`}>
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5">
         {books.map((book) => (
-          <div key={book.id} className={isArtCategory ? "" : "break-inside-avoid mb-5"}>
+          <div key={book.id} className="break-inside-avoid mb-5">
             <Link 
               to={`/books/${book.id}`} 
               className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-md"
             >
               <div className="w-full">
-                {isArtCategory ? (
-                  <AspectRatio ratio={4/3} className="bg-muted">
-                    <img
-                      src={formatImageUrl(book.cover_image, book.id)}
-                      alt={book.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
-                      }}
-                    />
-                  </AspectRatio>
-                ) : (
-                  <img
-                    src={formatImageUrl(book.cover_image, book.id)}
-                    alt={book.title}
-                    className="w-full h-auto object-contain"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
-                    }}
-                  />
-                )}
+                <img
+                  src={formatImageUrl(book.cover_image, book.id)}
+                  alt={book.title}
+                  className="w-full h-auto object-contain"
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
+                  }}
+                />
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-white font-serif text-sm md:text-base mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
