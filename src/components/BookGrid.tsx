@@ -66,8 +66,12 @@ const BookGrid = () => {
   const formatImageUrl = (url: string | null, bookId: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
+    // Si l'URL est une URL Supabase complète, la retourner directement
+    if (url.startsWith('https://ygsqgosylxoiqikxlsil.supabase.co/')) {
+      return url;
+    }
+    
     // Si l'URL commence par 'public/', il s'agit d'un chemin local
-    // Nous devons supprimer 'public/' car les fichiers dans ce dossier sont servis à la racine
     if (url.startsWith('public/')) {
       return url.replace('public/', '/');
     }
