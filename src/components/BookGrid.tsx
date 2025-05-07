@@ -90,6 +90,43 @@ const BookGrid = () => {
       return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COLLECTIFS/petites-histoires-musiques-reunion.jpg";
     }
     
+    // Gestion spécifique pour les livres de commande
+    if (bookTitle === "VIVE LE CHANGEMENT D'AIR !") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/vive-le-changement-d-air.jpg";
+    }
+    
+    if (bookTitle === "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/entre-jardin-et-cour.jpg";
+    }
+    
+    if (bookTitle === "LA REUNION, L'ILE AUX OUVRAGES") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/la-reunion-ile-aux-ouvrages.jpg";
+    }
+    
+    if (bookTitle === "ROUTE DES TAMARINS, LA REUNION DES DEFIS") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/route-des-tamarins.jpg";
+    }
+    
+    if (bookTitle === "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/de-la-plante-au-sucre.jpg";
+    }
+    
+    if (bookTitle === "LE PONT DE LA RIVIERE DE L'EST") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/pont-riviere-est.jpg";
+    }
+    
+    if (bookTitle === "SEMADER, 30 REGARDS SUR LES 30 ANS") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/semader-30-regards.jpg";
+    }
+    
+    if (bookTitle === "LE GRAND HAZIER, UN DOMAINE CREOLE") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/grand-hazier.jpg";
+    }
+    
+    if (bookTitle === "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/societe-adrien-bellier.jpg";
+    }
+    
     // Si le livre est un des livres de cuisine mais n'a pas d'URL Supabase, utiliser une URL spécifique
     if (bookTitle === "MA CUISINE MARMAILLE") {
       return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/CUISINES/ma-cuisine-marmailles-620x788.jpg";
