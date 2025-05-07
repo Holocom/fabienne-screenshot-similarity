@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent } from '@/components/ui/card';
 
 const BookGrid = () => {
   const location = useLocation();
@@ -67,8 +68,9 @@ const BookGrid = () => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
     // Si l'URL est une URL Supabase complète, la retourner directement
+    // Encoder les espaces dans l'URL pour éviter les problèmes d'affichage
     if (url.startsWith('https://ygsqgosylxoiqikxlsil.supabase.co/')) {
-      return url;
+      return url.replace(/ /g, '%20');
     }
     
     // Si l'URL commence par 'public/', il s'agit d'un chemin local
@@ -86,11 +88,16 @@ const BookGrid = () => {
     return "/placeholder.svg";
   };
 
+  // Déterminer la mise en page en fonction de la catégorie
+  const isArtCategory = currentCategory.toLowerCase() === 'art';
+  
   return (
     <div className="w-full max-w-7xl mx-auto px-3">
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5">
+      <div className={`${isArtCategory 
+        ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6' 
+        : 'columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5 space-y-5'}`}>
         {books.map((book) => (
-          <div key={book.id} className="break-inside-avoid mb-5">
+          <div key={book.id} className={isArtCategory ? "" : "break-inside-avoid mb-5"}>
             <Link 
               to={`/books/${book.id}`} 
               className="group relative block overflow-hidden bg-[#f8f8f8] rounded-sm shadow-md"
@@ -99,7 +106,7 @@ const BookGrid = () => {
                 <img
                   src={formatImageUrl(book.cover_image, book.id)}
                   alt={book.title}
-                  className="w-full h-auto object-contain"
+                  className={`w-full h-auto object-contain ${isArtCategory ? 'aspect-[4/3]' : ''}`}
                   loading="lazy"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = handleImageError(book.id, book.title, book.cover_image);
