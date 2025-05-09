@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -252,7 +251,7 @@ const BookDetailPage = () => {
   
   const updatedDescription = book?.description || "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
   
-  // Update the editorial text information based on the image 2
+  // Update the editorial text information based on the image
   let editorialText = '';
   
   if (book?.title === "Brown Baby") {
@@ -262,9 +261,6 @@ const BookDetailPage = () => {
     }
   } else if (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
     editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse - 2025 - 48 pages`;
-    if (fallbackDetails?.isbn) {
-      editorialText += `<br>ISBN : 9782916533520`;
-    }
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
@@ -335,10 +331,10 @@ const BookDetailPage = () => {
             <p className="editorial-info mb-0" dangerouslySetInnerHTML={{ __html: editorialText }}>
             </p>
             
-            {/* Display ISBN in the format from image 2 for "AS-TU LA LANGUE BIEN PENDUE ?" */}
+            {/* Display ISBN in the format from image for "AS-TU LA LANGUE BIEN PENDUE ?" */}
             {book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" && (
               <p className="mt-1 text-[#ea384c]">
-                ISBN : {fallbackDetails?.isbn}
+                ISBN : 9782916533520
               </p>
             )}
           </div>
