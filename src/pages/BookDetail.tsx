@@ -251,9 +251,15 @@ const BookDetailPage = () => {
   
   // Update the editorial text information specifically for this book
   let editorialText = '';
+  let isbn = '';
   
+  // Special case for Brown Baby
+  if (book?.title === "Brown Baby") {
+    editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
+    isbn = "9782919300716";
+  } 
   // Specific case for Ambroise Vollard
-  if (book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER") {
+  else if (book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER") {
     editorialText = `Beau-livre. Co-écrit avec Bernard Leveneur – Ed. 4 Épices – 2017 – 216 pages`;
     
     // Force specific details for Ambroise Vollard book
@@ -344,28 +350,33 @@ const BookDetailPage = () => {
             </Link>
           </div>
           
-          {/* Suppression de la section qui affiche la couverture du livre */}
-          <div className="w-full">
-            <BookHeader 
-              title={book.title} 
-              editorialText={editorialText}
-              showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
-                      book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-                      (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
-                      book?.title === "Ambroise Vollard, un don singulier" ||
-                      book?.title === "AMBROISE VOLLARD, UN DON SINGULIER"}
-              isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
-                    "9782919300297" : 
-                    book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
-                    "9782952720496" : "9782916533520"}
+          {/* Ajout des couvertures avec titre et info pour Brown Baby */}
+          {book?.title === "Brown Baby" ? (
+            <BookCoversCarousel 
+              bookTitle={book.title}
+              showCovers={true}
+              bookDetails={{ 
+                editorialText: editorialText,
+                isbn: isbn 
+              }}
             />
-          </div>
-          
-          {/* Ajout des couvertures uniquement pour Brown Baby */}
-          <BookCoversCarousel 
-            bookTitle={book.title}
-            showCovers={book?.title === "Brown Baby"} 
-          />
+          ) : (
+            <div className="w-full">
+              <BookHeader 
+                title={book.title} 
+                editorialText={editorialText}
+                showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+                        book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
+                        (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
+                        book?.title === "Ambroise Vollard, un don singulier" ||
+                        book?.title === "AMBROISE VOLLARD, UN DON SINGULIER"}
+                isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
+                      "9782919300297" : 
+                      book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
+                      "9782952720496" : "9782916533520"}
+              />
+            </div>
+          )}
           
           <BookDescriptionSection description={updatedDescription} />
           

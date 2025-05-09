@@ -24,11 +24,16 @@ const BookCover: React.FC<BookCoverProps> = ({ src, alt, className }) => {
 interface BookCoversCarouselProps {
   bookTitle: string;
   showCovers?: boolean;
+  bookDetails?: {
+    editorialText: string;
+    isbn?: string;
+  };
 }
 
 export const BookCoversCarousel: React.FC<BookCoversCarouselProps> = ({ 
   bookTitle, 
-  showCovers = false 
+  showCovers = false,
+  bookDetails
 }) => {
   // Uniquement montrer pour "Brown Baby"
   if (!showCovers || bookTitle !== "Brown Baby") {
@@ -39,12 +44,32 @@ export const BookCoversCarousel: React.FC<BookCoversCarouselProps> = ({
     <div className="my-6 w-full">
       <Card className="border-none shadow-none">
         <CardContent className="p-0">
-          <div className="flex flex-row gap-4 overflow-x-auto pb-2 justify-start">
-            <BookCover 
-              src="/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png" 
-              alt="Couverture du livre Brown Baby" 
-              className="w-36 md:w-48"
-            />
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="w-full md:w-1/2">
+              <BookCover 
+                src="/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png" 
+                alt="Couverture du livre Brown Baby" 
+                className="w-full md:w-auto"
+              />
+            </div>
+            <div className="w-full md:w-1/2 flex flex-col justify-center">
+              <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 mb-6">
+                {bookTitle?.toUpperCase()}
+              </h1>
+              
+              {bookDetails && (
+                <div className="mt-2">
+                  <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{ __html: bookDetails.editorialText }}>
+                  </p>
+                  
+                  {bookDetails.isbn && (
+                    <p className="text-[#ea384c] text-lg md:text-xl">
+                      EAN : {bookDetails.isbn}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
