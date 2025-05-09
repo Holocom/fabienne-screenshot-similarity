@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -264,6 +265,23 @@ const BookDetailPage = () => {
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
   }
   
+  // Définir les liens de presse spécifiques pour "Brown Baby"
+  const brownBabyPressLinks = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "Takam Tikou - BnF" },
+    { url: "https://etlettres.com/la-couleur-du-coeur/", label: "Et Lettres" },
+    { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "Voya-g" },
+    { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "L'Express" }
+  ];
+  
+  const brownBabyBlogLinks = [
+    { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "Kitty Lamouette" }
+  ];
+  
+  const brownBabySeligmannLinks = [
+    { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "Linfo.re" },
+    { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "L'Indépendant" }
+  ];
+  
   const renderDescription = () => {
     if (!updatedDescription) return <p>Aucune description disponible pour ce livre.</p>;
     const paragraphs = updatedDescription.split('\n\n');
@@ -298,12 +316,37 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
           
-          {uniquePressLinks.length > 0 && (
+          {(uniquePressLinks.length > 0 || (book?.title === "Brown Baby" && brownBabyPressLinks.length > 0)) && (
             <div>
               <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
-                {uniquePressLinks.map((link, index) => (
-                  <li key={index}>
+                {book?.title === "Brown Baby" ? 
+                  brownBabyPressLinks.map((link, index) => (
+                    <li key={`brownbaby-press-${index}`}>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                        {link.label || link.url}
+                      </a>
+                    </li>
+                  ))
+                  :
+                  uniquePressLinks.map((link, index) => (
+                    <li key={index}>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                        {link.label || link.url}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          )}
+          
+          {book?.title === "Brown Baby" && brownBabyBlogLinks.length > 0 && (
+            <div>
+              <h3 className="awards-title">BLOG</h3>
+              <ul className="space-y-2 list-none pl-0">
+                {brownBabyBlogLinks.map((link, index) => (
+                  <li key={`brownbaby-blog-${index}`}>
                     <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
                       {link.label || link.url}
                     </a>
@@ -313,7 +356,7 @@ const BookDetailPage = () => {
             </div>
           )}
           
-          {uniqueAwards.length > 0 && (
+          {(uniqueAwards.length > 0 || (book?.title === "Brown Baby" && brownBabySeligmannLinks.length > 0)) && (
             <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
@@ -322,6 +365,21 @@ const BookDetailPage = () => {
                     {award.name}{award.year ? ` (${award.year})` : ''}
                   </li>
                 ))}
+                
+                {book?.title === "Brown Baby" && (
+                  <>
+                    <li className="award-item mt-4">
+                      <strong>PRIX SELIGMANN</strong>
+                    </li>
+                    {brownBabySeligmannLinks.map((link, index) => (
+                      <li key={`brownbaby-seligmann-${index}`}>
+                        <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                          {link.label || link.url}
+                        </a>
+                      </li>
+                    ))}
+                  </>
+                )}
               </ul>
             </div>
           )}
