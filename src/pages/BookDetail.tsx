@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -96,8 +95,39 @@ const BookDetailPage = () => {
       return;
     }
     
-    // Special case for "UN FLAMBOYANT PÈRE-NOËL"
-    if (book.title.toLowerCase().includes("flamboyant") && book.title.toLowerCase().includes("noël") && book.id) {
+    // Special case for Ambroise Vollard book
+    if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
+      try {
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Le premier ouvrage à rendre hommage à Vollard le Réunionnais et au don exceptionnel fait à son île en 1947, exposé au musée Léon Dierx. Ces 157 œuvres initiales, complétées depuis 70 ans, forment la plus grande collection d'art moderne française en dehors de la métropole. Né à La Réunion en 1866 et mort en France métropolitaine à la veille de la Seconde Guerre mondiale, Ambroise Vollard a eu une influence décisive sur l'art au tournant des XIXe et XXe siècles. Paul Cézanne, Pablo Picasso, Auguste Renoir, Georges Rouault, Paul Gauguin, Berthe Morisot, Edgar Degas, Émile Bernard... En cinquante ans, il découvrit ou accompagna les plus grands artistes de son temps. Marchand, éditeur d'art et écrivain, Vollard avait un talent unique pour repérer les artistes. Comment, alors qu'il n'est jamais revenu dans son île natale, a-t-il participé à former le regard de nombreux Réunionnais ? Comment, alors qu'il ne cachait pas son aversion pour les institutions muséales, a-t-il participé à la création du premier musée des beaux-arts des Outre-mers français ? À l'occasion du 70e anniversaire du don Vollard au musée Léon Dierx, cet ouvrage retrace le parcours de ce réunionnais au don singulier.";
+        
+        const newDetails = {
+          publisher: "Ed. 4 Épices",
+          illustrator: "Non spécifié", 
+          year: "2017",
+          pages: "216",
+          isbn: "9782952720496"
+        };
+        
+        const newPressLinks = [
+          { url: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso", label: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso" },
+          { url: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html", label: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html" }
+        ];
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: [],
+          editions: []
+        });
+      } catch (error) {
+        console.error("Error in update effect for Ambroise Vollard book:", error);
+        hasUpdatedRef.current = true;
+      }
+    } else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") && book.id) {
       try {
         hasUpdatedRef.current = true;
         
@@ -222,8 +252,19 @@ const BookDetailPage = () => {
   // Update the editorial text information specifically for this book
   let editorialText = '';
   
+  // Specific case for Ambroise Vollard
+  if (book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER") {
+    editorialText = `Beau-livre. Co-écrit avec Bernard Leveneur – Ed. 4 Épices – 2017 – 216 pages`;
+    
+    // Force specific details for Ambroise Vollard book
+    details.isbn = "9782952720496";
+    details.publisher = "Ed. 4 Épices";
+    details.year = "2017";
+    details.pages = "216";
+    details.illustrator = "Non spécifié";
+  } 
   // Specific case for "UN FLAMBOYANT PÈRE-NOËL"
-  if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
+  else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
     editorialText = `Album jeunesse – illustré par Iloë – Atelier des nomades – 2020 – 24 pages`;
     
     // Force specific details for this book
@@ -320,9 +361,13 @@ const BookDetailPage = () => {
                 editorialText={editorialText}
                 showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
                         book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-                        (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))}
+                        (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
+                        book?.title === "Ambroise Vollard, un don singulier" ||
+                        book?.title === "AMBROISE VOLLARD, UN DON SINGULIER"}
                 isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
-                      "9782919300297" : "9782916533520"}
+                      "9782919300297" : 
+                      book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
+                      "9782952720496" : "9782916533520"}
               />
             </div>
           </div>
