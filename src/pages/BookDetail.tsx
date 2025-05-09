@@ -280,27 +280,10 @@ const BookDetailPage = () => {
           
           <BookDescriptionSection description={updatedDescription} />
           
-          {/* Awards section for specified books */}
-          {(book?.title === "Brown Baby" || 
-            (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))) && (
-            <AwardsSection 
-              awards={book?.title === "Brown Baby" ? [] : uniqueAwards} 
-              bookTitle={book.title}
-              isCustom={book?.title === "Brown Baby"}
-              customAwards={book?.title === "Brown Baby" ? [
-                { name: "Prix Vanille œuvre de fiction 2024", url: null },
-                { name: "Prix Seligmann du livre contre le racisme 2024", url: null },
-                { name: "Sélection Prix Maryse Condé 2024", url: null },
-                { name: "Sélection Prix Senghor du premier roman 2024", url: null },
-                { name: "Sélection Prix Verdelettres 2025", url: null },
-                { name: "Coup de cœur Takam Tikou", url: null }
-              ] : [
-                { name: "Prix Afrilivres 2020", url: null },
-                { name: "Prix Jeanne de Cavally 2022", url: null },
-                { name: "Finaliste du Prix Vanille Illustration 2020", url: null },
-                { name: "Finaliste du Prix Vanille Illustration 2024", url: null }
-              ]}
-            />
+          {/* Editions section - Moved before Press Links */}
+          {uniqueEditions.length > 0 && 
+           book?.title !== "Brown Baby" && (
+            <EditionsSection editions={uniqueEditions} />
           )}
           
           {/* Press links section */}
@@ -314,12 +297,6 @@ const BookDetailPage = () => {
            book?.title !== "Brown Baby" && 
            !(book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) && (
             <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
-          )}
-          
-          {/* Editions section */}
-          {uniqueEditions.length > 0 && 
-           book?.title !== "Brown Baby" && (
-            <EditionsSection editions={uniqueEditions} />
           )}
           
           {/* Seligmann links section for Brown Baby */}
