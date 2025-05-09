@@ -295,10 +295,17 @@ const BookDetailPage = () => {
   
   const renderDescription = () => {
     if (!updatedDescription) return <p>Aucune description disponible pour ce livre.</p>;
+    
+    // Format the description to display "Brown Baby" in italics
     const paragraphs = updatedDescription.split('\n\n');
-    return paragraphs.map((paragraph, index) => <p key={index} className="mb-4 whitespace-pre-line">
-        {paragraph}
-      </p>);
+    return paragraphs.map((paragraph, index) => {
+      // Add italics to "Brown Baby" in the text
+      const formattedParagraph = paragraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
+      
+      return <p key={index} className="mb-4 whitespace-pre-line" 
+                dangerouslySetInnerHTML={{ __html: formattedParagraph }}>
+             </p>;
+    });
   };
   
   return <div className="min-h-screen bg-white">
