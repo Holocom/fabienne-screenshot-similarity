@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -282,6 +283,8 @@ const BookDetailPage = () => {
             bookTitle={book.title}
             showCovers={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")} 
           />
+          
+          {/* Removed the second "Retour aux livres" link that was here */}
           
           <BookHeader 
             title={book.title} 
