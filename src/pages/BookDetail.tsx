@@ -175,7 +175,7 @@ const BookDetailPage = () => {
         console.error("Error in update effect:", error);
         hasUpdatedRef.current = true;
       }
-    } else if (book.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
+    } else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
       // Add specific update case for "AS-TU LA LANGUE BIEN PENDUE ?"
       try {
         console.log("Updating AS-TU LA LANGUE BIEN PENDUE ?");
