@@ -266,17 +266,16 @@ const BookDetailPage = () => {
 
   // Function to get the correct image URL for the book
   const getBookCoverImage = () => {
-    // Ajout du cas spécifique pour Ambroise Vollard
-    if (book.title === "Ambroise Vollard, un don singulier") {
-      return "/lovable-uploads/2b20af5d-a0a2-4730-bf92-cdfd45a6744c.png";
-    }
-    
     if (book.title === "Brown Baby") {
       return "/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png";
     }
     
     if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
       return "/lovable-uploads/fee9c5df-edcf-4ad2-9d9e-a8b6da17b84b.png";
+    }
+    
+    if (book?.title === "Ambroise Vollard, un don singulier") {
+      return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
     }
     
     return book.cover_image || "/placeholder.svg";
@@ -303,7 +302,7 @@ const BookDetailPage = () => {
                 <img 
                   src={getBookCoverImage()} 
                   alt={`Couverture du livre ${book.title}`} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
