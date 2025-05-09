@@ -266,6 +266,11 @@ const BookDetailPage = () => {
 
   // Function to get the correct image URL for the book
   const getBookCoverImage = () => {
+    // Ajout du cas spécifique pour Ambroise Vollard
+    if (book.title === "Ambroise Vollard, un don singulier") {
+      return "/lovable-uploads/2b20af5d-a0a2-4730-bf92-cdfd45a6744c.png";
+    }
+    
     if (book.title === "Brown Baby") {
       return "/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png";
     }

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -76,15 +75,14 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
   const formatImageUrl = (url: string | null, bookId: string, bookTitle: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
+    // Cas spécifique pour Ambroise Vollard
+    if (bookTitle === "Ambroise Vollard, un don singulier") {
+      return "/lovable-uploads/2b20af5d-a0a2-4730-bf92-cdfd45a6744c.png";
+    }
+    
     // Cas spécifique pour certains livres qui ont des URLs locales
     if (bookTitle === "Ambroise Vollard, un don singulier") {
       return "/lovable-uploads/ba6037dd-e62c-442b-a3bf-8590b334f625.png";
-    }
-    
-    // Vérifier si l'URL est déjà une URL complète Supabase Storage
-    if (url.includes('supabase.co/storage/v1/object/public')) {
-      console.log(`URL Supabase détectée pour "${bookTitle}":`, url);
-      return url; // Utiliser directement l'URL complète
     }
     
     // Gestion spécifique pour les livres collectifs
@@ -165,6 +163,12 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
     
     if (bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE") {
       return "/placeholder.svg";
+    }
+    
+    // Vérifier si l'URL est déjà une URL complète Supabase Storage
+    if (url.includes('supabase.co/storage/v1/object/public')) {
+      console.log(`URL Supabase détectée pour "${bookTitle}":`, url);
+      return url; // Utiliser directement l'URL complète
     }
     
     // Traitement pour les chemins locaux
