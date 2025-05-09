@@ -182,14 +182,6 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
     return "/placeholder.svg";
   };
 
-  // Fonction pour formater les titres longs
-  const formatTitle = (title: string) => {
-    if (title.length > 30) {
-      return title.substring(0, 30) + '...';
-    }
-    return title;
-  };
-
   return (
     <div className="w-full max-w-7xl mx-auto px-3">
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5">
@@ -213,10 +205,10 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               </div>
               
-              {/* Informations en surimpression avec animation - uniquement titre et catégorie */}
+              {/* Informations en surimpression avec animation - titre complet et catégorie */}
               <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <h3 className="font-serif text-base md:text-lg font-medium tracking-tight text-white mb-1 drop-shadow-md">
-                  {formatTitle(book.title)}
+                <h3 className="font-serif text-base md:text-lg font-medium tracking-tight text-white mb-1 drop-shadow-md line-clamp-3">
+                  {book.title}
                 </h3>
                 {book.categories && (
                   <p className="text-xs text-white/80 mt-1 drop-shadow-md">
