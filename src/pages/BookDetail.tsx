@@ -8,7 +8,7 @@ import {
   getBookDetails, 
   getPressLinks, 
   getAwards, 
-  getEditions
+  getEditions 
 } from '@/services/bookService';
 import Navigation from '@/components/Navigation';
 import Header from '@/components/Header';
@@ -278,6 +278,14 @@ const BookDetailPage = () => {
       return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
     }
     
+    if (book?.title === "JACE. MAGIK GOUZOU") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/ART/jace-magik-gouzou.jpg";
+    }
+    
+    if (book?.title === "La Réunion des enfants") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/JEUNESSE/La%20Reunion%20des%20enfants%20copie.jpg";
+    }
+    
     return book.cover_image || "/placeholder.svg";
   };
 
@@ -295,18 +303,18 @@ const BookDetailPage = () => {
             </Link>
           </div>
           
-          {/* Afficher la couverture du livre */}
+          {/* Afficher la couverture du livre dans son format original sans cadre ni rognage */}
           <div className="flex flex-col md:flex-row gap-8 mb-8">
-            <div className="w-full md:w-1/3">
-              <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md">
+            <div className="w-full md:w-1/2 lg:w-2/5">
+              <div className="relative">
                 <img 
                   src={getBookCoverImage()} 
                   alt={`Couverture du livre ${book.title}`} 
-                  className="w-full h-full object-contain"
+                  className="w-full h-auto" 
                 />
               </div>
             </div>
-            <div className="w-full md:w-2/3">
+            <div className="w-full md:w-1/2 lg:w-3/5">
               <BookHeader 
                 title={book.title} 
                 editorialText={editorialText}
