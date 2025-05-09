@@ -40,7 +40,7 @@ const CategoryPage = () => {
               <div className="w-full md:w-1/3 lg:w-1/4">
                 <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md">
                   <img
-                    src="https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/brown-baby.jpg"
+                    src="/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png"
                     alt="Couverture Brown Baby"
                     className="w-full h-full object-cover"
                   />

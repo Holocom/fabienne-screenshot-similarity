@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -266,7 +267,7 @@ const BookDetailPage = () => {
   // Function to get the correct image URL for the book
   const getBookCoverImage = () => {
     if (book.title === "Brown Baby") {
-      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/brown-baby.jpg";
+      return "/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png";
     }
     
     if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
