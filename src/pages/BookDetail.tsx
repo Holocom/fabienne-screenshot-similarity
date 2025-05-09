@@ -265,21 +265,33 @@ const BookDetailPage = () => {
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
   }
   
-  // Définir les liens de presse spécifiques pour "Brown Baby"
+  // Nouveaux prix et distinctions pour Brown Baby
+  const brownBabyAwards = [
+    { name: "Prix Vanille œuvre de fiction 2024", url: null },
+    { name: "Prix Seligmann du livre contre le racisme 2024", url: null },
+    { name: "Sélection Prix Maryse Condé 2024", url: null },
+    { name: "Sélection Prix Senghor du premier roman 2024", url: null },
+    { name: "Sélection Prix Verdelettres 2025", url: null },
+    { name: "Coup de cœur Takam Tikou", url: null }
+  ];
+  
+  // Nouveaux liens de presse pour Brown Baby
   const brownBabyPressLinks = [
-    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "Takam Tikou - BnF" },
-    { url: "https://etlettres.com/la-couleur-du-coeur/", label: "Et Lettres" },
-    { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "Voya-g" },
-    { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "L'Express" }
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby" },
+    { url: "https://etlettres.com/la-couleur-du-coeur/", label: "https://etlettres.com/la-couleur-du-coeur/" },
+    { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/" },
+    { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621" }
   ];
   
+  // Nouveaux liens de blog pour Brown Baby
   const brownBabyBlogLinks = [
-    { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "Kitty Lamouette" }
+    { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html" }
   ];
   
+  // Nouveaux liens pour le Prix Seligmann
   const brownBabySeligmannLinks = [
-    { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "Linfo.re" },
-    { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "L'Indépendant" }
+    { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme" },
+    { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
   ];
   
   const renderDescription = () => {
@@ -356,20 +368,28 @@ const BookDetailPage = () => {
             </div>
           )}
           
-          {(uniqueAwards.length > 0 || (book?.title === "Brown Baby" && brownBabySeligmannLinks.length > 0)) && (
+          {(uniqueAwards.length > 0 || book?.title === "Brown Baby") && (
             <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {uniqueAwards.map((award, index) => (
-                  <li key={index} className="award-item">
-                    {award.name}{award.year ? ` (${award.year})` : ''}
-                  </li>
-                ))}
+                {book?.title === "Brown Baby" ? 
+                  brownBabyAwards.map((award, index) => (
+                    <li key={`brownbaby-award-${index}`} className="award-item">
+                      {award.name}
+                    </li>
+                  ))
+                  :
+                  uniqueAwards.map((award, index) => (
+                    <li key={index} className="award-item">
+                      {award.name}{award.year ? ` (${award.year})` : ''}
+                    </li>
+                  ))
+                }
                 
                 {book?.title === "Brown Baby" && (
                   <>
-                    <li className="award-item mt-4">
-                      <strong>PRIX SELIGMANN</strong>
+                    <li className="award-item mt-4 pt-2 font-bold">
+                      PRIX SELIGMANN
                     </li>
                     {brownBabySeligmannLinks.map((link, index) => (
                       <li key={`brownbaby-seligmann-${index}`}>
@@ -384,7 +404,7 @@ const BookDetailPage = () => {
             </div>
           )}
           
-          {uniqueEditions.length > 0 && (
+          {uniqueEditions.length > 0 && book?.title !== "Brown Baby" && (
             <div>
               <h3 className="editions-title">ÉDITIONS</h3>
               <ul className="space-y-1 list-none pl-0">
