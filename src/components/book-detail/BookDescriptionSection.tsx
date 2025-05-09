@@ -19,7 +19,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
         return (
           <p 
             key={index} 
-            className="mb-4 whitespace-pre-line text-base leading-relaxed" 
+            className="mb-4 whitespace-pre-line text-base md:text-lg leading-relaxed" 
             dangerouslySetInnerHTML={{ __html: formattedParagraph }}
           />
         );

@@ -30,11 +30,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </h1>
       
       <div className="mb-10 mt-6">
-        <p className="editorial-info mb-0 text-[#ea384c]" dangerouslySetInnerHTML={{ __html: editorialText }}>
+        {/* Using the same styling for editorial text as Brown Baby page */}
+        <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{ __html: editorialText }}>
         </p>
         
         {showISBN && isbn && (
-          <p className="mt-1 text-[#ea384c]">
+          <p className="text-[#ea384c] text-lg md:text-xl">
             ISBN : {isbn}
           </p>
         )}
