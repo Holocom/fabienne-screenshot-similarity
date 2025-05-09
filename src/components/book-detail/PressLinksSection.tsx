@@ -21,9 +21,16 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
   ];
   
+  const flamboyantPereNoelLinks = [
+    { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
+    { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
+    { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
+  ];
+                      
   // Determine which links to display
   const displayLinks = bookTitle === "Brown Baby" ? brownBabyPressLinks :
                       bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?" ? langueBienPendueLinks :
+                      bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël") ? flamboyantPereNoelLinks :
                       pressLinks;
                       
   if (displayLinks.length === 0) return null;

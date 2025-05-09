@@ -93,6 +93,7 @@ const BookDetailPage = () => {
       return;
     }
     
+    // Special case for "UN FLAMBOYANT PÈRE-NOËL"
     if (book.title.toLowerCase().includes("flamboyant") && book.title.toLowerCase().includes("noël") && book.id) {
       try {
         hasUpdatedRef.current = true;
@@ -100,35 +101,43 @@ const BookDetailPage = () => {
         const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
         
         const newDetails = {
-          publisher: "Océan Jeunesse",
-          illustrator: "Audrey Caron", 
-          year: "2025",
-          pages: "48",
-          isbn: "9782916533520"
+          publisher: "Atelier des nomades",
+          illustrator: "Jioğ", 
+          year: "2020",
+          pages: "24",
+          isbn: "9782919300297"
         };
         
         const newAwards = [
-          { name: "Prix Afrilivres", year: "2020" },
-          { name: "Prix Jeanne de Cavally", year: "2022" },
-          { name: "Finaliste du Prix Vanille Illustration", year: "2020" }
+          { name: "Prix Afrilivres 2020", year: "2020" },
+          { name: "Prix Jeanne de Cavally 2022", year: "2022" },
+          { name: "Finaliste du Prix Vanille Illustration 2020", year: "2020" },
+          { name: "Finaliste du Prix Vanille Illustration 2024", year: "2024" }
         ];
         
         const newEditions = [
           { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
           { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
-          { name: "Edition bilingue franais-malgache", publisher: null, year: "2024", language: "Français/Malgache" },
-          { name: "Atelier des nomades", publisher: "Edition Vallesse", year: null, language: null },
-          { name: "Edition Filigrane", publisher: null, year: null, language: null }
+          { name: "Edition bilingue français-malgache 2024", publisher: null, year: "2024", language: "Français/Malgache" },
+          { name: "Atelier des nomades", publisher: "Atelier des nomades", year: null, language: null },
+          { name: "Edition Vallesse", publisher: "Vallesse", year: null, language: null },
+          { name: "Edition Filigrane", publisher: "Filigrane", year: null, language: null }
         ];
         
         const newPressLinks = [
-          { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Nol/1282122", label: "Babelio" },
-          { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "Super Chouette" }
+          { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
+          { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
+          { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
         ];
         
-        if (false) {
-          console.log("Updates are disabled for this session");
-        }
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: newAwards,
+          editions: newEditions
+        });
       } catch (error) {
         console.error("Error in update effect:", error);
         hasUpdatedRef.current = true;
@@ -210,8 +219,17 @@ const BookDetailPage = () => {
   // Update the editorial text information specifically for this book
   let editorialText = '';
   
-  // Cas spécifique pour "AS-TU LA LANGUE BIEN PENDUE ?"
-  if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
+  // Specific case for "UN FLAMBOYANT PÈRE-NOËL"
+  if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
+    editorialText = `Album jeunesse – illustré par Jioğ – Atelier des nomades – 2020 – 24 pages`;
+    
+    // Force specific details for this book
+    details.isbn = "9782919300297";
+    details.publisher = "Atelier des nomades";
+    details.illustrator = "Jioğ";
+    details.year = "2020";
+    details.pages = "24";
+  } else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
     editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse –2025 – 48 pages`;
     
     // Forcer uniquement pour ce livre le bookDetails avec le bon ISBN
@@ -253,25 +271,34 @@ const BookDetailPage = () => {
           <BookHeader 
             title={book.title} 
             editorialText={editorialText}
-            showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book?.title === "AS-TU LA LANGUE BIEN PENDUE ?"}
-            isbn="9782916533520"
+            showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+                    book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
+                    (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))}
+            isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
+                  "9782919300297" : "9782916533520"}
           />
           
           <BookDescriptionSection description={updatedDescription} />
           
-          {/* Awards section for Brown Baby */}
-          {book?.title === "Brown Baby" && (
+          {/* Awards section for specified books */}
+          {(book?.title === "Brown Baby" || 
+            (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))) && (
             <AwardsSection 
-              awards={[]} 
+              awards={book?.title === "Brown Baby" ? [] : uniqueAwards} 
               bookTitle={book.title}
-              isCustom={true}
-              customAwards={[
+              isCustom={book?.title === "Brown Baby"}
+              customAwards={book?.title === "Brown Baby" ? [
                 { name: "Prix Vanille œuvre de fiction 2024", url: null },
                 { name: "Prix Seligmann du livre contre le racisme 2024", url: null },
                 { name: "Sélection Prix Maryse Condé 2024", url: null },
                 { name: "Sélection Prix Senghor du premier roman 2024", url: null },
                 { name: "Sélection Prix Verdelettres 2025", url: null },
                 { name: "Coup de cœur Takam Tikou", url: null }
+              ] : [
+                { name: "Prix Afrilivres 2020", url: null },
+                { name: "Prix Jeanne de Cavally 2022", url: null },
+                { name: "Finaliste du Prix Vanille Illustration 2020", url: null },
+                { name: "Finaliste du Prix Vanille Illustration 2024", url: null }
               ]}
             />
           )}
@@ -283,12 +310,15 @@ const BookDetailPage = () => {
           {book?.title === "Brown Baby" && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
           
           {/* Awards section for other books */}
-          {uniqueAwards.length > 0 && book?.title !== "Brown Baby" && (
+          {uniqueAwards.length > 0 && 
+           book?.title !== "Brown Baby" && 
+           !(book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) && (
             <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
           )}
           
           {/* Editions section */}
-          {uniqueEditions.length > 0 && book?.title !== "Brown Baby" && (
+          {uniqueEditions.length > 0 && 
+           book?.title !== "Brown Baby" && (
             <EditionsSection editions={uniqueEditions} />
           )}
           
