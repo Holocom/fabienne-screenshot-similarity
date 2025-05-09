@@ -293,6 +293,15 @@ const BookDetailPage = () => {
     if (details?.isbn) {
       editorialText += `<br>EAN : ${details.isbn}`;
     }
+  } else if (book?.title === "JACE. MAGIK GOUZOU") {
+    editorialText = `Beau-livre - Alternatives-Gallimard - 2017 - 240 pages`;
+    
+    // Force specific details for JACE book
+    details.isbn = "9782072726590";
+    details.publisher = "Alternatives-Gallimard";
+    details.illustrator = "Non spécifié";
+    details.year = "2017";
+    details.pages = "240";
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
@@ -365,12 +374,15 @@ const BookDetailPage = () => {
               <BookHeader 
                 title={book.title} 
                 editorialText={editorialText}
-                showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+                showISBN={(book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
                         book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
                         (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
                         book?.title === "Ambroise Vollard, un don singulier" ||
-                        book?.title === "AMBROISE VOLLARD, UN DON SINGULIER"}
-                isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
+                        book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
+                        book?.title === "JACE. MAGIK GOUZOU")}
+                isbn={book?.title === "JACE. MAGIK GOUZOU" ? 
+                      "9782072726590" : 
+                      book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
                       "9782919300297" : 
                       book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
                       "9782952720496" : "9782916533520"}
