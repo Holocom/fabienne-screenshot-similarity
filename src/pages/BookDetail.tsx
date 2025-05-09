@@ -295,7 +295,7 @@ const BookDetailPage = () => {
       editorialText += `<br>EAN : ${details.isbn}`;
     }
   } else if (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse - 2025 - 48 pages`;
+    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse –2025 – 48 pages`;
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
