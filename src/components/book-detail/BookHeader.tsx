@@ -18,13 +18,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
 }) => {
   // Add hyphen to PÈRE-NOËL if it's in the title
   let displayTitle = title;
-  
-  // Vérification plus précise pour le cas "FLAMBOYANT PÈRE NOËL"
-  if (title?.toLowerCase().includes("flamboyant") && 
-      (title?.toLowerCase().includes("pere") || title?.toLowerCase().includes("père")) && 
-      title?.toLowerCase().includes("noel")) {
-    // S'assurer que PÈRE et NOËL sont connectés avec un trait d'union
-    displayTitle = title.replace(/PÈRE\s+NOËL|PERE\s+NOEL/i, "PÈRE-NOËL");
+  if (title?.toLowerCase().includes("pere") && title?.toLowerCase().includes("noel")) {
+    displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
   }
   
   return (

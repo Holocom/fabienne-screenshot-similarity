@@ -14,10 +14,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
     <div className="description mb-8">
       {paragraphs.map((paragraph, index) => {
         // Add italics to "Brown Baby" in the text
-        let formattedParagraph = paragraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
-        
-        // Ajouter un saut de ligne avant "Quelle tenue"
-        formattedParagraph = formattedParagraph.replace(/Quelle tenue/g, '<br />Quelle tenue');
+        const formattedParagraph = paragraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
         
         return (
           <p 
