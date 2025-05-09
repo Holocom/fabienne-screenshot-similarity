@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -333,6 +334,13 @@ const BookDetailPage = () => {
           <div className="mb-10 mt-6">
             <p className="editorial-info mb-0" dangerouslySetInnerHTML={{ __html: editorialText }}>
             </p>
+            
+            {/* Display ISBN in the format from image 2 for "AS-TU LA LANGUE BIEN PENDUE ?" */}
+            {book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" && (
+              <p className="mt-1 text-[#ea384c]">
+                ISBN : {fallbackDetails?.isbn}
+              </p>
+            )}
           </div>
           
           <div className="description">
