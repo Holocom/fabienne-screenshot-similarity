@@ -9,16 +9,33 @@ interface EditionsSectionProps {
 export const EditionsSection: React.FC<EditionsSectionProps> = ({ editions }) => {
   if (editions.length === 0) return null;
 
+  // Group editions into two columns
+  const halfLength = Math.ceil(editions.length / 2);
+  const leftColumn = editions.slice(0, halfLength);
+  const rightColumn = editions.slice(halfLength);
+
   return (
     <div>
       <h3 className="editions-title">ÉDITIONS</h3>
-      <ul className="space-y-1 list-none pl-0">
-        {editions.map((edition, index) => (
-          <li key={`edition-${index}`} className="edition-item">
-            {edition.name}
-          </li>
-        ))}
-      </ul>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        {/* Left column */}
+        <div>
+          {leftColumn.map((edition, index) => (
+            <p key={`edition-left-${index}`} className="text-[#F97316] mb-2">
+              {edition.name}
+            </p>
+          ))}
+        </div>
+        
+        {/* Right column */}
+        <div>
+          {rightColumn.map((edition, index) => (
+            <p key={`edition-right-${index}`} className="text-[#F97316] mb-2">
+              {edition.name}
+            </p>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
