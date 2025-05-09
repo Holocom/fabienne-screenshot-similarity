@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -208,16 +207,24 @@ const BookDetailPage = () => {
     editions.map(edition => [edition.name, edition])
   ).values());
   
-  // Update the editorial text information based on the image
+  // Update the editorial text information specifically for this book
   let editorialText = '';
   
-  if (book?.title === "Brown Baby") {
+  // Cas spécifique pour "AS-TU LA LANGUE BIEN PENDUE ?"
+  if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
+    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse –2025 – 48 pages`;
+    
+    // Forcer uniquement pour ce livre le bookDetails avec le bon ISBN
+    details.isbn = "9782916533520";
+    details.publisher = "Océan Jeunesse";
+    details.illustrator = "Audrey Caron";
+    details.year = "2025";
+    details.pages = "48";
+  } else if (book?.title === "Brown Baby") {
     editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
     if (details?.isbn) {
       editorialText += `<br>EAN : ${details.isbn}`;
     }
-  } else if (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse –2025 – 48 pages`;
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
@@ -246,7 +253,7 @@ const BookDetailPage = () => {
           <BookHeader 
             title={book.title} 
             editorialText={editorialText}
-            showISBN={book?.title === "AS-TU LA LANGUE BIEN PENDUE ?"}
+            showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book?.title === "AS-TU LA LANGUE BIEN PENDUE ?"}
             isbn="9782916533520"
           />
           
