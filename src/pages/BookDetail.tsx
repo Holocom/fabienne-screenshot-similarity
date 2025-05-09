@@ -249,7 +249,7 @@ const BookDetailPage = () => {
       </div>;
   }
   
-  const updatedDescription = book?.description || "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
+  const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
   
   // Update the editorial text information based on the image
   let editorialText = '';
@@ -260,7 +260,7 @@ const BookDetailPage = () => {
       editorialText += `<br>EAN : ${details.isbn}`;
     }
   } else if (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse - 2025 - 48 pages`;
+    editorialText = `Jeunesse - illustré par Audrey Caron - Océan Jeunesse - 2025 - 48 pages`;
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
@@ -293,6 +293,12 @@ const BookDetailPage = () => {
   const brownBabySeligmannLinks = [
     { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme" },
     { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
+  ];
+  
+  // Nouveaux liens de presse pour "AS-TU LA LANGUE BIEN PENDUE ?"
+  const langueBienPendueLinks = [
+    { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
+    { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
   ];
   
   const renderDescription = () => {
@@ -331,7 +337,7 @@ const BookDetailPage = () => {
             <p className="editorial-info mb-0" dangerouslySetInnerHTML={{ __html: editorialText }}>
             </p>
             
-            {/* Display ISBN in the format from image for "AS-TU LA LANGUE BIEN PENDUE ?" */}
+            {/* Display ISBN in the format from the second image for "AS-TU LA LANGUE BIEN PENDUE ?" */}
             {book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" && (
               <p className="mt-1 text-[#ea384c]">
                 ISBN : 9782916533520
@@ -358,13 +364,23 @@ const BookDetailPage = () => {
           )}
           
           {/* Section Presse avec style harmonisé */}
-          {(uniquePressLinks.length > 0 || (book?.title === "Brown Baby" && brownBabyPressLinks.length > 0)) && (
+          {(uniquePressLinks.length > 0 || 
+            (book?.title === "Brown Baby" && brownBabyPressLinks.length > 0) || 
+            (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" && langueBienPendueLinks.length > 0)) && (
             <div>
               <h3 className="press-title">PRESSE</h3>
               <ul className="space-y-2 list-none pl-0">
                 {book?.title === "Brown Baby" ? 
                   brownBabyPressLinks.map((link, index) => (
                     <li key={`brownbaby-press-${index}`}>
+                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                        {link.label || link.url}
+                      </a>
+                    </li>
+                  ))
+                  : book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" ?
+                  langueBienPendueLinks.map((link, index) => (
+                    <li key={`langue-press-${index}`}>
                       <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
                         {link.label || link.url}
                       </a>
