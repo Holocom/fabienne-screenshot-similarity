@@ -39,7 +39,7 @@ export const BookCoversCarousel: React.FC<BookCoversCarouselProps> = ({
     <div className="my-6 w-full">
       <Card className="border-none shadow-none">
         <CardContent className="p-0">
-          <div className="flex flex-row gap-4 overflow-x-auto pb-2 justify-center">
+          <div className="flex flex-row gap-4 overflow-x-auto pb-2 justify-start">
             <BookCover 
               src="/lovable-uploads/fee9c5df-edcf-4ad2-9d9e-a8b6da17b84b.png" 
               alt="Édition anglaise - A Flamboyant Father Christmas" 
