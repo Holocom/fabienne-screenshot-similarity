@@ -93,10 +93,19 @@ const BookDetailPage = () => {
       return;
     }
     
-    // Special case for "UN FLAMBOYANT PÈRE-NOËL"
-    if (book.title.toLowerCase().includes("flamboyant") && book.title.toLowerCase().includes("noël") && book.id) {
+    // Specific case for "UN FLAMBOYANT PÈRE-NOËL"
+    if ((book.title.toLowerCase().includes("flamboyant") && 
+         (book.title.toLowerCase().includes("pere") || book.title.toLowerCase().includes("père")) && 
+         book.title.toLowerCase().includes("noel")) && 
+        book.id) {
       try {
         hasUpdatedRef.current = true;
+        
+        // Assurer que le titre contient PÈRE-NOËL avec un trait d'union
+        let updatedTitle = book.title;
+        if (!updatedTitle.includes("-")) {
+          updatedTitle = updatedTitle.replace(/PÈRE\s+NOËL|PERE\s+NOEL/i, "PÈRE-NOËL");
+        }
         
         const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
         
@@ -132,7 +141,10 @@ const BookDetailPage = () => {
         
         updateBookMutation.mutate({
           bookId,
-          bookData: { description: newDescription },
+          bookData: { 
+            title: updatedTitle,
+            description: newDescription 
+          },
           detailsData: newDetails,
           pressLinks: newPressLinks,
           awards: newAwards,
@@ -220,7 +232,9 @@ const BookDetailPage = () => {
   let editorialText = '';
   
   // Specific case for "UN FLAMBOYANT PÈRE-NOËL"
-  if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
+  if ((book?.title?.toLowerCase().includes("flamboyant") && 
+       (book?.title?.toLowerCase().includes("pere") || book?.title?.toLowerCase().includes("père")) && 
+       book?.title?.toLowerCase().includes("noel"))) {
     editorialText = `Album jeunesse – illustré par Iloë – Atelier des nomades – 2020 – 24 pages`;
     
     // Force specific details for this book
@@ -273,8 +287,9 @@ const BookDetailPage = () => {
             editorialText={editorialText}
             showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
                     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-                    (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))}
-            isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
+                    ((book?.title?.toLowerCase().includes("flamboyant") && 
+                     book?.title?.toLowerCase().includes("noel")))}
+            isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noel") ? 
                   "9782919300297" : "9782916533520"}
           />
           
@@ -295,7 +310,7 @@ const BookDetailPage = () => {
           {/* Awards section for other books */}
           {uniqueAwards.length > 0 && 
            book?.title !== "Brown Baby" && 
-           !(book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) && (
+           !(book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noel")) && (
             <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
           )}
           
