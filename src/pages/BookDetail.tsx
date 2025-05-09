@@ -1,86 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { 
   getBookById, 
   getBookDetails, 
   getPressLinks, 
   getAwards, 
-  getEditions,
-  updateCompleteBookInfo
+  getEditions
 } from '@/services/bookService';
 import Navigation from '@/components/Navigation';
 import Header from '@/components/Header';
-import { BookDetail, PressLink, Award, Edition } from '@/integrations/supabase/schema';
-import { ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
+import { useBookUpdate } from '@/hooks/useBookUpdate';
+import { LoadingState } from '@/components/book-detail/LoadingState';
+import { ErrorState } from '@/components/book-detail/ErrorState';
+import { BookHeader } from '@/components/book-detail/BookHeader';
+import { BookDescriptionSection } from '@/components/book-detail/BookDescriptionSection';
+import { AwardsSection } from '@/components/book-detail/AwardsSection';
+import { PressLinksSection } from '@/components/book-detail/PressLinksSection';
+import { BlogLinksSection } from '@/components/book-detail/BlogLinksSection';
+import { EditionsSection } from '@/components/book-detail/EditionsSection';
+import { SeligmannLinksSection } from '@/components/book-detail/SeligmannLinksSection';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const queryClient = useQueryClient();
-  const hasUpdatedRef = useRef(false);
-  const [preventUpdates, setPreventUpdates] = useState(false);
-  
-  const updateBookMutation = useMutation({
-    mutationFn: (data: {
-      bookId: string,
-      bookData: {},
-      detailsData: {},
-      pressLinks: any[],
-      awards: any[],
-      editions: any[]
-    }) => updateCompleteBookInfo(
-      data.bookId,
-      data.bookData,
-      data.detailsData,
-      data.pressLinks,
-      data.awards,
-      data.editions
-    ),
-    onSuccess: () => {
-      if (bookId) {
-        queryClient.invalidateQueries({ queryKey: ['book', bookId] });
-        queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
-        queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
-        queryClient.invalidateQueries({ queryKey: ['awards', bookId] });
-        queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
-      }
-      
-      if (!hasUpdatedRef.current) {
-        console.log('Book information updated successfully');
-        toast.success('Informations du livre mises à jour avec succès');
-        hasUpdatedRef.current = true;
-        setPreventUpdates(true);
-      }
-    },
-    onError: (error) => {
-      console.error('Erreur lors de la mise à jour des informations:', error);
-      if (!hasUpdatedRef.current) {
-        toast.error('Erreur lors de la mise à jour des informations');
-        hasUpdatedRef.current = true;
-      }
-      setPreventUpdates(true);
-    }
-  });
-  
-  useEffect(() => {
-    const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
-    const updatedBooksObj = JSON.parse(updatedBooks);
-    
-    if (bookId && updatedBooksObj[bookId]) {
-      setPreventUpdates(true);
-      hasUpdatedRef.current = true;
-    }
-    
-    return () => {
-      if (bookId && hasUpdatedRef.current) {
-        const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
-        const updatedBooksObj = JSON.parse(updatedBooks);
-        updatedBooksObj[bookId] = true;
-        sessionStorage.setItem('updatedBooks', JSON.stringify(updatedBooksObj));
-      }
-    };
-  }, [bookId]);
+  const { 
+    updateBookMutation, 
+    preventUpdates, 
+    hasUpdatedRef 
+  } = useBookUpdate(bookId);
   
   const {
     data: book,
@@ -185,7 +133,6 @@ const BookDetailPage = () => {
       } catch (error) {
         console.error("Error in update effect:", error);
         hasUpdatedRef.current = true;
-        setPreventUpdates(true);
       }
     } else if (book.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
       // Add specific update case for "AS-TU LA LANGUE BIEN PENDUE ?"
@@ -216,22 +163,24 @@ const BookDetailPage = () => {
           awards: [],
           editions: []
         });
-        
-        hasUpdatedRef.current = true;
       } catch (error) {
         console.error("Error updating AS-TU LA LANGUE BIEN PENDUE ?:", error);
         hasUpdatedRef.current = true;
-        setPreventUpdates(true);
       }
     } else {
       hasUpdatedRef.current = true;
-      setPreventUpdates(true);
     }
-    
-    return () => {};
   }, [book, bookId, isLoadingBook, isBookError, updateBookMutation, preventUpdates]);
   
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions || updateBookMutation.isPending;
+  
+  if (isLoading) {
+    return <LoadingState />;
+  }
+  
+  if (bookError || !book) {
+    return <ErrorState />;
+  }
   
   const fallbackDetails = {
     id: "temp-id",
@@ -259,33 +208,6 @@ const BookDetailPage = () => {
     editions.map(edition => [edition.name, edition])
   ).values());
   
-  const isExpressionsMelanze = book?.title === "Expressions Melanze";
-  
-  if (isLoading) {
-    return <div className="min-h-screen bg-white">
-        <Header />
-        <Navigation />
-        <div className="container mx-auto px-4 py-12 text-center">
-          <p>Chargement...</p>
-        </div>
-      </div>;
-  }
-  
-  if (bookError || !book) {
-    return <div className="min-h-screen bg-white">
-        <Header />
-        <Navigation />
-        <div className="container mx-auto px-4 py-12 text-center">
-          <p>Ce livre n'existe pas ou une erreur est survenue.</p>
-          <Link to="/" className="mt-4 inline-block underline">
-            Retour aux livres
-          </Link>
-        </div>
-      </div>;
-  }
-  
-  const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
-  
   // Update the editorial text information based on the image
   let editorialText = '';
   
@@ -301,200 +223,76 @@ const BookDetailPage = () => {
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
   }
   
-  // Nouveaux prix et distinctions pour Brown Baby
-  const brownBabyAwards = [
-    { name: "Prix Vanille œuvre de fiction 2024", url: null },
-    { name: "Prix Seligmann du livre contre le racisme 2024", url: null },
-    { name: "Sélection Prix Maryse Condé 2024", url: null },
-    { name: "Sélection Prix Senghor du premier roman 2024", url: null },
-    { name: "Sélection Prix Verdelettres 2025", url: null },
-    { name: "Coup de cœur Takam Tikou", url: null }
-  ];
-  
-  // Nouveaux liens de presse pour Brown Baby
-  const brownBabyPressLinks = [
-    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby" },
-    { url: "https://etlettres.com/la-couleur-du-coeur/", label: "https://etlettres.com/la-couleur-du-coeur/" },
-    { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/" },
-    { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621" }
-  ];
-  
-  // Nouveaux liens de blog pour Brown Baby
+  // Brown Baby blog links
   const brownBabyBlogLinks = [
     { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html" }
   ];
   
-  // Nouveaux liens pour le Prix Seligmann
+  // Brown Baby Seligmann links
   const brownBabySeligmannLinks = [
     { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme" },
     { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
   ];
   
-  // Nouveaux liens de presse pour "AS-TU LA LANGUE BIEN PENDUE ?"
-  const langueBienPendueLinks = [
-    { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
-    { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
-  ];
+  const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
   
-  const renderDescription = () => {
-    if (!updatedDescription) return <p>Aucune description disponible pour ce livre.</p>;
-    
-    // Format the description to display "Brown Baby" in italics
-    const paragraphs = updatedDescription.split('\n\n');
-    return paragraphs.map((paragraph, index) => {
-      // Add italics to "Brown Baby" in the text
-      const formattedParagraph = paragraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
-      
-      return <p key={index} className="mb-4 whitespace-pre-line" 
-                dangerouslySetInnerHTML={{ __html: formattedParagraph }}>
-             </p>;
-    });
-  };
-  
-  return <div className="min-h-screen bg-white">
+  return (
+    <div className="min-h-screen bg-white">
       <Header />
       <Navigation />
       
       <div className="container max-w-3xl mx-auto px-6 pt-2 pb-20 book-detail">
-        <div className="mb-6 mt-0">
-          <Link to="/" className="inline-flex items-center text-sm text-gray-600 hover:text-[#ea384c] transition-colors group">
-            <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" />
-            Retour aux livres
-          </Link>
-        </div>
-        
         <div className="mt-4">
-          <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
-            {book?.title?.toUpperCase()}
-          </h1>
+          <BookHeader 
+            title={book.title} 
+            editorialText={editorialText}
+            showISBN={book?.title === "AS-TU LA LANGUE BIEN PENDUE ?"}
+            isbn="9782916533520"
+          />
           
-          <div className="mb-10 mt-6">
-            <p className="editorial-info mb-0" dangerouslySetInnerHTML={{ __html: editorialText }}>
-            </p>
-            
-            {/* Display ISBN in the format from the second image for "AS-TU LA LANGUE BIEN PENDUE ?" */}
-            {book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" && (
-              <p className="mt-1 text-[#ea384c]">
-                ISBN : 9782916533520
-              </p>
-            )}
-          </div>
+          <BookDescriptionSection description={updatedDescription} />
           
-          <div className="description">
-            {renderDescription()}
-          </div>
-
-          {/* Section Prix et distinctions pour Brown Baby avec style harmonisé */}
+          {/* Awards section for Brown Baby */}
           {book?.title === "Brown Baby" && (
-            <div className="mt-8">
-              <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
-              <ul className="space-y-1 list-none pl-0">
-                {brownBabyAwards.map((award, index) => (
-                  <li key={`brownbaby-award-${index}`} className="award-item">
-                    {award.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <AwardsSection 
+              awards={[]} 
+              bookTitle={book.title}
+              isCustom={true}
+              customAwards={[
+                { name: "Prix Vanille œuvre de fiction 2024", url: null },
+                { name: "Prix Seligmann du livre contre le racisme 2024", url: null },
+                { name: "Sélection Prix Maryse Condé 2024", url: null },
+                { name: "Sélection Prix Senghor du premier roman 2024", url: null },
+                { name: "Sélection Prix Verdelettres 2025", url: null },
+                { name: "Coup de cœur Takam Tikou", url: null }
+              ]}
+            />
           )}
           
-          {/* Section Presse avec style harmonisé */}
-          {(uniquePressLinks.length > 0 || 
-            (book?.title === "Brown Baby" && brownBabyPressLinks.length > 0) || 
-            (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" && langueBienPendueLinks.length > 0)) && (
-            <div>
-              <h3 className="press-title">PRESSE</h3>
-              <ul className="space-y-2 list-none pl-0">
-                {book?.title === "Brown Baby" ? 
-                  brownBabyPressLinks.map((link, index) => (
-                    <li key={`brownbaby-press-${index}`}>
-                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
-                        {link.label || link.url}
-                      </a>
-                    </li>
-                  ))
-                  : book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" ?
-                  langueBienPendueLinks.map((link, index) => (
-                    <li key={`langue-press-${index}`}>
-                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
-                        {link.label || link.url}
-                      </a>
-                    </li>
-                  ))
-                  :
-                  uniquePressLinks.map((link, index) => (
-                    <li key={index}>
-                      <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
-                        {link.label || link.url}
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </div>
-          )}
+          {/* Press links section */}
+          <PressLinksSection pressLinks={uniquePressLinks} bookTitle={book.title} />
           
-          {/* Section Blog avec style harmonisé */}
-          {book?.title === "Brown Baby" && brownBabyBlogLinks.length > 0 && (
-            <div>
-              <h3 className="blog-title">BLOG</h3>
-              <ul className="space-y-2 list-none pl-0">
-                {brownBabyBlogLinks.map((link, index) => (
-                  <li key={`brownbaby-blog-${index}`}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="blog-link">
-                      {link.label || link.url}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {/* Blog links section for Brown Baby */}
+          {book?.title === "Brown Baby" && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
           
-          {/* Prix et distinctions pour les autres livres */}
+          {/* Awards section for other books */}
           {uniqueAwards.length > 0 && book?.title !== "Brown Baby" && (
-            <div>
-              <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
-              <ul className="space-y-1 list-none pl-0">
-                {uniqueAwards.map((award, index) => (
-                  <li key={index} className="award-item">
-                    {award.name}{award.year ? ` (${award.year})` : ''}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
           )}
           
+          {/* Editions section */}
           {uniqueEditions.length > 0 && book?.title !== "Brown Baby" && (
-            <div>
-              <h3 className="editions-title">ÉDITIONS</h3>
-              <ul className="space-y-1 list-none pl-0">
-                {uniqueEditions.map((edition, index) => (
-                  <li key={index} className="edition-item">
-                    {edition.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <EditionsSection editions={uniqueEditions} />
           )}
           
-          {/* Section Prix Seligmann déplacée tout en bas */}
-          {book?.title === "Brown Baby" && brownBabySeligmannLinks.length > 0 && (
-            <div className="mt-10">
-              <h3 className="seligmann-title-bottom">PRIX SELIGMANN</h3>
-              <ul className="space-y-2 list-none pl-0">
-                {brownBabySeligmannLinks.map((link, index) => (
-                  <li key={`brownbaby-seligmann-${index}`}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="seligmann-link-bottom">
-                      {link.label || link.url}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Seligmann links section for Brown Baby */}
+          {book?.title === "Brown Baby" && (
+            <SeligmannLinksSection seligmannLinks={brownBabySeligmannLinks} />
           )}
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 
 export default BookDetailPage;

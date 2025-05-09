@@ -1,0 +1,45 @@
+
+import React from 'react';
+import { PressLink } from '@/integrations/supabase/schema';
+
+interface PressLinksSectionProps {
+  pressLinks: PressLink[];
+  bookTitle: string;
+}
+
+export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks, bookTitle }) => {
+  // Book-specific press links
+  const brownBabyPressLinks = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby" },
+    { url: "https://etlettres.com/la-couleur-du-coeur/", label: "https://etlettres.com/la-couleur-du-coeur/" },
+    { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/" },
+    { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621" }
+  ];
+  
+  const langueBienPendueLinks = [
+    { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
+    { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
+  ];
+  
+  // Determine which links to display
+  const displayLinks = bookTitle === "Brown Baby" ? brownBabyPressLinks :
+                      bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?" ? langueBienPendueLinks :
+                      pressLinks;
+                      
+  if (displayLinks.length === 0) return null;
+
+  return (
+    <div>
+      <h3 className="press-title">PRESSE</h3>
+      <ul className="space-y-2 list-none pl-0">
+        {displayLinks.map((link, index) => (
+          <li key={`press-${index}`}>
+            <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+              {link.label || link.url}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
