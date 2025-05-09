@@ -52,8 +52,8 @@ export const BookCoversCarousel: React.FC<BookCoversCarouselProps> = ({
                 className="w-auto"
               />
             </div>
-            <div className="w-full md:w-3/5 flex flex-col justify-center">
-              <h1 className="text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 mb-6">
+            <div className="w-full md:w-3/5 flex flex-col justify-start">
+              <h1 className="text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 mb-6 mt-0">
                 {bookTitle?.toUpperCase()}
               </h1>
               
