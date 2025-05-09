@@ -16,11 +16,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
         // Add italics to "Brown Baby" in the text
         const formattedParagraph = paragraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
         
+        // Add space after period before "Quelle" if needed
+        const correctedParagraph = formattedParagraph.replace(/étincelant\.Quelle/g, 'étincelant. Quelle');
+        
         return (
           <p 
             key={index} 
             className="mb-4 whitespace-pre-line text-base md:text-lg leading-relaxed" 
-            dangerouslySetInnerHTML={{ __html: formattedParagraph }}
+            dangerouslySetInnerHTML={{ __html: correctedParagraph }}
           />
         );
       })}
