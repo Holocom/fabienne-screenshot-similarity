@@ -18,8 +18,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
         
         // Handle different books with specific formatting
         if (description.includes("Vollard")) {
-          // For Ambroise Vollard book, apply italics to all instances of "Vollard"
-          formattedParagraph = formattedParagraph.replace(/\bVollard\b/g, '<em>Vollard</em>');
+          // For Ambroise Vollard book, don't apply italics to "Vollard" anymore
+          formattedParagraph = formattedParagraph;
         } else if (description.includes("Brown Baby")) {
           // Keep existing formatting for Brown Baby
           formattedParagraph = formattedParagraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
