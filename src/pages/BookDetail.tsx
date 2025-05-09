@@ -257,7 +257,7 @@ const BookDetailPage = () => {
   if (book?.title === "Brown Baby") {
     editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
     if (details?.isbn) {
-      editorialText += `\nEAN : ${details.isbn}`;
+      editorialText += `<br>EAN : ${details.isbn}`;
     }
   } else {
     // Format standard pour les autres livres
@@ -290,8 +290,7 @@ const BookDetailPage = () => {
           </h1>
           
           <div className="mb-10 mt-6">
-            <p className="editorial-info mb-0">
-              {editorialText}
+            <p className="editorial-info mb-0" dangerouslySetInnerHTML={{ __html: editorialText }}>
             </p>
           </div>
           
