@@ -250,7 +250,19 @@ const BookDetailPage = () => {
   }
   
   const updatedDescription = book?.description || "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
-  const editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
+  
+  // Customiser le texte éditorial pour le livre "Brown Baby"
+  let editorialText = '';
+  
+  if (book?.title === "Brown Baby") {
+    editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
+    if (details?.isbn) {
+      editorialText += `\nEAN : ${details.isbn}`;
+    }
+  } else {
+    // Format standard pour les autres livres
+    editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
+  }
   
   const renderDescription = () => {
     if (!updatedDescription) return <p>Aucune description disponible pour ce livre.</p>;
@@ -280,9 +292,6 @@ const BookDetailPage = () => {
           <div className="mb-10 mt-6">
             <p className="editorial-info mb-0">
               {editorialText}
-              {details.isbn && <span className="block mt-0">
-                  ISBN : {details.isbn}
-                </span>}
             </p>
           </div>
           
