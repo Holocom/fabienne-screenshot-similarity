@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -125,6 +124,11 @@ const BookGrid = () => {
     
     if (bookTitle === "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)") {
       return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/societe-adrien-bellier.jpg";
+    }
+    
+    // Gestion spécifique pour Brown Baby
+    if (bookTitle === "Brown Baby") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/brown-baby.jpg";
     }
     
     // Si le livre est un des livres de cuisine mais n'a pas d'URL Supabase, utiliser une URL spécifique
