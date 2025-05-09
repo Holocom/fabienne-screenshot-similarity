@@ -153,11 +153,11 @@ const BookDetailPage = () => {
         const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
         
         const newDetails = {
-          publisher: "Atelier des nomades",
-          illustrator: "Iloë", 
-          year: "2020",
-          pages: "24",
-          isbn: "9782919300297"
+          publisher: "Océan Jeunesse",
+          illustrator: "Audrey Caron", 
+          year: "2025",
+          pages: "48",
+          isbn: "9782916533520"
         };
         
         const newAwards = [
@@ -201,11 +201,11 @@ const BookDetailPage = () => {
   const fallbackDetails = {
     id: "temp-id",
     book_id: bookId || '',
-    publisher: "Atelier des nomades",
-    illustrator: "Iloë",
-    year: "2020",
-    pages: "24",
-    isbn: "9782919300297",
+    publisher: "Océan Jeunesse",
+    illustrator: "Audrey Caron",
+    year: "2025",
+    pages: "48",
+    isbn: "9782916533520",
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
@@ -251,13 +251,18 @@ const BookDetailPage = () => {
   
   const updatedDescription = book?.description || "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
   
-  // Customiser le texte éditorial pour le livre "Brown Baby"
+  // Update the editorial text information based on the image 2
   let editorialText = '';
   
   if (book?.title === "Brown Baby") {
     editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
     if (details?.isbn) {
       editorialText += `<br>EAN : ${details.isbn}`;
+    }
+  } else if (book?.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
+    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse - 2025 - 48 pages`;
+    if (fallbackDetails?.isbn) {
+      editorialText += `<br>ISBN : 9782916533520`;
     }
   } else {
     // Format standard pour les autres livres
