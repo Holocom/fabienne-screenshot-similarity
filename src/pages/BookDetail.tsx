@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -264,6 +263,19 @@ const BookDetailPage = () => {
   
   const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
 
+  // Function to get the correct image URL for the book
+  const getBookCoverImage = () => {
+    if (book.title === "Brown Baby") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/brown-baby.jpg";
+    }
+    
+    if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
+      return "/lovable-uploads/fee9c5df-edcf-4ad2-9d9e-a8b6da17b84b.png";
+    }
+    
+    return book.cover_image || "/placeholder.svg";
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -278,22 +290,34 @@ const BookDetailPage = () => {
             </Link>
           </div>
           
+          {/* Afficher la couverture du livre */}
+          <div className="flex flex-col md:flex-row gap-8 mb-8">
+            <div className="w-full md:w-1/3">
+              <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-md">
+                <img 
+                  src={getBookCoverImage()} 
+                  alt={`Couverture du livre ${book.title}`} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="w-full md:w-2/3">
+              <BookHeader 
+                title={book.title} 
+                editorialText={editorialText}
+                showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+                        book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
+                        (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))}
+                isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
+                      "9782919300297" : "9782916533520"}
+              />
+            </div>
+          </div>
+          
           {/* Ajout des couvertures ici, avant le titre */}
           <BookCoversCarousel 
             bookTitle={book.title}
             showCovers={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")} 
-          />
-          
-          {/* Removed the second "Retour aux livres" link that was here */}
-          
-          <BookHeader 
-            title={book.title} 
-            editorialText={editorialText}
-            showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
-                    book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-                    (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël"))}
-            isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
-                  "9782919300297" : "9782916533520"}
           />
           
           <BookDescriptionSection description={updatedDescription} />

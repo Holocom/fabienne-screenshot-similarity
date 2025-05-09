@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -5,7 +6,11 @@ import { getBooks } from '@/services/bookService';
 import { Book } from '@/integrations/supabase/schema';
 import { useToast } from '@/hooks/use-toast';
 
-const BookGrid = () => {
+interface BookGridProps {
+  excludeBookId?: string;
+}
+
+const BookGrid = ({ excludeBookId }: BookGridProps) => {
   const location = useLocation();
   const currentCategory = location.pathname.substring(1) || 'all';
   const { toast } = useToast();
@@ -21,6 +26,7 @@ const BookGrid = () => {
 
   console.log('Current category:', currentCategory);
   console.log('Loaded books:', books.length);
+  console.log('Excluding book ID:', excludeBookId);
 
   // Refresh data when switching routes
   useEffect(() => {
@@ -34,6 +40,11 @@ const BookGrid = () => {
       console.log('Books without cover images:', booksWithoutCovers.length);
     }
   }, [books]);
+
+  // Filter out excluded book if specified
+  const filteredBooks = excludeBookId 
+    ? books.filter(book => book.id !== excludeBookId)
+    : books;
 
   if (isLoading) {
     return (
@@ -53,7 +64,7 @@ const BookGrid = () => {
     );
   }
 
-  if (books.length === 0) {
+  if (filteredBooks.length === 0) {
     return (
       <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
         <p>Aucun livre dans cette catégorie pour le moment.</p>
@@ -182,7 +193,7 @@ const BookGrid = () => {
   return (
     <div className="w-full max-w-7xl mx-auto px-3">
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5">
-        {books.map((book) => (
+        {filteredBooks.map((book) => (
           <div key={book.id} className="mb-5 break-inside-avoid">
             <Link 
               to={`/books/${book.id}`}
