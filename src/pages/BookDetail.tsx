@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { ArrowLeft } from 'lucide-react';
 import { 
   getBookById, 
   getBookDetails, 
@@ -20,6 +21,7 @@ import { PressLinksSection } from '@/components/book-detail/PressLinksSection';
 import { BlogLinksSection } from '@/components/book-detail/BlogLinksSection';
 import { EditionsSection } from '@/components/book-detail/EditionsSection';
 import { SeligmannLinksSection } from '@/components/book-detail/SeligmannLinksSection';
+import { BookCoversCarousel } from '@/components/book-detail/BookCoversCarousel';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -260,7 +262,7 @@ const BookDetailPage = () => {
   ];
   
   const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
-  
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -268,6 +270,19 @@ const BookDetailPage = () => {
       
       <div className="container max-w-3xl mx-auto px-6 pt-2 pb-20 book-detail">
         <div className="mt-4">
+          <div className="mb-6 mt-0">
+            <Link to="/" className="inline-flex items-center text-sm text-gray-600 hover:text-[#ea384c] transition-colors group">
+              <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" />
+              Retour aux livres
+            </Link>
+          </div>
+          
+          {/* Ajout des couvertures ici, avant le titre */}
+          <BookCoversCarousel 
+            bookTitle={book.title}
+            showCovers={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")} 
+          />
+          
           <BookHeader 
             title={book.title} 
             editorialText={editorialText}
