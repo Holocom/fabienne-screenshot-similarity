@@ -8,6 +8,9 @@ const BookCategories = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   
+  // ID du livre Brown Baby
+  const brownBabyBookId = '0e2076f3-db50-4b64-ad3e-a8fb3d5b3308';
+  
   const { data: categoriesData = [], isLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories
@@ -28,12 +31,21 @@ const BookCategories = () => {
     return indexA - indexB;
   });
   
+  // Préparer les catégories avec leurs destinations
   const allCategories = [
-    { name: 'TOUS', slug: '' },
-    ...sortedCategories.map(cat => ({ 
-      name: cat.name.toUpperCase(),
-      slug: cat.slug
-    }))
+    { name: 'TOUS', slug: '', path: '/' },
+    ...sortedCategories.map(cat => {
+      // Pour la catégorie "roman", rediriger vers la page de détail de Brown Baby
+      const path = cat.slug.toLowerCase() === 'roman' 
+        ? `/books/${brownBabyBookId}` 
+        : `/${cat.slug}`;
+      
+      return { 
+        name: cat.name.toUpperCase(),
+        slug: cat.slug,
+        path: path
+      };
+    })
   ];
 
   if (isLoading) {
@@ -46,9 +58,9 @@ const BookCategories = () => {
         {allCategories.map((category, index) => (
           <Link
             key={index}
-            to={`/${category.slug}`}
+            to={category.path}
             className={`text-xs tracking-widest hover:underline ${
-              (currentPath === `/${category.slug}` || (currentPath === '/' && category.slug === ''))
+              (currentPath === category.path || (currentPath === '/' && category.slug === ''))
                 ? 'font-bold underline'
                 : ''
             }`}
