@@ -327,7 +327,7 @@ const BookDetailPage = () => {
             {renderDescription()}
           </div>
 
-          {/* Moved the Prix et distinctions section right after the description for Brown Baby */}
+          {/* Section Prix et distinctions pour Brown Baby avec style harmonisé */}
           {book?.title === "Brown Baby" && (
             <div className="mt-8">
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
@@ -338,12 +338,12 @@ const BookDetailPage = () => {
                   </li>
                 ))}
                 
-                <li className="award-item mt-4 pt-2 font-bold">
+                <li className="seligmann-title">
                   PRIX SELIGMANN
                 </li>
                 {brownBabySeligmannLinks.map((link, index) => (
                   <li key={`brownbaby-seligmann-${index}`}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="seligmann-link">
                       {link.label || link.url}
                     </a>
                   </li>
@@ -352,6 +352,7 @@ const BookDetailPage = () => {
             </div>
           )}
           
+          {/* Section Presse avec style harmonisé */}
           {(uniquePressLinks.length > 0 || (book?.title === "Brown Baby" && brownBabyPressLinks.length > 0)) && (
             <div>
               <h3 className="press-title">PRESSE</h3>
@@ -377,13 +378,14 @@ const BookDetailPage = () => {
             </div>
           )}
           
+          {/* Section Blog avec style harmonisé */}
           {book?.title === "Brown Baby" && brownBabyBlogLinks.length > 0 && (
             <div>
-              <h3 className="awards-title">BLOG</h3>
+              <h3 className="blog-title">BLOG</h3>
               <ul className="space-y-2 list-none pl-0">
                 {brownBabyBlogLinks.map((link, index) => (
                   <li key={`brownbaby-blog-${index}`}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="blog-link">
                       {link.label || link.url}
                     </a>
                   </li>
@@ -392,7 +394,7 @@ const BookDetailPage = () => {
             </div>
           )}
           
-          {/* Keep the non-Brown Baby awards section */}
+          {/* Prix et distinctions pour les autres livres */}
           {uniqueAwards.length > 0 && book?.title !== "Brown Baby" && (
             <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>

@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/carlito');
 
@@ -82,24 +83,54 @@
     @apply mb-4;
   }
   
+  /* Styles harmonisés pour les sections de prix, presse et blog */
+  .book-detail .section-title {
+    @apply font-sans font-bold text-xl mb-4 tracking-wide;
+    letter-spacing: 0.03em;
+  }
+  
   .book-detail .press-title {
-    @apply text-[#7DC242] font-bold text-xl mb-4;
+    @apply text-[#7DC242] font-bold text-xl mb-4 tracking-wide;
     font-family: 'Carlito', sans-serif;
+    letter-spacing: 0.03em;
   }
   
   .book-detail .press-link {
     @apply text-[#7DC242] hover:underline block mb-2;
     font-family: 'Carlito', sans-serif;
+    transition: all 0.2s ease;
+  }
+  
+  .book-detail .press-link:hover {
+    @apply text-[#6ba438];
   }
   
   .book-detail .awards-title {
-    @apply text-[#3B82F6] font-bold text-xl mb-4 mt-8;
+    @apply text-[#3B82F6] font-bold text-xl mb-4 mt-8 tracking-wide;
     font-family: 'Carlito', sans-serif;
+    letter-spacing: 0.03em;
   }
   
   .book-detail .award-item {
     @apply text-[#3B82F6] mb-2;
     font-family: 'Carlito', sans-serif;
+    line-height: 1.4;
+  }
+  
+  .book-detail .blog-title {
+    @apply text-[#A855F7] font-bold text-xl mb-4 mt-8 tracking-wide;
+    font-family: 'Carlito', sans-serif;
+    letter-spacing: 0.03em;
+  }
+  
+  .book-detail .blog-link {
+    @apply text-[#A855F7] hover:underline block mb-2;
+    font-family: 'Carlito', sans-serif;
+    transition: all 0.2s ease;
+  }
+  
+  .book-detail .blog-link:hover {
+    @apply text-[#9333ea];
   }
   
   .book-detail .editions-title {
@@ -115,6 +146,21 @@
   .book-detail .isbn {
     @apply text-gray-500 text-sm mt-10;
     font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .seligmann-title {
+    @apply text-[#3B82F6] font-bold text-lg mb-2 mt-4 pt-2;
+    font-family: 'Carlito', sans-serif;
+  }
+  
+  .book-detail .seligmann-link {
+    @apply text-[#3B82F6] hover:underline block mb-2;
+    font-family: 'Carlito', sans-serif;
+    transition: all 0.2s ease;
+  }
+  
+  .book-detail .seligmann-link:hover {
+    @apply text-[#2563eb];
   }
   
   .prose p {
