@@ -90,7 +90,7 @@
   }
   
   .book-detail .press-title {
-    @apply text-[#7DC242] font-bold text-xl mb-4 tracking-wide;
+    @apply text-[#7DC242] font-bold text-xl mb-4 mt-10 tracking-wide;
     font-family: 'Carlito', sans-serif;
     letter-spacing: 0.03em;
   }
@@ -106,7 +106,7 @@
   }
   
   .book-detail .awards-title {
-    @apply text-[#3B82F6] font-bold text-xl mb-4 mt-8 tracking-wide;
+    @apply text-[#3B82F6] font-bold text-xl mb-4 mt-10 tracking-wide;
     font-family: 'Carlito', sans-serif;
     letter-spacing: 0.03em;
   }
@@ -118,7 +118,7 @@
   }
   
   .book-detail .blog-title {
-    @apply text-[#A855F7] font-bold text-xl mb-4 mt-8 tracking-wide;
+    @apply text-[#A855F7] font-bold text-xl mb-4 mt-10 tracking-wide;
     font-family: 'Carlito', sans-serif;
     letter-spacing: 0.03em;
   }
@@ -134,7 +134,7 @@
   }
   
   .book-detail .editions-title {
-    @apply text-[#F97316] font-bold text-xl mb-4 mt-8;
+    @apply text-[#F97316] font-bold text-xl mb-4 mt-10;
     font-family: 'Carlito', sans-serif;
   }
   
@@ -165,7 +165,7 @@
   
   /* Nouveau style pour le Prix Seligmann en bas de page avec une couleur différente */
   .book-detail .seligmann-title-bottom {
-    @apply text-[#D946EF] font-bold text-xl mb-4 mt-8 tracking-wide;
+    @apply text-[#D946EF] font-bold text-xl mb-4 mt-10 tracking-wide;
     font-family: 'Carlito', sans-serif;
     letter-spacing: 0.03em;
   }
