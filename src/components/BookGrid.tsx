@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -9,7 +8,6 @@ import { useToast } from '@/hooks/use-toast';
 const BookGrid = () => {
   const location = useLocation();
   const currentCategory = location.pathname.substring(1) || 'all';
-  const isRomanCategory = currentCategory === 'roman';
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [coverErrors, setCoverErrors] = useState<Record<string, boolean>>({});
@@ -23,11 +21,6 @@ const BookGrid = () => {
 
   console.log('Current category:', currentCategory);
   console.log('Loaded books:', books.length);
-
-  // Filter out Brown Baby in Roman category as it's displayed separately
-  const displayedBooks = isRomanCategory
-    ? books.filter(book => book.title !== 'Brown Baby')
-    : books;
 
   // Refresh data when switching routes
   useEffect(() => {
@@ -60,7 +53,7 @@ const BookGrid = () => {
     );
   }
 
-  if (displayedBooks.length === 0 && !isRomanCategory) {
+  if (books.length === 0) {
     return (
       <div className="w-full max-w-6xl mx-auto px-4 text-center py-12">
         <p>Aucun livre dans cette catégorie pour le moment.</p>
@@ -189,7 +182,7 @@ const BookGrid = () => {
   return (
     <div className="w-full max-w-7xl mx-auto px-3">
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-5">
-        {displayedBooks.map((book) => (
+        {books.map((book) => (
           <div key={book.id} className="mb-5 break-inside-avoid">
             <Link 
               to={`/books/${book.id}`}
