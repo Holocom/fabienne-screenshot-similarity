@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -372,10 +373,10 @@ const BookDetailPage = () => {
             </div>
           </div>
           
-          {/* Ajout des couvertures ici, avant le titre */}
+          {/* Ajout des couvertures uniquement pour Brown Baby */}
           <BookCoversCarousel 
             bookTitle={book.title}
-            showCovers={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")} 
+            showCovers={book?.title === "Brown Baby"} 
           />
           
           <BookDescriptionSection description={updatedDescription} />
