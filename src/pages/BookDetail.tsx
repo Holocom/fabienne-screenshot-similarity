@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { ArrowLeft } from 'lucide-react';
 import { 
   getBookById, 
   getBookDetails, 
@@ -269,6 +270,13 @@ const BookDetailPage = () => {
       
       <div className="container max-w-3xl mx-auto px-6 pt-2 pb-20 book-detail">
         <div className="mt-4">
+          <div className="mb-6 mt-0">
+            <Link to="/" className="inline-flex items-center text-sm text-gray-600 hover:text-[#ea384c] transition-colors group">
+              <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" />
+              Retour aux livres
+            </Link>
+          </div>
+          
           {/* Ajout des couvertures ici, avant le titre */}
           <BookCoversCarousel 
             bookTitle={book.title}

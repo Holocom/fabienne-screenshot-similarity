@@ -1,5 +1,7 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 interface BookHeaderProps {
   title: string;
@@ -22,6 +24,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   
   return (
     <>
+      <div className="mb-6 mt-0">
+        <Link to="/" className="inline-flex items-center text-sm text-gray-600 hover:text-[#ea384c] transition-colors group">
+          <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" />
+          Retour aux livres
+        </Link>
+      </div>
+      
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
       </h1>
