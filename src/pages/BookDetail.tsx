@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -187,13 +188,48 @@ const BookDetailPage = () => {
         hasUpdatedRef.current = true;
         setPreventUpdates(true);
       }
+    } else if (book.title === "AS-TU LA LANGUE BIEN PENDUE ?") {
+      // Add specific update case for "AS-TU LA LANGUE BIEN PENDUE ?"
+      try {
+        console.log("Updating AS-TU LA LANGUE BIEN PENDUE ?");
+        
+        const newDescription = "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
+        
+        const newDetails = {
+          publisher: "Océan Jeunesse",
+          illustrator: "Audrey Caron", 
+          year: "2025",
+          pages: "48",
+          isbn: "9782916533520"
+        };
+        
+        const newPressLinks = [
+          { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
+          { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
+        ];
+        
+        // Force an update to the database
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: [],
+          editions: []
+        });
+        
+        hasUpdatedRef.current = true;
+      } catch (error) {
+        console.error("Error updating AS-TU LA LANGUE BIEN PENDUE ?:", error);
+        hasUpdatedRef.current = true;
+        setPreventUpdates(true);
+      }
     } else {
       hasUpdatedRef.current = true;
       setPreventUpdates(true);
     }
     
-    return () => {
-    };
+    return () => {};
   }, [book, bookId, isLoadingBook, isBookError, updateBookMutation, preventUpdates]);
   
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions || updateBookMutation.isPending;

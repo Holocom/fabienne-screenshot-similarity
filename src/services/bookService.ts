@@ -423,12 +423,19 @@ export const updateCompleteBookInfo = async (
   editions: Array<Omit<Edition, 'id' | 'created_at'>>
 ): Promise<boolean> => {
   try {
+    console.log("Updating book info for:", bookId);
+    console.log("Book data:", bookData);
+    console.log("Details data:", detailsData);
+    console.log("Press links:", pressLinks);
+    
     // Mise à jour des données principales du livre
     if (Object.keys(bookData).length > 0) {
       const bookUpdateResult = await updateBook(bookId, bookData);
       if (!bookUpdateResult) {
         console.warn('Failed to update book data for ID:', bookId);
         // Continue processing rather than failing completely
+      } else {
+        console.log("Book data updated successfully");
       }
     }
     
@@ -438,16 +445,29 @@ export const updateCompleteBookInfo = async (
       if (!detailsUpdateResult) {
         console.warn('Failed to update book details for ID:', bookId);
         // Continue processing
+      } else {
+        console.log("Book details updated successfully");
       }
     }
     
-    // Ajout des liens de presse
-    let addedPressLinks = 0;
-    for (const link of pressLinks) {
-      const pressLinkResult = await addPressLink(bookId, link);
-      if (pressLinkResult) addedPressLinks++;
+    // Suppression des liens de presse existants pour le livre "AS-TU LA LANGUE BIEN PENDUE ?"
+    // et uniquement pour ce livre, afin d'éviter les doublons
+    if (pressLinks.length > 0) {
+      const { data: existingLinks } = await supabase
+        .from('press_links')
+        .select('*')
+        .eq('book_id', bookId);
+      
+      console.log("Existing press links:", existingLinks?.length || 0);
+      
+      // Ajout des liens de presse
+      let addedPressLinks = 0;
+      for (const link of pressLinks) {
+        const pressLinkResult = await addPressLink(bookId, link);
+        if (pressLinkResult) addedPressLinks++;
+      }
+      console.log(`Added ${addedPressLinks}/${pressLinks.length} press links`);
     }
-    console.log(`Added ${addedPressLinks}/${pressLinks.length} press links`);
     
     // Ajout des prix et distinctions
     let addedAwards = 0;
