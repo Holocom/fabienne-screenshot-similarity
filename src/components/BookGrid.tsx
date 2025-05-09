@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -78,7 +77,7 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
     
     // Cas spécifique pour certains livres qui ont des URLs locales
     if (bookTitle === "Ambroise Vollard, un don singulier") {
-      return "/lovable-uploads/ba6037dd-e62c-442b-a3bf-8590b334f625.png";
+      return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
     }
     
     // Vérifier si l'URL est déjà une URL complète Supabase Storage

@@ -274,6 +274,10 @@ const BookDetailPage = () => {
       return "/lovable-uploads/fee9c5df-edcf-4ad2-9d9e-a8b6da17b84b.png";
     }
     
+    if (book?.title === "Ambroise Vollard, un don singulier") {
+      return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
+    }
+    
     return book.cover_image || "/placeholder.svg";
   };
 
@@ -298,7 +302,7 @@ const BookDetailPage = () => {
                 <img 
                   src={getBookCoverImage()} 
                   alt={`Couverture du livre ${book.title}`} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
