@@ -16,6 +16,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   showISBN,
   isbn
 }) => {
+  // Add hyphen to PÈRE-NOËL if it's in the title
+  let displayTitle = title;
+  if (title?.toLowerCase().includes("pere") && title?.toLowerCase().includes("noel")) {
+    displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
+  }
+  
   return (
     <>
       <div className="mb-6 mt-0">
@@ -26,7 +32,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </div>
       
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
-        {title?.toUpperCase()}
+        {displayTitle?.toUpperCase()}
       </h1>
       
       <div className="mb-10 mt-6">
