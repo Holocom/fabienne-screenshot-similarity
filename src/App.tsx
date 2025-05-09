@@ -29,6 +29,7 @@ const App = () => (
           <Route path="/collectifs" element={<CategoryPage />} />
           <Route path="/commandes" element={<CategoryPage />} />
           <Route path="/books/:bookId" element={<BookDetail />} />
+          <Route path="/books/brown-baby" element={<BookDetail />} />
           <Route path="/admin/books" element={<BookManagement />} />
           
           {/* Pages en construction */}
