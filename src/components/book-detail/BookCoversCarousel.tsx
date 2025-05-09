@@ -11,11 +11,11 @@ interface BookCoverProps {
 
 const BookCover: React.FC<BookCoverProps> = ({ src, alt, className }) => {
   return (
-    <div className={cn("relative h-48 md:h-64 w-auto overflow-hidden rounded-md", className)}>
+    <div className={cn("relative h-auto w-auto overflow-hidden rounded-md", className)}>
       <img 
         src={src} 
         alt={alt} 
-        className="h-full w-auto object-contain mx-auto"
+        className="h-auto w-auto object-contain max-h-[350px]"
       />
     </div>
   );
@@ -45,15 +45,15 @@ export const BookCoversCarousel: React.FC<BookCoversCarouselProps> = ({
       <Card className="border-none shadow-none">
         <CardContent className="p-0">
           <div className="flex flex-col md:flex-row gap-8">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-2/5">
               <BookCover 
                 src="/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png" 
                 alt="Couverture du livre Brown Baby" 
-                className="w-full md:w-auto"
+                className="w-auto"
               />
             </div>
-            <div className="w-full md:w-1/2 flex flex-col justify-center">
-              <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 mb-6">
+            <div className="w-full md:w-3/5 flex flex-col justify-center">
+              <h1 className="text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 mb-6">
                 {bookTitle?.toUpperCase()}
               </h1>
               
