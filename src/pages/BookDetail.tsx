@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -327,6 +326,31 @@ const BookDetailPage = () => {
           <div className="description">
             {renderDescription()}
           </div>
+
+          {/* Moved the Prix et distinctions section right after the description for Brown Baby */}
+          {book?.title === "Brown Baby" && (
+            <div className="mt-8">
+              <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
+              <ul className="space-y-1 list-none pl-0">
+                {brownBabyAwards.map((award, index) => (
+                  <li key={`brownbaby-award-${index}`} className="award-item">
+                    {award.name}
+                  </li>
+                ))}
+                
+                <li className="award-item mt-4 pt-2 font-bold">
+                  PRIX SELIGMANN
+                </li>
+                {brownBabySeligmannLinks.map((link, index) => (
+                  <li key={`brownbaby-seligmann-${index}`}>
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+                      {link.label || link.url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           
           {(uniquePressLinks.length > 0 || (book?.title === "Brown Baby" && brownBabyPressLinks.length > 0)) && (
             <div>
@@ -368,38 +392,16 @@ const BookDetailPage = () => {
             </div>
           )}
           
-          {(uniqueAwards.length > 0 || book?.title === "Brown Baby") && (
+          {/* Keep the non-Brown Baby awards section */}
+          {uniqueAwards.length > 0 && book?.title !== "Brown Baby" && (
             <div>
               <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
               <ul className="space-y-1 list-none pl-0">
-                {book?.title === "Brown Baby" ? 
-                  brownBabyAwards.map((award, index) => (
-                    <li key={`brownbaby-award-${index}`} className="award-item">
-                      {award.name}
-                    </li>
-                  ))
-                  :
-                  uniqueAwards.map((award, index) => (
-                    <li key={index} className="award-item">
-                      {award.name}{award.year ? ` (${award.year})` : ''}
-                    </li>
-                  ))
-                }
-                
-                {book?.title === "Brown Baby" && (
-                  <>
-                    <li className="award-item mt-4 pt-2 font-bold">
-                      PRIX SELIGMANN
-                    </li>
-                    {brownBabySeligmannLinks.map((link, index) => (
-                      <li key={`brownbaby-seligmann-${index}`}>
-                        <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
-                          {link.label || link.url}
-                        </a>
-                      </li>
-                    ))}
-                  </>
-                )}
+                {uniqueAwards.map((award, index) => (
+                  <li key={index} className="award-item">
+                    {award.name}{award.year ? ` (${award.year})` : ''}
+                  </li>
+                ))}
               </ul>
             </div>
           )}
