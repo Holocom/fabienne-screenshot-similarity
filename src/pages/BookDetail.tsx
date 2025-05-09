@@ -102,7 +102,7 @@ const BookDetailPage = () => {
         
         const newDetails = {
           publisher: "Atelier des nomades",
-          illustrator: "Jioğ", 
+          illustrator: "Iloë", 
           year: "2020",
           pages: "24",
           isbn: "9782919300297"
@@ -221,12 +221,12 @@ const BookDetailPage = () => {
   
   // Specific case for "UN FLAMBOYANT PÈRE-NOËL"
   if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
-    editorialText = `Album jeunesse – illustré par Jioğ – Atelier des nomades – 2020 – 24 pages`;
+    editorialText = `Album jeunesse – illustré par Iloë – Atelier des nomades – 2020 – 24 pages`;
     
     // Force specific details for this book
     details.isbn = "9782919300297";
     details.publisher = "Atelier des nomades";
-    details.illustrator = "Jioğ";
+    details.illustrator = "Iloë";
     details.year = "2020";
     details.pages = "24";
   } else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
