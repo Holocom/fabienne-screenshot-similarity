@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -345,32 +344,21 @@ const BookDetailPage = () => {
             </Link>
           </div>
           
-          {/* Afficher la couverture du livre dans son format original sans cadre ni rognage */}
-          <div className="flex flex-col md:flex-row gap-8 mb-8">
-            <div className="w-full md:w-1/2 lg:w-2/5">
-              <div className="relative">
-                <img 
-                  src={getBookCoverImage()} 
-                  alt={`Couverture du livre ${book.title}`} 
-                  className="w-full h-auto" 
-                />
-              </div>
-            </div>
-            <div className="w-full md:w-1/2 lg:w-3/5">
-              <BookHeader 
-                title={book.title} 
-                editorialText={editorialText}
-                showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
-                        book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-                        (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
-                        book?.title === "Ambroise Vollard, un don singulier" ||
-                        book?.title === "AMBROISE VOLLARD, UN DON SINGULIER"}
-                isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
-                      "9782919300297" : 
-                      book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
-                      "9782952720496" : "9782916533520"}
-              />
-            </div>
+          {/* Suppression de la section qui affiche la couverture du livre */}
+          <div className="w-full">
+            <BookHeader 
+              title={book.title} 
+              editorialText={editorialText}
+              showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+                      book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
+                      (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
+                      book?.title === "Ambroise Vollard, un don singulier" ||
+                      book?.title === "AMBROISE VOLLARD, UN DON SINGULIER"}
+              isbn={book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
+                    "9782919300297" : 
+                    book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
+                    "9782952720496" : "9782916533520"}
+            />
           </div>
           
           {/* Ajout des couvertures uniquement pour Brown Baby */}
