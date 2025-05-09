@@ -198,7 +198,7 @@ const BookDetailPage = () => {
   
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions || updateBookMutation.isPending;
   
-  const fallbackDetails: BookDetail = {
+  const fallbackDetails = {
     id: "temp-id",
     book_id: bookId || '',
     publisher: "Atelier des nomades",
@@ -337,17 +337,6 @@ const BookDetailPage = () => {
                     {award.name}
                   </li>
                 ))}
-                
-                <li className="seligmann-title">
-                  PRIX SELIGMANN
-                </li>
-                {brownBabySeligmannLinks.map((link, index) => (
-                  <li key={`brownbaby-seligmann-${index}`}>
-                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="seligmann-link">
-                      {link.label || link.url}
-                    </a>
-                  </li>
-                ))}
               </ul>
             </div>
           )}
@@ -415,6 +404,22 @@ const BookDetailPage = () => {
                 {uniqueEditions.map((edition, index) => (
                   <li key={index} className="edition-item">
                     {edition.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {/* Section Prix Seligmann déplacée tout en bas */}
+          {book?.title === "Brown Baby" && brownBabySeligmannLinks.length > 0 && (
+            <div className="mt-10">
+              <h3 className="seligmann-title-bottom">PRIX SELIGMANN</h3>
+              <ul className="space-y-2 list-none pl-0">
+                {brownBabySeligmannLinks.map((link, index) => (
+                  <li key={`brownbaby-seligmann-${index}`}>
+                    <a href={link.url} target="_blank" rel="noopener noreferrer" className="seligmann-link-bottom">
+                      {link.label || link.url}
+                    </a>
                   </li>
                 ))}
               </ul>

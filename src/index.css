@@ -163,6 +163,23 @@
     @apply text-[#2563eb];
   }
   
+  /* Nouveau style pour le Prix Seligmann en bas de page avec une couleur différente */
+  .book-detail .seligmann-title-bottom {
+    @apply text-[#D946EF] font-bold text-xl mb-4 mt-8 tracking-wide;
+    font-family: 'Carlito', sans-serif;
+    letter-spacing: 0.03em;
+  }
+  
+  .book-detail .seligmann-link-bottom {
+    @apply text-[#D946EF] hover:underline block mb-2;
+    font-family: 'Carlito', sans-serif;
+    transition: all 0.2s ease;
+  }
+  
+  .book-detail .seligmann-link-bottom:hover {
+    @apply text-[#be3fd4];
+  }
+  
   .prose p {
     @apply leading-relaxed text-base md:text-lg mb-4;
     font-family: 'Carlito', sans-serif;
