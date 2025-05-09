@@ -29,12 +29,17 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   if (displayLinks.length === 0) return null;
 
   return (
-    <div>
-      <h3 className="press-title">PRESSE</h3>
+    <div className="mb-8">
+      <h3 className="press-title text-[#4b9e5f] font-bold text-xl mb-4 uppercase">PRESSE</h3>
       <ul className="space-y-2 list-none pl-0">
         {displayLinks.map((link, index) => (
           <li key={`press-${index}`}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer" className="press-link">
+            <a 
+              href={link.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="press-link text-[#ea384c] hover:text-[#c82d3e] transition-colors"
+            >
               {link.label || link.url}
             </a>
           </li>

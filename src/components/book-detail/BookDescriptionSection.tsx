@@ -11,7 +11,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
   // Format the description to display "Brown Baby" in italics
   const paragraphs = description.split('\n\n');
   return (
-    <div className="description">
+    <div className="description mb-8">
       {paragraphs.map((paragraph, index) => {
         // Add italics to "Brown Baby" in the text
         const formattedParagraph = paragraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
@@ -19,7 +19,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
         return (
           <p 
             key={index} 
-            className="mb-4 whitespace-pre-line" 
+            className="mb-4 whitespace-pre-line text-base leading-relaxed" 
             dangerouslySetInnerHTML={{ __html: formattedParagraph }}
           />
         );

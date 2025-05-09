@@ -10,10 +10,13 @@ export const ErrorState: React.FC = () => {
       <Header />
       <Navigation />
       <div className="container mx-auto px-4 py-12 text-center">
-        <p>Ce livre n'existe pas ou une erreur est survenue.</p>
-        <Link to="/" className="mt-4 inline-block underline">
-          Retour aux livres
-        </Link>
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <div className="text-[#ea384c] text-5xl font-bold">!</div>
+          <p className="text-lg">Ce livre n'existe pas ou une erreur est survenue.</p>
+          <Link to="/" className="mt-4 inline-block underline text-[#ea384c] hover:text-[#c82d3e] transition-colors">
+            Retour aux livres
+          </Link>
+        </div>
       </div>
     </div>
   );
