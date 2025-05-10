@@ -22,10 +22,8 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621" }
   ];
   
-  const langueBienPendueLinks: SimplePressLink[] = [
-    { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
-    { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
-  ];
+  // Note: Pour "AS-TU LA LANGUE BIEN PENDUE ?", nous utilisons uniquement les liens de la base de données
+  // et n'utilisons plus les liens hardcodés pour éviter les doublons
   
   const flamboyantPereNoelLinks: SimplePressLink[] = [
     { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
@@ -39,7 +37,9 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   if (bookTitle === "Brown Baby") {
     displayLinks = brownBabyPressLinks;
   } else if (bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    displayLinks = langueBienPendueLinks;
+    // Pour ce livre spécifique, on utilise uniquement les liens de la base de données
+    // Ne pas ajouter de liens hardcodés supplémentaires
+    displayLinks = pressLinks;
   } else if (bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël")) {
     displayLinks = flamboyantPereNoelLinks;
   }
