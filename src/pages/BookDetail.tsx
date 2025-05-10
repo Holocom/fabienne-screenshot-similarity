@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { 
   getBookById, 
   getBookDetails, 
@@ -17,6 +17,18 @@ import { BookDetailContent } from '@/components/book-detail/BookDetailContent';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
+  const queryClient = useQueryClient();
+  
+  // Force a refresh of the data on every mount
+  useEffect(() => {
+    if (bookId) {
+      queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['awards', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
+    }
+  }, [bookId, queryClient]);
   
   const {
     data: book,

@@ -30,6 +30,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
           .replace(/"doudou"/g, '<strong>"doudou"</strong>')
           .replace(/"joujou"/g, '<strong>"joujou"</strong>')
           // Gérer les doubles guillemets français qui peuvent venir du copier-coller
+          .replace(/´/g, "'")
           .replace(/""/g, '"');
         
         return (

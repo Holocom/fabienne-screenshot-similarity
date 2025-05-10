@@ -190,13 +190,13 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
         hasUpdatedRef.current = true;
       }
-    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" || book.title.toLowerCase() === "zoiseaux rares") {
-      // Mise à jour spécifique pour "Z'OISEAUX RARES"
+    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.title.toLowerCase() === "zoiseaux rares" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
+      // Mise à jour spécifique pour "Z'OISEAUX RARES", s'assurer d'avoir plusieurs conditions pour matcher
       try {
         console.log("Mise à jour des informations de Z'OISEAUX RARES avec ID:", book.id);
         hasUpdatedRef.current = true;
         
-        // Mise à jour avec la description fournie
+        // Mise à jour avec la description fournie - en utilisant des guillemets doubles pour bien formater
         const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
         
         const newDetails = {
@@ -221,11 +221,12 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           { name: "Coup de cœur Takam Tikou 2020", year: "2020" }
         ];
         
-        console.log("Données complètes à envoyer:");
+        console.log("Données complètes à envoyer pour Z'OISEAUX RARES:");
         console.log("Description:", newDescription);
         console.log("Détails:", newDetails);
+        console.log("ID du livre:", bookId);
         
-        // Force une mise à jour directe dans la base de données
+        // Force une mise à jour directe de la description
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
@@ -233,15 +234,16 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           pressLinks: newPressLinks,
           awards: newAwards,
           editions: []
-        });
-        
-        // Vérification supplémentaire pour s'assurer que la description est mise à jour
-        setTimeout(() => {
-          console.log("Vérification post-mutation de la description:", book.description);
-          if (!book.description || book.description === "NULL") {
-            toast.info("Mise à jour de la description en cours...");
+        }, {
+          onSuccess: () => {
+            console.log("Mise à jour réussie pour Z'OISEAUX RARES");
+            toast.success("Description mise à jour avec succès");
+          },
+          onError: (error) => {
+            console.error("Erreur lors de la mise à jour:", error);
+            toast.error("Erreur lors de la mise à jour de la description");
           }
-        }, 2000);
+        });
         
       } catch (error) {
         console.error("Erreur lors de la mise à jour de Z'OISEAUX RARES:", error);

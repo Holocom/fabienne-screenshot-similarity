@@ -55,23 +55,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
   ];
   
-  const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
-  
-  // Vérifier si l'ISBN doit être affiché
-  const showISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
-    book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-    (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
-    book?.title === "Ambroise Vollard, un don singulier" ||
-    book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
-    book?.title === "EXPRESSIONS MÉLANZÉ" ||
-    book?.title === "Expressions Mélanzé" ||
-    book?.title === "Expressions Melanze" ||
-    book?.title === "JACE. MAGIK GOUZOU" ||
-    book?.title === "Z'OISEAUX RARES" || 
-    book?.title === "Z'oiseaux rares" || 
-    book?.title === "ZOISEAUX RARES" ||
-    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356";
-  
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}
@@ -89,14 +72,26 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
           <BookHeader 
             title={book.title} 
             editorialText={editorialText}
-            showISBN={showISBN}
+            showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+              book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
+              (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
+              book?.title === "Ambroise Vollard, un don singulier" ||
+              book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
+              book?.title === "EXPRESSIONS MÉLANZÉ" ||
+              book?.title === "Expressions Mélanzé" ||
+              book?.title === "Expressions Melanze" ||
+              book?.title === "JACE. MAGIK GOUZOU" ||
+              book?.title === "Z'OISEAUX RARES" || 
+              book?.title === "Z'oiseaux rares" || 
+              book?.title === "ZOISEAUX RARES" ||
+              book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356"}
             isbn={isbn}
           />
         </div>
       )}
       
-      {/* Description du livre */}
-      <BookDescriptionSection description={updatedDescription} bookTitle={book.title} />
+      {/* Description du livre - S'assurer qu'elle s'affiche correctement */}
+      <BookDescriptionSection description={book?.description || ""} bookTitle={book.title} />
       
       {/* Section des éditions - Placée avant les liens de presse */}
       {uniqueEditions.length > 0 && 
