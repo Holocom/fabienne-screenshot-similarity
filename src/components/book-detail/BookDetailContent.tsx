@@ -147,6 +147,17 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     { name: "Coup de cœur Takam Tikou", year: null }
   ];
   
+  // Liens spécifiques pour JACE. MAGIK GOUZOU
+  const jaceMagikGouzouLinks = [
+    { url: "https://streep.re/rencontre-avec-jace/", label: "Streep - Rencontre avec Jace" },
+    { url: "https://actualite.com/le-chevalier-des-temps-modernes", label: "Actualité - Le chevalier des temps modernes" },
+    { url: "https://actualite.com/extraits-du-livre", label: "Actualité - Extraits du livre" },
+    { url: "https://www.imazpress.com/actualites/magik-gouzou-court-au-fil-des-pages", label: "Imazpress - Magik Gouzou court au fil des pages" }
+  ];
+  
+  // Vérifier si c'est JACE. MAGIK GOUZOU
+  const isJaceMagikGouzou = book?.title === "JACE. MAGIK GOUZOU";
+  
   // Add specific check for Z'OISEAUX RARES and other books that need ISBN display
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
@@ -194,15 +205,38 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       {/* Description du livre */}
       <BookDescriptionSection description={book?.description || ""} bookTitle={book.title} />
       
-      {/* Section des éditions */}
+      {/* Section des éditions - Passer le titre du livre */}
       {uniqueEditions.length > 0 && 
        !isBrownBaby && (
-        <EditionsSection editions={uniqueEditions} />
+        <EditionsSection 
+          editions={uniqueEditions} 
+          bookTitle={book.title} // Passer le titre du livre pour conditionnement
+        />
       )}
       
-      {/* Section des liens de presse - Afficher les liens spécifiques pour Edgar, le chat souris */}
-      {isEdgarChatSouris ? (
-        <PressLinksSection pressLinks={edgarChatSourisLinks.map(link => ({ id: '', book_id: book.id, url: link.url, label: link.label, created_at: '' }))} bookTitle={book.title} />
+      {/* Section des liens de presse - Afficher les liens spécifiques pour différents livres */}
+      {isJaceMagikGouzou ? (
+        <PressLinksSection 
+          pressLinks={jaceMagikGouzouLinks.map(link => ({ 
+            id: '', 
+            book_id: book.id, 
+            url: link.url, 
+            label: link.label, 
+            created_at: '' 
+          }))} 
+          bookTitle={book.title} 
+        />
+      ) : isEdgarChatSouris ? (
+        <PressLinksSection 
+          pressLinks={edgarChatSourisLinks.map(link => ({ 
+            id: '', 
+            book_id: book.id, 
+            url: link.url, 
+            label: link.label, 
+            created_at: '' 
+          }))} 
+          bookTitle={book.title} 
+        />
       ) : (
         <PressLinksSection pressLinks={uniquePressLinks} bookTitle={book.title} />
       )}
