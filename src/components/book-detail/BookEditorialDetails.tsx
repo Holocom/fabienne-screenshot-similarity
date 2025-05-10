@@ -48,7 +48,7 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
     isbn = "9791096163069";
     console.log(`ISBN défini pour Z'OISEAUX RARES: ${isbn}`);
   } else if (bookTitle === "EDGAR, LE CHAT SOURIS" || bookTitle === "Edgar, le chat souris") {
-    editorialText = `Album jeunesse – illustré par Nancy Ribard – 2013 – 48 pages`;
+    editorialText = `Album jeunesse – illustré par Nancy Ribard – Éditions Orphie – 2013 – 48 pages`;
     isbn = "9782912949509";
     console.log(`ISBN défini pour EDGAR, LE CHAT SOURIS: ${isbn}`);
   } else {

@@ -59,6 +59,21 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Special case for "EDGAR, LE CHAT SOURIS"
   const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS" || book?.title === "Edgar, le chat souris";
   
+  // Liens spécifiques pour Edgar, le chat souris
+  const edgarChatSourisLinks = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
+    { url: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839", label: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839" },
+    { url: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html", label: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html" }
+  ];
+  
+  // Prix spécifiques pour Edgar, le chat souris
+  const edgarChatSourisAwards = [
+    { name: "Prix de l'album Jeunesse au Salon du livre insulaire d'Ouessant 2013", year: "2013" },
+    { name: "Sélection Coup de cœur des lecteurs saint-paulois 2013", year: "2013" },
+    { name: "Sélection Prix du Paille-en-queue 2014", year: "2014" },
+    { name: "Coup de cœur Takam Tikou", year: null }
+  ];
+  
   // Add specific check for Z'OISEAUX RARES and other books that need ISBN display
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
@@ -107,44 +122,61 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
         <EditionsSection editions={uniqueEditions} />
       )}
       
-      {/* Section des liens de presse */}
-      <PressLinksSection pressLinks={uniquePressLinks} bookTitle={book.title} />
+      {/* Section des liens de presse - Afficher les liens spécifiques pour Edgar, le chat souris */}
+      {isEdgarChatSouris ? (
+        <PressLinksSection pressLinks={edgarChatSourisLinks.map(link => ({ id: '', book_id: book.id, url: link.url, label: link.label, created_at: '' }))} bookTitle={book.title} />
+      ) : (
+        <PressLinksSection pressLinks={uniquePressLinks} bookTitle={book.title} />
+      )}
       
       {/* Section des liens de blog pour Brown Baby */}
       {isBrownBaby && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
       
       {/* Section combinée des prix et distinctions */}
-      {(awards.length > 0 || distinctions.length > 0) ? (
+      {isEdgarChatSouris ? (
         <div className="my-6">
           <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
-          {awards.length > 0 && (
-            <ul className="space-y-1 list-none pl-0">
-              {awards.map((award, index) => (
-                <li key={`award-${index}`} className="text-primary-blue mb-1">
-                  {award.name}{award.year ? ` (${award.year})` : ''}
-                </li>
-              ))}
-            </ul>
-          )}
-          
-          {distinctions.length > 0 && (
-            <DistinctionsSection 
-              distinctions={distinctions} 
-              bookTitle={book.title}
-              hideTitle={true}
-              className="mt-0"
-              combineWithAwards={true}
-            />
-          )}
+          <ul className="space-y-1 list-none pl-0">
+            {edgarChatSourisAwards.map((award, index) => (
+              <li key={`award-${index}`} className="text-primary-blue mb-1">
+                {award.name}{award.year ? ` (${award.year})` : ''}
+              </li>
+            ))}
+          </ul>
         </div>
-      ) : isBrownBaby ? (
-        <AwardsSection 
-          awards={[]} 
-          bookTitle={book.title} 
-          isCustom={true} 
-          customAwards={brownBabyBlogLinks.map(link => ({ name: link.label, url: link.url }))}
-        />
-      ) : null}
+      ) : (
+        (awards.length > 0 || distinctions.length > 0) ? (
+          <div className="my-6">
+            <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
+            {awards.length > 0 && (
+              <ul className="space-y-1 list-none pl-0">
+                {awards.map((award, index) => (
+                  <li key={`award-${index}`} className="text-primary-blue mb-1">
+                    {award.name}{award.year ? ` (${award.year})` : ''}
+                  </li>
+                ))}
+              </ul>
+            )}
+            
+            {distinctions.length > 0 && (
+              <DistinctionsSection 
+                distinctions={distinctions} 
+                bookTitle={book.title}
+                hideTitle={true}
+                className="mt-0"
+                combineWithAwards={true}
+              />
+            )}
+          </div>
+        ) : isBrownBaby ? (
+          <AwardsSection 
+            awards={[]} 
+            bookTitle={book.title} 
+            isCustom={true} 
+            customAwards={brownBabyBlogLinks.map(link => ({ name: link.label, url: link.url }))}
+          />
+        ) : null
+      )}
       
       {/* Section des liens Seligmann pour Brown Baby */}
       {isBrownBaby && (

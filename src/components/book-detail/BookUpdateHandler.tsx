@@ -236,7 +236,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       }
     }
     // Update for "EDGAR, LE CHAT SOURIS"
-    else if (book.title === "EDGAR, LE CHAT SOURIS" || book.title === "Edgar, le chat souris") {
+    else if (book.title === "EDGAR, LE CHAT SOURIS" || book.title === "Edgar, le chat souris" || book.id === "59a9689a-3484-4977-b0bf-4026e3438ab9") {
       try {
         console.log("Mise à jour des informations de EDGAR, LE CHAT SOURIS");
         hasUpdatedRef.current = true;
@@ -251,6 +251,13 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           isbn: "9782912949509"
         };
         
+        // Ajout des liens de presse spécifiques
+        const newPressLinks = [
+          { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
+          { url: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839", label: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839" },
+          { url: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html", label: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html" }
+        ];
+        
         // Ajout des distinctions et prix spécifiques
         const newAwards = [
           { name: "Prix de l'album Jeunesse au Salon du livre insulaire d'Ouessant 2013", year: "2013" },
@@ -263,7 +270,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           bookId,
           bookData: { description: newDescription },
           detailsData: newDetails,
-          pressLinks: [],
+          pressLinks: newPressLinks,
           awards: newAwards,
           editions: []
         });
@@ -297,6 +304,15 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       return;
     }
 
+    // Spécifiquement pour Edgar, le chat souris, force la mise à jour (même si déjà mis à jour)
+    if (book.id === "59a9689a-3484-4977-b0bf-4026e3438ab9" || 
+        book.title === "EDGAR, LE CHAT SOURIS" ||
+        book.title === "Edgar, le chat souris") {
+      console.log("Force la mise à jour d'Edgar, le chat souris");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+
     // Tenter de mettre à jour le livre avec les informations spécifiques
     const wasUpdated = handleBookSpecificUpdates();
     
@@ -304,7 +320,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       hasUpdatedRef.current = true;
       console.log("Aucune mise à jour spécifique disponible pour ce livre");
     }
-  }, [book, bookId, isLoadingBook, isBookError, updateBookMutation.isPending, preventUpdates]);
+  }, [book, bookId, isLoadingBook, isBookError, updateBookMutation.isPending, preventUpdates, forceUpdate]);
 
   return null; // Ce composant ne rend rien, il gère uniquement les effets de bord
 };

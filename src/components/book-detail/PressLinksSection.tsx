@@ -38,6 +38,12 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://www.babelio.com/livres/Jonca-ZOiseaux-rares/1257825", label: "https://www.babelio.com/livres/Jonca-ZOiseaux-rares/1257825" },
     { url: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/", label: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/" }
   ];
+  
+  const edgarChatSourisLinks: SimplePressLink[] = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
+    { url: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839", label: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839" },
+    { url: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html", label: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html" }
+  ];
                       
   // Determine which links to display
   let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
@@ -50,6 +56,8 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = flamboyantPereNoelLinks;
   } else if (bookTitle === "Z'OISEAUX RARES" || bookTitle === "Z'oiseaux rares" || bookTitle === "ZOISEAUX RARES") {
     displayLinks = zOiseauxRaresLinks;
+  } else if (bookTitle === "EDGAR, LE CHAT SOURIS" || bookTitle === "Edgar, le chat souris") {
+    displayLinks = edgarChatSourisLinks;
   }
   
   // Créer une map pour stocker des liens uniques par URL

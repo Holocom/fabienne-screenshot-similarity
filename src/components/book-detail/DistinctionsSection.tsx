@@ -33,6 +33,7 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
   
   const uniqueDistinctions = Array.from(uniqueDistinctionsMap.values());
   
+  // Si aucune distinction et pas de combinaison avec les prix, ne rien afficher
   if (uniqueDistinctions.length === 0 && !combineWithAwards) return null;
 
   return (
