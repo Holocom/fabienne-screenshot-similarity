@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -24,10 +25,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       <div className="mb-10 mt-2">
         {/* Using red color for editorial text */}
         <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{
-        __html: editorialText
-      }}>Jeunesse – illustré par Julie Bernard – Zébulo Éditions – 2019 – 20 pages
-
-ISBN : 9791096163069</p>
+          __html: editorialText
+        }} />
         
         {showISBN && isbn && <p className="text-[#ea384c] text-lg md:text-xl">
             ISBN : {isbn}
