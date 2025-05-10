@@ -83,7 +83,7 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     isbn = "9789990337945";
     console.log(`ISBN défini pour Les religions à l'ile Maurice (mis à jour): ${isbn}`);
   }
-  // Nouveau cas spécial pour LA RÉUNION DES ENFANTS
+  // Cas spécial pour LA RÉUNION DES ENFANTS
   else if (bookTitle === "LA RÉUNION DES ENFANTS" || 
            bookTitle === "La Réunion des enfants" ||
            normalizedTitle === "la reunion des enfants" ||
@@ -91,6 +91,14 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     editorialText = `Album jeunesse – illustré par Marion Pradier - Océan Jeunesse – 2014 - 52 pages`;
     isbn = "9782362470684";
     console.log(`ISBN défini pour LA RÉUNION DES ENFANTS: ${isbn}`);
+  }
+  // Nouveau cas spécial pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
+  else if (bookTitle === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" || 
+           normalizedTitle === "le petit garcon qui ne souriait jamais" ||
+           bookId === "3133c2f1-3422-4afd-8e6f-fce3e0ed910c") {
+    editorialText = `Album jeunesse – illustré par Artem Kostyukevitch - Océan Jeunesse – 2009- 36 pages`;
+    isbn = "9782916533704";
+    console.log(`ISBN défini pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS: ${isbn}`);
   }
   else {
     // Format standard pour les autres livres

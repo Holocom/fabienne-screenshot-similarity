@@ -80,6 +80,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "LA RÉUNION DES ENFANTS" ||
     book?.title === "La Réunion des enfants" ||
     book?.id === "c88b5c00-3543-46a1-9996-d82e2c260849";
+    
+  // Special case for "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS"
+  const isPetitGarcon = 
+    book?.title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
+    book?.id === "3133c2f1-3422-4afd-8e6f-fce3e0ed910c";
   
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
@@ -96,6 +101,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Log pour débogage si c'est La Réunion des enfants
   if (isLaReunionDesEnfants) {
     console.log(`Content détecté LA RÉUNION DES ENFANTS avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
+  // Log pour débogage si c'est LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
+  if (isPetitGarcon) {
+    console.log(`Content détecté LE PETIT GARÇON QUI NE SOURIAIT JAMAIS avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
@@ -130,7 +141,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ||
     isLaReunionDesReligions ||
     isLesReligionsIleMaurice ||
-    isLaReunionDesEnfants;
+    isLaReunionDesEnfants ||
+    isPetitGarcon;
   
   return (
     <>

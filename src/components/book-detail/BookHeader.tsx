@@ -43,6 +43,11 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "La Réunion des enfants" ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des enfants";
   
+  // Cas spécial pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
+  const isPetitGarcon = 
+    title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "le petit garcon qui ne souriait jamais";
+  
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
@@ -84,6 +89,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN : 9782362470684
+            </p>
+          </>
+        ) : isPetitGarcon ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album jeunesse – illustré par Artem Kostyukevitch - Océan Jeunesse – 2009- 36 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782916533704
             </p>
           </>
         ) : (
