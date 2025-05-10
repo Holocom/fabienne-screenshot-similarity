@@ -73,6 +73,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().includes("jacqueline dalais") ||
     title?.toLowerCase().includes("cle des saveurs");
 
+  // Cas spécial pour SAVEURS METISSÉES D'AYMERIC PATAUD
+  const isSaveursMetissees = 
+    title === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
+    title?.toLowerCase().includes("saveurs metissees") ||
+    title?.toLowerCase().includes("aymeric pataud");
+
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
   
@@ -174,6 +180,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9789990337860
+            </p>
+          </>
+        ) : isSaveursMetissees ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Recettes d'Aymeric Pataud – Photographies de Corinne Tellier - Epsilon Éditions – 4 Épices - 2e édition 2011 - 144 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782912949097
             </p>
           </>
         ) : (

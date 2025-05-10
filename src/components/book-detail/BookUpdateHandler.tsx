@@ -359,6 +359,44 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         return false;
       }
     }
+    // Update for "SAVEURS METISSÉES D'AYMERIC PATAUD"
+    else if (book.title === "SAVEURS METISSÉES D'AYMERIC PATAUD" || book.id === "3e02b6d4-3476-421f-802b-c9e2252cb553") {
+      try {
+        console.log("Mise à jour des informations de SAVEURS METISSÉES D'AYMERIC PATAUD");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Inspiré par les fruits et les épices de l'hémisphère sud, Aymeric Pataud réalise à travers les recettes de ce livre un véritable métissage des saveurs. Saveurs métissées présente 60 recettes issues du savoir-faire de ce jeune chef atypique formé dans les meilleures écoles parisiennes. Il marie fruits et épices des îles de l'océan Indien, avec un petit faible pour les plats à base d'épices douces comme la cannelle et la cardamome. Dans cet ouvrage, il propose avec clarté et simplicité de le suivre dans l'élaboration de recettes à base de vanille, citronnelle, gingembre, letchis, mangue, noix de coco, banane ou ananas. En perpétuelle recherche, cet alchimiste du goût et des saveurs a également développé une cuisine inédite aux huiles essentielles, dont il présente cinq recettes dans Saveurs métissées.";
+        
+        const newDetails = {
+          publisher: "Epsilon Éditions – 4 Épices",
+          illustrator: "Non spécifié", 
+          year: "2011",
+          pages: "144",
+          isbn: "9782912949097"
+        };
+        
+        // Pas de liens de presse spécifiques pour ce livre
+        const newPressLinks = [];
+        
+        // Pas de prix ou distinctions pour ce livre
+        const newAwards = [];
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: newAwards,
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de SAVEURS METISSÉES D'AYMERIC PATAUD:", error);
+        toast.error("Erreur lors de la mise à jour de SAVEURS METISSÉES D'AYMERIC PATAUD");
+        return false;
+      }
+    }
     
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
@@ -412,6 +450,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     if (book.id === "e6586dd6-2fd3-4426-b491-cee425a863c2" || 
         book.title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS") {
       console.log("Force la mise à jour de LA CLÉ DES SAVEURS DE JACQUELINE DALAIS");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
+    // Force la mise à jour pour SAVEURS METISSÉES D'AYMERIC PATAUD
+    if (book.id === "3e02b6d4-3476-421f-802b-c9e2252cb553" || 
+        book.title === "SAVEURS METISSÉES D'AYMERIC PATAUD") {
+      console.log("Force la mise à jour de SAVEURS METISSÉES D'AYMERIC PATAUD");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }

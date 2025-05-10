@@ -58,6 +58,13 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     isbn = "9782912949509";
     console.log(`ISBN défini pour EDGAR, LE CHAT SOURIS: ${isbn}`);
   } 
+  // Special case for SAVEURS METISSÉES D'AYMERIC PATAUD
+  else if (bookTitle === "SAVEURS METISSÉES D'AYMERIC PATAUD" || 
+           bookId === "3e02b6d4-3476-421f-802b-c9e2252cb553") {
+    editorialText = `Recettes d'Aymeric Pataud – Photographies de Corinne Tellier - Epsilon Éditions – 4 Épices - 2e édition 2011 - 144 pages`;
+    isbn = "9782912949097";
+    console.log(`ISBN défini pour SAVEURS METISSÉES D'AYMERIC PATAUD: ${isbn}`);
+  }
   // Cas spécial pour La Réunion des religions - condition très élargie pour s'assurer de capturer toutes les variantes
   else if (bookTitle === "La Réunion des religions" || 
            bookTitle === "LA RÉUNION DES RELIGIONS" || 

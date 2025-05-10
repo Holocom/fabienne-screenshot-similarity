@@ -45,6 +45,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isJacquelineDalais = 
     book?.title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" ||
     book?.id === "e6586dd6-2fd3-4426-b491-cee425a863c2";
+    
+  // Détecter si c'est "SAVEURS METISSÉES D'AYMERIC PATAUD"
+  const isSaveursMetissees = 
+    book?.title === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
+    book?.id === "3e02b6d4-3476-421f-802b-c9e2252cb553";
 
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -169,6 +174,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}"`);
   }
   
+  // Log pour débogage si c'est SAVEURS METISSÉES D'AYMERIC PATAUD
+  if (isSaveursMetissees) {
+    console.log(`Content détecté SAVEURS METISSÉES D'AYMERIC PATAUD avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}"`);
+  }
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -217,7 +228,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isTuMeFaisTournerCreole ||
     isTuMeFaisTournerAnglais ||
     isMaCuisineMarmaille ||
-    isJacquelineDalais;
+    isJacquelineDalais ||
+    isSaveursMetissees;
   
   return (
     <>

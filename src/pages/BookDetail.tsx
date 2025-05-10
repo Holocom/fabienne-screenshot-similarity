@@ -112,6 +112,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour LA CLÉ DES SAVEURS DE JACQUELINE DALAIS
   const isJacquelineDalais = bookId === "e6586dd6-2fd3-4426-b491-cee425a863c2";
   
+  // Ajouter le check pour SAVEURS METISSÉES D'AYMERIC PATAUD
+  const isSaveursMetissees = bookId === "3e02b6d4-3476-421f-802b-c9e2252cb553";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } else if (isLesReligionsIleMaurice) {
@@ -124,6 +127,8 @@ const BookDetailPage = () => {
     console.log("Livre identifié comme 'UN FLAMBOYANT PÈRE-NOËL' par son ID");
   } else if (isJacquelineDalais) {
     console.log("Livre identifié comme 'LA CLÉ DES SAVEURS DE JACQUELINE DALAIS' par son ID");
+  } else if (isSaveursMetissees) {
+    console.log("Livre identifié comme 'SAVEURS METISSÉES D'AYMERIC PATAUD' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -153,6 +158,7 @@ const BookDetailPage = () => {
                        isTuMeFaisTournerAnglais ? "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" :
                        isFlamboyantNoel ? "UN FLAMBOYANT PÈRE-NOËL" :
                        isJacquelineDalais ? "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" :
+                       isSaveursMetissees ? "SAVEURS METISSÉES D'AYMERIC PATAUD" :
                        book.title
               }}
               bookDetails={bookDetails || {
