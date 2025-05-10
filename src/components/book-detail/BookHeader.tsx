@@ -52,6 +52,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const isTuMeFaisTourner = 
     title === "TU ME FAIS TOURNER LA TERRE" ||
     title === "Tu me fais tourner la terre" ||
+    title === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
     title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner");
 
@@ -125,10 +126,10 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
         ) : isTuMeFaisTourner ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album jeunesse bilingue français/anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages
+              Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337938
+              ISBN 9782912949745
             </p>
           </>
         ) : (
