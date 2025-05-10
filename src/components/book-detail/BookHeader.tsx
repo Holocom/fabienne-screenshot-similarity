@@ -21,6 +21,9 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   // Cas spécial pour Edgar, le chat souris
   const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
   
+  // Cas spécial pour La Réunion des religions
+  const isLaReunionDesReligions = title === "La Réunion des religions" || title === "LA RÉUNION DES RELIGIONS";
+  
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
@@ -35,6 +38,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782912949509
+            </p>
+          </>
+        ) : isLaReunionDesReligions ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782362470035
             </p>
           </>
         ) : (
