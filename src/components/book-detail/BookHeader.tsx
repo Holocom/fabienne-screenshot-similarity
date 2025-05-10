@@ -26,7 +26,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
         {displayTitle?.toUpperCase()}
       </h1>
       
-      <div className="mt-2">
+      <div className="mb-10 mt-6">
         {/* Using the same styling for editorial text as Brown Baby page */}
         <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{ __html: editorialText }}>
         </p>
