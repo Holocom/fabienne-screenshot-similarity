@@ -1,35 +1,44 @@
-
 import React from 'react';
 import { Award } from '@/integrations/supabase/schema';
-
 interface AwardsSectionProps {
   awards: Award[];
   bookTitle: string;
   isCustom?: boolean;
-  customAwards?: Array<{ name: string, url: string | null }>;
+  customAwards?: Array<{
+    name: string;
+    url: string | null;
+  }>;
 }
-
-export const AwardsSection: React.FC<AwardsSectionProps> = ({ 
-  awards, 
-  bookTitle, 
+export const AwardsSection: React.FC<AwardsSectionProps> = ({
+  awards,
+  bookTitle,
   isCustom = false,
   customAwards = []
 }) => {
   // Brown Baby specific awards
-  const brownBabyAwards = [
-    { name: "Prix Vanille œuvre de fiction 2024", url: null },
-    { name: "Prix Seligmann du livre contre le racisme 2024", url: null },
-    { name: "Sélection Prix Maryse Condé 2024", url: null },
-    { name: "Sélection Prix Senghor du premier roman 2024", url: null },
-    { name: "Sélection Prix Verdelettres 2025", url: null },
-    { name: "Coup de cœur Takam Tikou", url: null }
-  ];
-  
+  const brownBabyAwards = [{
+    name: "Prix Vanille œuvre de fiction 2024",
+    url: null
+  }, {
+    name: "Prix Seligmann du livre contre le racisme 2024",
+    url: null
+  }, {
+    name: "Sélection Prix Maryse Condé 2024",
+    url: null
+  }, {
+    name: "Sélection Prix Senghor du premier roman 2024",
+    url: null
+  }, {
+    name: "Sélection Prix Verdelettres 2025",
+    url: null
+  }, {
+    name: "Coup de cœur Takam Tikou",
+    url: null
+  }];
+
   // Determine which awards to display
-  const displayAwards = isCustom ? customAwards : 
-                        bookTitle === "Brown Baby" ? brownBabyAwards : 
-                        awards;
-  
+  const displayAwards = isCustom ? customAwards : bookTitle === "Brown Baby" ? brownBabyAwards : awards;
+
   // Éliminer les doublons basés sur le nom uniquement
   const uniqueAwardsMap = new Map();
   displayAwards.forEach(award => {
@@ -37,21 +46,14 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
       uniqueAwardsMap.set(award.name, award);
     }
   });
-  
   const uniqueAwards = Array.from(uniqueAwardsMap.values());
-  
   if (uniqueAwards.length === 0) return null;
-
-  return (
-    <div className="my-6 text-[#00366b]">
+  return <div className="my-6 text-[#00350b]">
       <h3 className="text-xl font-bold mb-2 text-[#00366b] uppercase">PRIX ET DISTINCTIONS</h3>
       <ul className="space-y-1 list-none pl-0">
-        {uniqueAwards.map((award, index) => (
-          <li key={`award-${index}`} className="text-[#00366b] mb-1">
+        {uniqueAwards.map((award, index) => <li key={`award-${index}`} className="text-[#00366b] mb-1">
             {award.name}{!isCustom && 'year' in award && award.year ? ` (${award.year})` : ''}
-          </li>
-        ))}
+          </li>)}
       </ul>
-    </div>
-  );
+    </div>;
 };
