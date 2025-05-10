@@ -14,11 +14,6 @@ interface PressLinksSectionProps {
 }
 
 export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks, bookTitle }) => {
-  // Ne rien afficher pour le livre "AS-TU LA LANGUE BIEN PENDUE ?"
-  if (bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?" || bookTitle.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    return null;
-  }
-  
   // Book-specific press links
   const brownBabyPressLinks: SimplePressLink[] = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby" },
@@ -32,12 +27,19 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
     { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
   ];
+  
+  const langueBienPendueLinks: SimplePressLink[] = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue" },
+    { url: "http://www.encres-vagabondes.com/magazine/jonca.htm", label: "http://www.encres-vagabondes.com/magazine/jonca.htm" }
+  ];
                       
   // Determine which links to display
   let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
   
   if (bookTitle === "Brown Baby") {
     displayLinks = brownBabyPressLinks;
+  } else if (bookTitle.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
+    displayLinks = langueBienPendueLinks;
   } else if (bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël")) {
     displayLinks = flamboyantPereNoelLinks;
   }

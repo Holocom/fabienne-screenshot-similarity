@@ -111,7 +111,7 @@ const BookDetailPage = () => {
         };
         
         const newPressLinks = [
-          { url: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso", label: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso" },
+          { url: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso", label: "https://imazpress.com/culture/le-livre-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso" },
           { url: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html", label: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html" }
         ];
         
@@ -128,6 +128,7 @@ const BookDetailPage = () => {
         hasUpdatedRef.current = true;
       }
     } else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") && book.id) {
+      // Update for Flamboyant Père Noël book
       try {
         hasUpdatedRef.current = true;
         
@@ -140,6 +141,13 @@ const BookDetailPage = () => {
           pages: "24",
           isbn: "9782919300297"
         };
+        
+        // Liens de presse pour ce livre - on laisse la déduplication au composant PressLinksSection
+        const newPressLinks = [
+          { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
+          { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
+          { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
+        ];
         
         const newAwards = [
           { name: "Prix Afrilivres 2020", year: "2020" },
@@ -155,12 +163,6 @@ const BookDetailPage = () => {
           { name: "Atelier des nomades", publisher: "Atelier des nomades", year: null, language: null },
           { name: "Edition Vallesse", publisher: "Vallesse", year: null, language: null },
           { name: "Edition Filigrane", publisher: "Filigrane", year: null, language: null }
-        ];
-        
-        const newPressLinks = [
-          { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
-          { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
-          { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
         ];
         
         updateBookMutation.mutate({
@@ -190,8 +192,11 @@ const BookDetailPage = () => {
           isbn: "9782916533520"
         };
         
-        // Plus de liens de presse pour ce livre
-        const newPressLinks = [];
+        // Liens de presse pour ce livre - on laisse la déduplication au composant PressLinksSection
+        const newPressLinks = [
+          { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue" },
+          { url: "http://www.encres-vagabondes.com/magazine/jonca.htm", label: "http://www.encres-vagabondes.com/magazine/jonca.htm" }
+        ];
         
         // Force an update to the database
         updateBookMutation.mutate({
