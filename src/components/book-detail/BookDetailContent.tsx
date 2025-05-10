@@ -29,8 +29,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   distinctions,
   editions
 }) => {
-  // Obtenir les détails éditoriaux
-  const { editorialText, isbn } = getBookEditorialDetails({ bookTitle: book.title, bookDetails });
+  // Obtenir les détails éditoriaux en passant également l'ID du livre
+  const { editorialText, isbn } = getBookEditorialDetails({ 
+    bookTitle: book.title, 
+    bookDetails,
+    bookId: book.id // Pass the book ID explicitly
+  });
   
   // Filtrer les liens de presse pour éliminer les doublons
   const uniquePressLinks = Array.from(new Map(
@@ -64,7 +68,14 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "La Réunion des religions" || 
     book?.title === "LA RÉUNION DES RELIGIONS" ||
     book?.title === "La Reunion des religions" ||
-    book?.id === "0569acb0-8946-4f62-acce-881604d3146a";
+    book?.id === "0569acb0-8946-4f62-acce-881604d3146a" ||
+    book?.id === "23b62768-3770-4621-8c5e-9a705891bb93";
+  
+  // Log pour débogage si c'est La Réunion des religions
+  if (isLaReunionDesReligions) {
+    console.log(`Content détecté La Réunion des religions avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
   
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [

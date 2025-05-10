@@ -5,10 +5,11 @@ import { BookDetail } from '@/integrations/supabase/schema';
 interface BookDetailsProps {
   bookTitle: string;
   bookDetails: any;
+  bookId?: string; // Add bookId as an optional parameter
 }
 
-export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsProps): { editorialText: string; isbn: string } => {
-  console.log(`Récupération des détails éditoriaux pour "${bookTitle}"`);
+export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: BookDetailsProps): { editorialText: string; isbn: string } => {
+  console.log(`Récupération des détails éditoriaux pour "${bookTitle}" avec ID: ${bookId || 'non défini'}`);
   
   // Update the editorial text information specifically for this book
   let editorialText = '';
@@ -64,7 +65,8 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
            normalizedTitle === "la reunion des religions" ||
            bookTitle.includes("union des religion") ||
            bookTitle === "La Réunion des Religions" ||
-           bookId === "0569acb0-8946-4f62-acce-881604d3146a") {  // Ajout d'une vérification par ID
+           bookId === "0569acb0-8946-4f62-acce-881604d3146a" ||
+           bookId === "23b62768-3770-4621-8c5e-9a705891bb93") {
     // Format exact pour La Réunion des religions selon l'image fournie
     editorialText = `Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages`;
     isbn = "9782362470035";
