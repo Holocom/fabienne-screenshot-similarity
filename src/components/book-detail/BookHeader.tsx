@@ -27,23 +27,30 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </h1>
       
       <div className="mb-10 mt-2">
-        {/* Using red color for editorial text */}
-        <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{
-          __html: editorialText
-        }} />
-        
-        {/* Pour Edgar, le chat souris, afficher l'éditeur sur une ligne séparée */}
-        {isEdgarChatSouris && (
-          <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-            Éditions Orphie – 48 pages
-          </p>
-        )}
-        
-        {/* S'assurer que l'ISBN s'affiche correctement */}
-        {(showISBN || isEdgarChatSouris) && isbn && (
-          <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-            ISBN : {isbn}
-          </p>
+        {/* Pour Edgar, le chat souris, afficher le texte exactement comme dans l'image */}
+        {isEdgarChatSouris ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album jeunesse – illustré par Nancy Ribard – 2013
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782912949509
+            </p>
+          </>
+        ) : (
+          <>
+            {/* Using red color for editorial text */}
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{
+              __html: editorialText
+            }} />
+            
+            {/* S'assurer que l'ISBN s'affiche correctement */}
+            {showISBN && isbn && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN : {isbn}
+              </p>
+            )}
+          </>
         )}
       </div>
     </>;

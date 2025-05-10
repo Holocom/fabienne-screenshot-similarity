@@ -87,8 +87,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "Z'OISEAUX RARES" || 
     book?.title === "Z'oiseaux rares" || 
     book?.title === "ZOISEAUX RARES" ||
-    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ||
-    isEdgarChatSouris;
+    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356";
   
   return (
     <>
