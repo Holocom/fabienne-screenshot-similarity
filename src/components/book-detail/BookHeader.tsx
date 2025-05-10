@@ -43,7 +43,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
         ) : isLaReunionDesReligions ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Jeunesse - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages
+              Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782362470035
