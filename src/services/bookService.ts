@@ -172,6 +172,9 @@ export const updateBookDetails = async (bookId: string, details: Partial<BookDet
 
 export const updateBook = async (bookId: string, bookData: Partial<Book>): Promise<Book | null> => {
   try {
+    console.log("Tentative de mise à jour du livre:", bookId);
+    console.log("Données à mettre à jour:", bookData);
+
     const { data, error } = await supabase
       .from('books')
       .update(bookData)
@@ -189,6 +192,7 @@ export const updateBook = async (bookId: string, bookData: Partial<Book>): Promi
       return null;
     }
     
+    console.log("Livre mis à jour avec succès:", data);
     return data as Book;
   } catch (error) {
     console.error('Unexpected error in updateBook:', error);
@@ -423,19 +427,21 @@ export const updateCompleteBookInfo = async (
   editions: Array<Omit<Edition, 'id' | 'created_at'>>
 ): Promise<boolean> => {
   try {
-    console.log("Updating book info for:", bookId);
-    console.log("Book data:", bookData);
-    console.log("Details data:", detailsData);
-    console.log("Press links:", pressLinks);
+    console.log("Mise à jour des informations du livre:", bookId);
+    console.log("Données du livre:", bookData);
+    console.log("Détails du livre:", detailsData);
+    console.log("Liens de presse:", pressLinks);
     
-    // Mise à jour des données principales du livre
+    // Mise à jour des données principales du livre (y compris la description)
     if (Object.keys(bookData).length > 0) {
+      console.log("Mise à jour des données principales du livre avec:", bookData);
       const bookUpdateResult = await updateBook(bookId, bookData);
+      
       if (!bookUpdateResult) {
-        console.warn('Failed to update book data for ID:', bookId);
-        // Continue processing rather than failing completely
+        console.warn('Échec de la mise à jour des données principales pour le livre ID:', bookId);
+        // On continue le traitement plutôt que d'échouer complètement
       } else {
-        console.log("Book data updated successfully");
+        console.log("Données du livre mises à jour avec succès:", bookUpdateResult);
       }
     }
     
@@ -443,10 +449,10 @@ export const updateCompleteBookInfo = async (
     if (Object.keys(detailsData).length > 0) {
       const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
       if (!detailsUpdateResult) {
-        console.warn('Failed to update book details for ID:', bookId);
-        // Continue processing
+        console.warn('Échec de la mise à jour des détails pour le livre ID:', bookId);
+        // On continue le traitement
       } else {
-        console.log("Book details updated successfully");
+        console.log("Détails du livre mis à jour avec succès");
       }
     }
     

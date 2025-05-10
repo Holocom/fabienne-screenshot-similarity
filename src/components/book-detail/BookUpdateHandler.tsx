@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -28,8 +27,8 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       return;
     }
     
-    console.log("Checking if book needs update:", bookId);
-    console.log("Book info:", book?.title, bookId);
+    console.log("Vérification si le livre a besoin d'une mise à jour:", bookId);
+    console.log("Informations du livre:", book?.title, bookId, book?.description);
     
     if (
       updateBookMutation.isPending || 
@@ -190,10 +189,11 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
         hasUpdatedRef.current = true;
       }
-    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
+    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" || book.title.toLowerCase() === "zoiseaux rares") {
       // Mise à jour spécifique pour "Z'OISEAUX RARES"
       try {
-        console.log("Updating Z'OISEAUX RARES with ID:", book.id);
+        console.log("Mise à jour des informations de Z'OISEAUX RARES avec ID:", book.id);
+        hasUpdatedRef.current = true;
         
         // Mise à jour avec la nouvelle description de l'image
         const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
@@ -220,7 +220,11 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           { name: "Coup de cœur Takam Tikou 2020", year: "2020" }
         ];
         
-        // Force an update to the database
+        console.log("Données complètes à envoyer:");
+        console.log("Description:", newDescription);
+        console.log("Détails:", newDetails);
+        
+        // Force une mise à jour directe dans la base de données
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
@@ -229,9 +233,19 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           awards: newAwards,
           editions: []
         });
+        
+        // Vérification supplémentaire pour s'assurer que la description est mise à jour
+        setTimeout(() => {
+          console.log("Vérification post-mutation de la description:", book.description);
+          if (!book.description || book.description === "NULL") {
+            toast.info("Mise à jour de la description en cours...");
+          }
+        }, 2000);
+        
       } catch (error) {
-        console.error("Error updating Z'OISEAUX RARES:", error);
+        console.error("Erreur lors de la mise à jour de Z'OISEAUX RARES:", error);
         hasUpdatedRef.current = true;
+        toast.error("Erreur lors de la mise à jour de Z'OISEAUX RARES");
       }
     } else {
       hasUpdatedRef.current = true;
