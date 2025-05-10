@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -28,6 +29,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   distinctions,
   editions
 }) => {
+  // Détecter si c'est "UN FLAMBOYANT PÈRE-NOËL"
+  const isFlamboyantNoel = 
+    book?.title === "UN FLAMBOYANT PÈRE-NOËL" ||
+    book?.title === "Un Flamboyant Père-Noël" ||
+    book?.id === "b733fd7b-1bc8-4e37-bc19-94f0a445311d";
+
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
