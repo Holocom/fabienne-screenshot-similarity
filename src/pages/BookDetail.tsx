@@ -211,6 +211,39 @@ const BookDetailPage = () => {
         console.error("Error updating AS-TU LA LANGUE BIEN PENDUE ?:", error);
         hasUpdatedRef.current = true;
       }
+    } else if (book.title === "EXPRESSIONS MÉLANZÉ" || book.title === "Expressions Mélanzé" || book.title === "Expressions Melanze") {
+      // Add specific update case for "EXPRESSIONS MÉLANZÉ"
+      try {
+        console.log("Updating EXPRESSIONS MÉLANZÉ");
+        
+        const newDescription = "Alon dékouvé bann lésprésyon kréol ék fransé, shakinn néna son lima-maziné. Bann lésprésyon i maive-maive ansanm, i yativien avèk po mète anlèr lo gouté nout deu lang. Ek le bann paj lo jeu, alé pran out plézir vavangue koté in lang épila l'ot lang dann in gavar ou i oubli'arpa.\n\nDécouvre des expressions créoles et françaises aussi imagées les unes que les autres. Les expressions s'entremêlent et se répondent pour révéler la saveur de nos deux langues. Et avec les pages de jeux, amuse-toi à passer d'une langue à l'autre avec délectation.";
+        
+        const newDetails = {
+          publisher: "Ed. 4 Épices",
+          illustrator: "Flo Vandermeersch", 
+          year: "2024",
+          pages: "44",
+          isbn: "9782956127741"
+        };
+        
+        // Specific awards for this book
+        const newAwards = [
+          { name: "Finaliste du Prix Vanille Illustration (2024)", year: "2024" }
+        ];
+        
+        // Force an update to the database
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: [],
+          awards: newAwards,
+          editions: []
+        });
+      } catch (error) {
+        console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
+        hasUpdatedRef.current = true;
+      }
     } else {
       hasUpdatedRef.current = true;
     }
@@ -305,6 +338,16 @@ const BookDetailPage = () => {
     details.illustrator = "Non spécifié";
     details.year = "2017";
     details.pages = "240";
+  } else if (book.title === "EXPRESSIONS MÉLANZÉ" || book.title === "Expressions Mélanzé" || book.title === "Expressions Melanze") {
+    editorialText = `Jeux d'expressions - illustré par Flo Vandermeersch - Ed. 4 Épices - 2024 - 44 pages`;
+    isbn = "9782956127741";
+    
+    // Force specific details for this book
+    details.isbn = "9782956127741";
+    details.publisher = "Ed. 4 Épices";
+    details.illustrator = "Flo Vandermeersch";
+    details.year = "2024";
+    details.pages = "44";
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
@@ -382,13 +425,18 @@ const BookDetailPage = () => {
                         (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
                         book?.title === "Ambroise Vollard, un don singulier" ||
                         book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
+                        book?.title === "EXPRESSIONS MÉLANZÉ" ||
+                        book?.title === "Expressions Mélanzé" ||
+                        book?.title === "Expressions Melanze" ||
                         book?.title === "JACE. MAGIK GOUZOU")}
                 isbn={book?.title === "JACE. MAGIK GOUZOU" ? 
                       "9782072726590" : 
                       book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
                       "9782919300297" : 
                       book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
-                      "9782952720496" : "9782916533520"}
+                      "9782952720496" : 
+                      book?.title === "EXPRESSIONS MÉLANZÉ" || book?.title === "Expressions Mélanzé" || book?.title === "Expressions Melanze" ?
+                      "9782956127741" : "9782916533520"}
               />
             </div>
           )}
