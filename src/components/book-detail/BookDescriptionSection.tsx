@@ -20,6 +20,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       .replace(/\n/g, '<br />')
       // Appliquer les mises en forme spécifiques comme "Brown Baby" en italique
       .replace(/Brown Baby/g, '<em>Brown Baby</em>')
+      // Mettre "Les religions à l'île Maurice" en italique quand il apparaît dans le texte
+      .replace(/Les religions à l['']île Maurice/g, '<em>Les religions à l\'île Maurice</em>')
       // Mettre en évidence certains mots pour Z'OISEAUX RARES
       .replace(/"ma ma"/g, '<strong>"ma ma"</strong>').replace(/"mu mu"/g, '<strong>"mu mu"</strong>').replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>').replace(/"ga ga"/g, '<strong>"ga ga"</strong>').replace(/"papa"/g, '<strong>"papa"</strong>').replace(/"doudou"/g, '<strong>"doudou"</strong>').replace(/"joujou"/g, '<strong>"joujou"</strong>')
       // Gérer les doubles guillemets français qui peuvent venir du copier-coller
