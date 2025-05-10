@@ -27,7 +27,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </h1>
       
       <div className="mb-10 mt-2">
-        {/* Using the same styling for editorial text as Brown Baby page */}
+        {/* Using red color for editorial text */}
         <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{ __html: editorialText }}>
         </p>
         

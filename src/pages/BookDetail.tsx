@@ -246,7 +246,7 @@ const BookDetailPage = () => {
         hasUpdatedRef.current = true;
       }
     } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES") {
-      // Add specific update case for "Z'OISEAUX RARES"
+      // Mise à jour spécifique pour "Z'OISEAUX RARES"
       try {
         console.log("Updating Z'OISEAUX RARES");
         
