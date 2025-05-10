@@ -95,10 +95,9 @@ const BookDetailPage = () => {
                     isLoadingAwards || isLoadingDistinctions || isLoadingEditions;
   
   // Vérifier spécifiquement si c'est le livre "La Réunion des religions"
-  const isLaReunionDesReligions = bookId === "0569acb0-8946-4f62-acce-881604d3146a" || 
-                                  bookId === "23b62768-3770-4621-8c5e-9a705891bb93";
+  const isLaReunionDesReligions = bookId === "0569acb0-8946-4f62-acce-881604d3146a";
   if (isLaReunionDesReligions) {
-    console.log("Livre identifié comme 'La Réunion des religions' ou 'Les religions à l'île Maurice' par son ID");
+    console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -121,11 +120,8 @@ const BookDetailPage = () => {
             <BookDetailContent 
               book={{
                 ...book,
-                // Force le titre correct si nécessaire
-                title: isLaReunionDesReligions ? 
-                  (book.id === "23b62768-3770-4621-8c5e-9a705891bb93" ? 
-                    "Les religions à l'ile Maurice" : "La Réunion des religions") : 
-                  book.title
+                // Force le titre correct pour La Réunion des religions si nécessaire
+                title: isLaReunionDesReligions ? "La Réunion des religions" : book.title
               }}
               bookDetails={bookDetails || {
                 id: "temp-id",

@@ -51,8 +51,7 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/la-reunion-des-religions", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/la-reunion-des-religions" },
     { url: "https://www.ricochet-jeunes.org/livres/la-reunion-des-religions", label: "https://www.ricochet-jeunes.org/livres/la-reunion-des-religions" },
     { url: "https://www.encres-vagabondes.com/magazine/jonca3.htm", label: "https://www.encres-vagabondes.com/magazine/jonca3.htm" },
-    { url: "https://www.les-notes.fr/analyse/la-reunion-des-religions/", label: "https://www.les-notes.fr/analyse/la-reunion-des-religions/" },
-    { url: "https://sabariscon.com/2016/06/20/les-religions-a-lile-maurice-fabienne-jonca-et-helene-moreau-vizavi-2015/", label: "https://sabariscon.com/2016/06/20/les-religions-a-lile-maurice-fabienne-jonca-et-helene-moreau-vizavi-2015/" }
+    { url: "https://www.les-notes.fr/analyse/la-reunion-des-religions/", label: "https://www.les-notes.fr/analyse/la-reunion-des-religions/" }
   ];
                       
   // Determine which links to display
@@ -68,10 +67,7 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = zOiseauxRaresLinks;
   } else if (bookTitle === "EDGAR, LE CHAT SOURIS" || bookTitle === "Edgar, le chat souris") {
     displayLinks = edgarChatSourisLinks;
-  } else if (bookTitle === "La Réunion des religions" || 
-             bookTitle === "LA RÉUNION DES RELIGIONS" || 
-             bookTitle === "Les religions à l'ile Maurice" ||
-             bookTitle === "LES RELIGIONS À L'ILE MAURICE") {
+  } else if (bookTitle === "La Réunion des religions" || bookTitle === "LA RÉUNION DES RELIGIONS") {
     displayLinks = reunionDesReligionsLinks;
   }
   
