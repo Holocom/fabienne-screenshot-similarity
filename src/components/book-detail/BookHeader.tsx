@@ -48,13 +48,18 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "le petit garcon qui ne souriait jamais";
     
-  // Cas spécial pour TU ME FAIS TOURNER LA TERRE
-  const isTuMeFaisTourner = 
-    title === "TU ME FAIS TOURNER LA TERRE" ||
-    title === "Tu me fais tourner la terre" ||
+  // Version créole réunionnais
+  const isTuMeFaisTournerCreole = 
     title === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
+    title?.includes("OU I FÉ TOURNE MON TERRE");
+    
+  // Version anglaise
+  const isTuMeFaisTournerAnglais = 
     title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner");
+    title === "TU ME FAIS TOURNER LA TERRE" ||
+    title?.includes("YOU MAKE MY WORLD SPIN") ||
+    (title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner") &&
+      !title?.includes("OU I FÉ TOURNE MON TERRE"));
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -123,13 +128,22 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               ISBN 9782916533704
             </p>
           </>
-        ) : isTuMeFaisTourner ? (
+        ) : isTuMeFaisTournerCreole ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782912949745
+            </p>
+          </>
+        ) : isTuMeFaisTournerAnglais ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album jeunesse français / anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9789990337938
             </p>
           </>
         ) : (

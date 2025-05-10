@@ -27,10 +27,16 @@ export const getBookCoverImage = ({ bookTitle, defaultCover }: BookCoverImagePro
     return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/JEUNESSE/La%20Reunion%20des%20enfants%20copie.jpg";
   }
   
-  // Ajout de la condition pour TU ME FAIS TOURNER LA TERRE avec la mise à jour du titre
+  // Version créole réunionnais
   if (bookTitle === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" || 
-      bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" || 
+      bookTitle?.includes("OU I FÉ TOURNE MON TERRE")) {
+    return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/JEUNESSE/tu-me-fais-tourner-la-Terre-you-make-my-world-spin.png";
+  }
+  
+  // Version anglaise
+  if (bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" || 
       bookTitle === "TU ME FAIS TOURNER LA TERRE" || 
+      bookTitle?.includes("YOU MAKE MY WORLD SPIN") ||
       bookTitle?.includes("TU ME FAIS TOURNER")) {
     return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/JEUNESSE/tu-me-fais-tourner-la-Terre-you-make-my-world-spin.png";
   }

@@ -100,17 +100,23 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     isbn = "9782916533704";
     console.log(`ISBN défini pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS: ${isbn}`);
   }
-  // Cas spécial mis à jour pour TU ME FAIS TOURNER LA TERRE
-  else if (bookTitle === "TU ME FAIS TOURNER LA TERRE" ||
-           bookTitle === "Tu me fais tourner la terre" ||
-           bookTitle === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
-           bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
-           normalizedTitle?.includes("tu me fais tourner") ||
-           bookId === "451338a8-2537-454d-a990-00dbc0988370") {
-    // Mise à jour selon l'image 1 fournie
+  // Version créole réunionnais
+  else if (bookTitle === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
+           bookTitle?.includes("OU I FÉ TOURNE MON TERRE") ||
+           (bookId === "451338a8-2537-454d-a990-00dbc0988370" && 
+            (normalizedTitle?.includes("ou i fe") || normalizedTitle?.includes("creole")))) {
     editorialText = `Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages`;
     isbn = "9782912949745";
-    console.log(`ISBN mis à jour pour TU ME FAIS TOURNER LA TERRE: ${isbn}`);
+    console.log(`ISBN défini pour TU ME FAIS TOURNER LA TERRE (version créole): ${isbn}`);
+  }
+  // Version anglaise
+  else if (bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
+           bookTitle === "TU ME FAIS TOURNER LA TERRE" ||
+           bookTitle?.includes("YOU MAKE MY WORLD SPIN") ||
+           (normalizedTitle?.includes("tu me fais tourner") && !normalizedTitle?.includes("ou i fe"))) {
+    editorialText = `Album jeunesse français / anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages`;
+    isbn = "9789990337938";
+    console.log(`ISBN défini pour TU ME FAIS TOURNER LA TERRE (version anglaise): ${isbn}`);
   }
   else {
     // Format standard pour les autres livres

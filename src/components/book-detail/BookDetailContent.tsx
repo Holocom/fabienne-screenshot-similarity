@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -87,13 +86,15 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
     book?.id === "3133c2f1-3422-4afd-8e6f-fce3e0ed910c";
     
-  // Special case for "TU ME FAIS TOURNER LA TERRE"
-  const isTuMeFaisTourner = 
-    book?.title === "TU ME FAIS TOURNER LA TERRE" ||
-    book?.title === "Tu me fais tourner la terre" ||
-    book?.title?.includes("TU ME FAIS TOURNER") ||
-    book?.title?.includes("YOU MAKE MY WORLD SPIN") ||
+  // Special case for "TU ME FAIS TOURNER LA TERRE" - version créole
+  const isTuMeFaisTournerCreole = 
+    book?.title === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
     book?.id === "451338a8-2537-454d-a990-00dbc0988370";
+    
+  // Special case for "TU ME FAIS TOURNER LA TERRE" - version anglaise  
+  const isTuMeFaisTournerAnglais = 
+    book?.title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
+    (book?.title?.includes("TU ME FAIS TOURNER") && !book?.title?.includes("OU I FÉ TOURNE MON TERRE"));
   
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
@@ -119,9 +120,15 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
-  // Log pour débogage si c'est TU ME FAIS TOURNER LA TERRE
-  if (isTuMeFaisTourner) {
-    console.log(`Content détecté TU ME FAIS TOURNER LA TERRE avec ID: ${book?.id}`);
+  // Log pour débogage si c'est TU ME FAIS TOURNER LA TERRE (créole)
+  if (isTuMeFaisTournerCreole) {
+    console.log(`Content détecté TU ME FAIS TOURNER LA TERRE (créole) avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
+  // Log pour débogage si c'est TU ME FAIS TOURNER LA TERRE (anglais)
+  if (isTuMeFaisTournerAnglais) {
+    console.log(`Content détecté TU ME FAIS TOURNER LA TERRE (anglais) avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
@@ -158,7 +165,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isLesReligionsIleMaurice ||
     isLaReunionDesEnfants ||
     isPetitGarcon ||
-    isTuMeFaisTourner;
+    isTuMeFaisTournerCreole ||
+    isTuMeFaisTournerAnglais;
   
   return (
     <>
