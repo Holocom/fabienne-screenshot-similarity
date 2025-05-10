@@ -18,10 +18,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
         const formattedParagraph = paragraph
           // Remplacer les sauts de ligne simples par des balises <br />
           .replace(/\n/g, '<br />')
-          // Appliquer les mises en forme spécifiques comme avant
-          .replace(/Brown Baby/g, '<em>Brown Baby</em>')
-          // Correction des espaces manquants après les points
-          .replace(/étincelant\.Quelle/g, 'étincelant. Quelle');
+          // Appliquer les mises en forme spécifiques comme "Brown Baby" en italique
+          .replace(/Brown Baby/g, '<em>Brown Baby</em>');
         
         return (
           <p 

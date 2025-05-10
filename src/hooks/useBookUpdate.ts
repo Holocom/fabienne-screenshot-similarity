@@ -10,13 +10,14 @@ export const useBookUpdate = (bookId: string | undefined) => {
   const [preventUpdates, setPreventUpdates] = useState(false);
   
   useEffect(() => {
-    // Force new update for debugging
+    // Pour le développement, désactiver la vérification de mise à jour précédente
     sessionStorage.removeItem('updatedBooks');
     
     const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
     const updatedBooksObj = JSON.parse(updatedBooks);
     
     if (bookId && updatedBooksObj[bookId]) {
+      console.log(`Livre ${bookId} déjà mis à jour dans cette session`);
       setPreventUpdates(true);
       hasUpdatedRef.current = true;
     }
@@ -27,6 +28,7 @@ export const useBookUpdate = (bookId: string | undefined) => {
         const updatedBooksObj = JSON.parse(updatedBooks);
         updatedBooksObj[bookId] = true;
         sessionStorage.setItem('updatedBooks', JSON.stringify(updatedBooksObj));
+        console.log(`Marqué ${bookId} comme mis à jour dans la session`);
       }
     };
   }, [bookId]);
@@ -39,16 +41,22 @@ export const useBookUpdate = (bookId: string | undefined) => {
       pressLinks: any[],
       awards: any[],
       editions: any[]
-    }) => updateCompleteBookInfo(
-      data.bookId,
-      data.bookData,
-      data.detailsData,
-      data.pressLinks,
-      data.awards,
-      data.editions
-    ),
+    }) => {
+      console.log("Tentative de mise à jour pour le livre:", data.bookId);
+      console.log("Données du livre à mettre à jour:", data.bookData);
+      
+      return updateCompleteBookInfo(
+        data.bookId,
+        data.bookData,
+        data.detailsData,
+        data.pressLinks,
+        data.awards,
+        data.editions
+      );
+    },
     onSuccess: () => {
       if (bookId) {
+        console.log("Mise à jour réussie, invalidation des requêtes pour:", bookId);
         queryClient.invalidateQueries({ queryKey: ['book', bookId] });
         queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
         queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
@@ -57,7 +65,7 @@ export const useBookUpdate = (bookId: string | undefined) => {
       }
       
       if (!hasUpdatedRef.current) {
-        console.log('Book information updated successfully');
+        console.log('Livre mis à jour avec succès');
         toast.success('Informations du livre mises à jour avec succès');
         hasUpdatedRef.current = true;
         setPreventUpdates(true);
