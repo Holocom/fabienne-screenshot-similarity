@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft } from 'lucide-react';
 import { 
   getBookById, 
   getBookDetails, 
@@ -9,27 +9,14 @@ import {
   getAwards, 
   getEditions 
 } from '@/services/bookService';
-import Navigation from '@/components/Navigation';
-import Header from '@/components/Header';
-import { useBookUpdate } from '@/hooks/useBookUpdate';
 import { LoadingState } from '@/components/book-detail/LoadingState';
 import { ErrorState } from '@/components/book-detail/ErrorState';
-import { BookHeader } from '@/components/book-detail/BookHeader';
-import { BookDescriptionSection } from '@/components/book-detail/BookDescriptionSection';
-import { AwardsSection } from '@/components/book-detail/AwardsSection';
-import { PressLinksSection } from '@/components/book-detail/PressLinksSection';
-import { BlogLinksSection } from '@/components/book-detail/BlogLinksSection';
-import { EditionsSection } from '@/components/book-detail/EditionsSection';
-import { SeligmannLinksSection } from '@/components/book-detail/SeligmannLinksSection';
-import { BookCoversCarousel } from '@/components/book-detail/BookCoversCarousel';
+import { BookDetailLayout } from '@/components/book-detail/BookDetailLayout';
+import { BookUpdateHandler } from '@/components/book-detail/BookUpdateHandler';
+import { BookDetailContent } from '@/components/book-detail/BookDetailContent';
 
 const BookDetailPage = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const { 
-    updateBookMutation, 
-    preventUpdates, 
-    hasUpdatedRef 
-  } = useBookUpdate(bookId);
   
   const {
     data: book,
@@ -78,458 +65,61 @@ const BookDetailPage = () => {
     enabled: !!bookId
   });
   
-  useEffect(() => {
-    if (preventUpdates || !bookId || hasUpdatedRef.current) {
-      return;
-    }
-    
-    console.log("Checking if book needs update:", bookId);
-    console.log("Book info:", book?.title, bookId);
-    
-    if (
-      updateBookMutation.isPending || 
-      isLoadingBook || 
-      !book || 
-      isBookError ||
-      !book.title
-    ) {
-      return;
-    }
-    
-    // Special case for Ambroise Vollard book
-    if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
-      try {
-        hasUpdatedRef.current = true;
+  // Composant de gestion des mises à jour rendu correctement
+  if (book) {
+    return (
+      <>
+        <BookUpdateHandler 
+          book={book} 
+          bookId={bookId} 
+          isLoadingBook={isLoadingBook} 
+          isBookError={isBookError} 
+        />
         
-        const newDescription = "Le premier ouvrage à rendre hommage à Vollard le Réunionnais et au don exceptionnel fait à son île en 1947, exposé au musée Léon Dierx. Ces 157 œuvres initiales, complétées depuis 70 ans, forment la plus grande collection d'art moderne française en dehors de la métropole. Né à La Réunion en 1866 et mort en France métropolitaine à la veille de la Seconde Guerre mondiale, Ambroise Vollard a eu une influence décisive sur l'art au tournant des XIXe et XXe siècles. Paul Cézanne, Pablo Picasso, Auguste Renoir, Georges Rouault, Paul Gauguin, Berthe Morisot, Edgar Degas, Émile Bernard... En cinquante ans, il découvrit ou accompagna les plus grands artistes de son temps. Marchand, éditeur d'art et écrivain, Vollard avait un talent unique pour repérer les artistes. Comment, alors qu'il n'est jamais revenu dans son île natale, a-t-il participé à former le regard de nombreux Réunionnais ? Comment, alors qu'il ne cachait pas son aversion pour les institutions muséales, a-t-il participé à la création du premier musée des beaux-arts des Outre-mers français ? À l'occasion du 70e anniversaire du don Vollard au musée Léon Dierx, cet ouvrage retrace le parcours de ce réunionnais au don singulier.";
-        
-        const newDetails = {
-          publisher: "Ed. 4 Épices",
-          illustrator: "Non spécifié", 
-          year: "2017",
-          pages: "216",
-          isbn: "9782952720496"
-        };
-        
-        const newPressLinks = [
-          { url: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso", label: "https://imazpress.com/culture/le-livre-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso" },
-          { url: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html", label: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html" }
-        ];
-        
-        updateBookMutation.mutate({
-          bookId,
-          bookData: { description: newDescription },
-          detailsData: newDetails,
-          pressLinks: newPressLinks,
-          awards: [],
-          editions: []
-        });
-      } catch (error) {
-        console.error("Error in update effect for Ambroise Vollard book:", error);
-        hasUpdatedRef.current = true;
-      }
-    } else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") && book.id) {
-      // Update for Flamboyant Père Noël book
-      try {
-        hasUpdatedRef.current = true;
-        
-        const newDescription = "Dès le mois de janvier, le très élégant père Noël décide d'explorer la Terre, à la recherche de sa tenue de fin d'année. Il s'envole sur son traîneau pour l'Écosse, le Japon, la Côte d'Ivoire et bien d'autres pays encore.\n\nPendant son tour du monde, il essaie des vêtements, du plus sobre au plus étincelant.\n\nQuelle tenue choisira-t-il cette année ? Un kilt écossais ou un boubou africain ?";
-        
-        const newDetails = {
-          publisher: "Atelier des nomades",
-          illustrator: "Iloë", 
-          year: "2020",
-          pages: "24",
-          isbn: "9782919300297"
-        };
-        
-        // Liens de presse pour ce livre - on laisse la déduplication au composant PressLinksSection
-        const newPressLinks = [
-          { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
-          { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
-          { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
-        ];
-        
-        const newAwards = [
-          { name: "Prix Afrilivres 2020", year: "2020" },
-          { name: "Prix Jeanne de Cavally 2022", year: "2022" },
-          { name: "Finaliste du Prix Vanille Illustration 2020", year: "2020" },
-          { name: "Finaliste du Prix Vanille Illustration 2024", year: "2024" }
-        ];
-        
-        const newEditions = [
-          { name: "Edition anglaise Ile Maurice", publisher: null, year: null, language: "Anglais" },
-          { name: "Edition française spéciale Côte d'Ivoire", publisher: null, year: null, language: "Français" },
-          { name: "Edition bilingue français-malgache 2024", publisher: null, year: "2024", language: "Français/Malgache" },
-          { name: "Atelier des nomades", publisher: "Atelier des nomades", year: null, language: null },
-          { name: "Edition Vallesse", publisher: "Vallesse", year: null, language: null },
-          { name: "Edition Filigrane", publisher: "Filigrane", year: null, language: null }
-        ];
-        
-        updateBookMutation.mutate({
-          bookId,
-          bookData: { description: newDescription },
-          detailsData: newDetails,
-          pressLinks: newPressLinks,
-          awards: newAwards,
-          editions: newEditions
-        });
-      } catch (error) {
-        console.error("Error in update effect:", error);
-        hasUpdatedRef.current = true;
-      }
-    } else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
-      // Add specific update case for "AS-TU LA LANGUE BIEN PENDUE ?"
-      try {
-        console.log("Updating AS-TU LA LANGUE BIEN PENDUE ?");
-        
-        const newDescription = "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
-        
-        const newDetails = {
-          publisher: "Océan Jeunesse",
-          illustrator: "Audrey Caron", 
-          year: "2025",
-          pages: "48",
-          isbn: "9782916533520"
-        };
-        
-        // Liens de presse pour ce livre - on laisse la déduplication au composant PressLinksSection
-        const newPressLinks = [
-          { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue" },
-          { url: "http://www.encres-vagabondes.com/magazine/jonca.htm", label: "http://www.encres-vagabondes.com/magazine/jonca.htm" }
-        ];
-        
-        // Force an update to the database
-        updateBookMutation.mutate({
-          bookId,
-          bookData: { description: newDescription },
-          detailsData: newDetails,
-          pressLinks: newPressLinks,
-          awards: [],
-          editions: []
-        });
-      } catch (error) {
-        console.error("Error updating AS-TU LA LANGUE BIEN PENDUE ?:", error);
-        hasUpdatedRef.current = true;
-      }
-    } else if (book.title === "EXPRESSIONS MÉLANZÉ" || book.title === "Expressions Mélanzé" || book.title === "Expressions Melanze") {
-      // Add specific update case for "EXPRESSIONS MÉLANZÉ"
-      try {
-        console.log("Updating EXPRESSIONS MÉLANZÉ");
-        
-        const newDescription = "Alon dékouvé bann lésprésyon kréol ék fransé, shakinn néna son lima-maziné. Bann lésprésyon i maive-maive ansanm, i yativien avèk po mète anlèr lo gouté nout deu lang. Ek le bann paj lo jeu, alé pran out plézir vavangue koté in lang épila l'ot lang dann in gavar ou i oubli'arpa.\n\nDécouvre des expressions créoles et françaises aussi imagées les unes que les autres. Les expressions s'entremêlent et se répondent pour révéler la saveur de nos deux langues. Et avec les pages de jeux, amuse-toi à passer d'une langue à l'autre avec délectation.";
-        
-        const newDetails = {
-          publisher: "Ed. 4 Épices",
-          illustrator: "Flo Vandermeersch", 
-          year: "2024",
-          pages: "44",
-          isbn: "9782956127741"
-        };
-        
-        // Specific awards for this book
-        const newAwards = [
-          { name: "Finaliste du Prix Vanille Illustration (2024)", year: "2024" }
-        ];
-        
-        // Force an update to the database
-        updateBookMutation.mutate({
-          bookId,
-          bookData: { description: newDescription },
-          detailsData: newDetails,
-          pressLinks: [],
-          awards: newAwards,
-          editions: []
-        });
-      } catch (error) {
-        console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
-        hasUpdatedRef.current = true;
-      }
-    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
-      // Mise à jour spécifique pour "Z'OISEAUX RARES"
-      try {
-        console.log("Updating Z'OISEAUX RARES with ID:", book.id);
-        
-        // Mise à jour avec la nouvelle description de l'image
-        const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
-        
-        const newDetails = {
-          publisher: "Zébulo Éditions",
-          illustrator: "Julie Bernard", 
-          year: "2019",
-          pages: "20",
-          isbn: "9791096163069"
-        };
-        
-        // Liens de presse pour ce livre
-        const newPressLinks = [
-          { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/z-oiseaux-rares", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/z-oiseaux-rares" },
-          { url: "https://www.babelio.com/livres/Jonca-ZOiseaux-rares/1257825", label: "https://www.babelio.com/livres/Jonca-ZOiseaux-rares/1257825" },
-          { url: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/", label: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/" }
-        ];
-        
-        // Awards pour ce livre
-        const newAwards = [
-          { name: "Sélection Kibookin - Salon du livre de Montreuil 2019", year: "2019" },
-          { name: "Sélection Festival du livre jeunesse et de la bande dessinée de Cherbourg-en-Cotentin", year: null },
-          { name: "Coup de cœur Takam Tikou 2020", year: "2020" }
-        ];
-        
-        // Force an update to the database
-        updateBookMutation.mutate({
-          bookId,
-          bookData: { description: newDescription },
-          detailsData: newDetails,
-          pressLinks: newPressLinks,
-          awards: newAwards,
-          editions: []
-        });
-      } catch (error) {
-        console.error("Error updating Z'OISEAUX RARES:", error);
-        hasUpdatedRef.current = true;
-      }
-    } else {
-      hasUpdatedRef.current = true;
-    }
-  }, [book, bookId, isLoadingBook, isBookError, updateBookMutation, preventUpdates]);
+        {isLoading ? (
+          <LoadingState />
+        ) : bookError || !book ? (
+          <ErrorState />
+        ) : (
+          <BookDetailLayout>
+            <BookDetailContent 
+              book={book}
+              bookDetails={bookDetails || {
+                id: "temp-id",
+                book_id: bookId || '',
+                publisher: "Océan Jeunesse",
+                illustrator: "Audrey Caron",
+                year: "2025",
+                pages: "48",
+                isbn: "9782916533520",
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+              }}
+              pressLinks={pressLinks}
+              awards={awards}
+              editions={editions}
+            />
+          </BookDetailLayout>
+        )}
+      </>
+    );
+  }
   
-  const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions || updateBookMutation.isPending;
-  
+  // État de chargement initial
   if (isLoading) {
     return <LoadingState />;
   }
   
+  // État d'erreur
   if (bookError || !book) {
     return <ErrorState />;
   }
   
-  const fallbackDetails = {
-    id: "temp-id",
-    book_id: bookId || '',
-    publisher: "Océan Jeunesse",
-    illustrator: "Audrey Caron",
-    year: "2025",
-    pages: "48",
-    isbn: "9782916533520",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  };
-  
-  const details = bookDetails || fallbackDetails;
-  
-  const uniquePressLinks = Array.from(new Map(
-    pressLinks.map(link => [link.url, link])
-  ).values());
-  
-  const uniqueAwards = Array.from(new Map(
-    awards.map(award => [`${award.name}-${award.year || 'none'}`, award])
-  ).values());
-  
-  const uniqueEditions = Array.from(new Map(
-    editions.map(edition => [edition.name, edition])
-  ).values());
-  
-  // Update the editorial text information specifically for this book
-  let editorialText = '';
-  let isbn = '';
-  
-  // Special case for Brown Baby
-  if (book?.title === "Brown Baby") {
-    editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
-    isbn = "9782919300716";
-  } 
-  // Specific case for Ambroise Vollard
-  else if (book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER") {
-    editorialText = `Beau-livre. Co-écrit avec Bernard Leveneur – Ed. 4 Épices – 2017 – 216 pages`;
-    
-    // Force specific details for Ambroise Vollard book
-    details.isbn = "9782952720496";
-    details.publisher = "Ed. 4 Épices";
-    details.year = "2017";
-    details.pages = "216";
-    details.illustrator = "Non spécifié";
-  } 
-  // Specific case for "UN FLAMBOYANT PÈRE-NOËL"
-  else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
-    editorialText = `Album jeunesse – illustré par Iloë – Atelier des nomades – 2020 – 24 pages`;
-    
-    // Force specific details for this book
-    details.isbn = "9782919300297";
-    details.publisher = "Atelier des nomades";
-    details.illustrator = "Iloë";
-    details.year = "2020";
-    details.pages = "24";
-  } else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    editorialText = `Jeux d'expressions - illustré par Audrey Caron - Océan Jeunesse –2025 – 48 pages`;
-    
-    // Forcer uniquement pour ce livre le bookDetails avec le bon ISBN
-    details.isbn = "9782916533520";
-    details.publisher = "Océan Jeunesse";
-    details.illustrator = "Audrey Caron";
-    details.year = "2025";
-    details.pages = "48";
-  } else if (book?.title === "Brown Baby") {
-    editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
-    if (details?.isbn) {
-      editorialText += `<br>EAN : ${details.isbn}`;
-    }
-  } else if (book?.title === "JACE. MAGIK GOUZOU") {
-    editorialText = `Beau-livre - Alternatives-Gallimard - 2017 - 240 pages`;
-    
-    // Force specific details for JACE book
-    details.isbn = "9782072726590";
-    details.publisher = "Alternatives-Gallimard";
-    details.illustrator = "Non spécifié";
-    details.year = "2017";
-    details.pages = "240";
-  } else if (book.title === "EXPRESSIONS MÉLANZÉ" || book.title === "Expressions Mélanzé" || book.title === "Expressions Melanze") {
-    editorialText = `Jeux d'expressions - illustré par Flo Vandermeersch - Ed. 4 Épices - 2024 - 44 pages`;
-    isbn = "9782956127741";
-    
-    // Force specific details for this book
-    details.isbn = "9782956127741";
-    details.publisher = "Ed. 4 Épices";
-    details.illustrator = "Flo Vandermeersch";
-    details.year = "2024";
-    details.pages = "44";
-  } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
-    editorialText = `Album sonore - illustré par Julie Bernard - Zébulo Éditions - 2019 - 20 pages`;
-    isbn = "9791096163069";
-    
-    // Force specific details for this book
-    details.isbn = "9791096163069";
-    details.publisher = "Zébulo Éditions";
-    details.illustrator = "Julie Bernard";
-    details.year = "2019";
-    details.pages = "20";
-  } else {
-    // Format standard pour les autres livres
-    editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
-  }
-  
-  // Brown Baby blog links
-  const brownBabyBlogLinks = [
-    { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html" }
-  ];
-  
-  // Brown Baby Seligmann links
-  const brownBabySeligmannLinks = [
-    { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme" },
-    { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
-  ];
-  
-  const updatedDescription = book?.description || "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
-
-  // Function to get the correct image URL for the book
-  const getBookCoverImage = () => {
-    if (book.title === "Brown Baby") {
-      return "/lovable-uploads/b0c162d3-58ba-40a7-842d-f0082b0b094f.png";
-    }
-    
-    if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
-      return "/lovable-uploads/fee9c5df-edcf-4ad2-9d9e-a8b6da17b84b.png";
-    }
-    
-    if (book?.title === "Ambroise Vollard, un don singulier") {
-      return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
-    }
-    
-    if (book?.title === "JACE. MAGIK GOUZOU") {
-      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/ART/jace-magik-gouzou.jpg";
-    }
-    
-    if (book?.title === "La Réunion des enfants") {
-      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/JEUNESSE/La%20Reunion%20des%20enfants%20copie.jpg";
-    }
-    
-    return book.cover_image || "/placeholder.svg";
-  };
-
+  // Cas par défaut (ne devrait jamais arriver, mais ajouté par sécurité)
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <Navigation />
-      
-      <div className="container max-w-3xl mx-auto px-6 pt-2 pb-20 book-detail">
-        <div className="mt-4">
-          <div className="mb-6 mt-0">
-            <Link to="/" className="inline-flex items-center text-sm text-gray-600 hover:text-[#ea384c] transition-colors group">
-              <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" />
-              Retour aux livres
-            </Link>
-          </div>
-          
-          {/* Ajout des couvertures avec titre et info pour Brown Baby */}
-          {book?.title === "Brown Baby" ? (
-            <BookCoversCarousel 
-              bookTitle={book.title}
-              showCovers={true}
-              bookDetails={{ 
-                editorialText: editorialText,
-                isbn: isbn 
-              }}
-            />
-          ) : (
-            <div className="w-full">
-              <BookHeader 
-                title={book.title} 
-                editorialText={editorialText}
-                showISBN={(book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
-                        book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-                        (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
-                        book?.title === "Ambroise Vollard, un don singulier" ||
-                        book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
-                        book?.title === "EXPRESSIONS MÉLANZÉ" ||
-                        book?.title === "Expressions Mélanzé" ||
-                        book?.title === "Expressions Melanze" ||
-                        book?.title === "JACE. MAGIK GOUZOU" ||
-                        book?.title === "Z'OISEAUX RARES" || 
-                        book?.title === "Z'oiseaux rares" || 
-                        book?.title === "ZOISEAUX RARES" ||
-                        book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356")}
-                isbn={book?.title === "JACE. MAGIK GOUZOU" ? 
-                      "9782072726590" : 
-                      book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
-                      "9782919300297" : 
-                      book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
-                      "9782952720496" : 
-                      book?.title === "EXPRESSIONS MÉLANZÉ" || book?.title === "Expressions Mélanzé" || book?.title === "Expressions Melanze" ?
-                      "9782956127741" :
-                      book?.title === "Z'OISEAUX RARES" || book?.title === "Z'oiseaux rares" || book?.title === "ZOISEAUX RARES" || 
-                      book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ? 
-                      "9791096163069" : "9782916533520"}
-              />
-            </div>
-          )}
-          
-          <BookDescriptionSection description={updatedDescription} />
-          
-          {/* Editions section - Moved before Press Links */}
-          {uniqueEditions.length > 0 && 
-           book?.title !== "Brown Baby" && (
-            <EditionsSection editions={uniqueEditions} />
-          )}
-          
-          {/* Press links section */}
-          <PressLinksSection pressLinks={uniquePressLinks} bookTitle={book.title} />
-          
-          {/* Blog links section for Brown Baby */}
-          {book?.title === "Brown Baby" && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
-          
-          {/* Awards section for other books */}
-          {uniqueAwards.length > 0 && 
-           book?.title !== "Brown Baby" && 
-           !(book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) && (
-            <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
-          )}
-          
-          {/* Seligmann links section for Brown Baby */}
-          {book?.title === "Brown Baby" && (
-            <SeligmannLinksSection seligmannLinks={brownBabySeligmannLinks} />
-          )}
-        </div>
-      </div>
-    </div>
+    <BookDetailLayout>
+      <div>Une erreur inattendue s'est produite.</div>
+    </BookDetailLayout>
   );
 };
 
