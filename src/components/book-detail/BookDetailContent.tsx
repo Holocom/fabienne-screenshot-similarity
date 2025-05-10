@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -68,12 +67,23 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "La Réunion des religions" || 
     book?.title === "LA RÉUNION DES RELIGIONS" ||
     book?.title === "La Reunion des religions" ||
-    book?.id === "0569acb0-8946-4f62-acce-881604d3146a" ||
+    book?.id === "0569acb0-8946-4f62-acce-881604d3146a";
+  
+  // Special case for "Les religions à l'ile Maurice"
+  const isLesReligionsIleMaurice = 
+    book?.title === "Les religions à l'ile Maurice" || 
+    book?.title === "Les religions à l'île Maurice" ||
     book?.id === "23b62768-3770-4621-8c5e-9a705891bb93";
   
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
     console.log(`Content détecté La Réunion des religions avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
+  // Log pour débogage si c'est Les religions à l'ile Maurice
+  if (isLesReligionsIleMaurice) {
+    console.log(`Content détecté Les religions à l'ile Maurice avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
@@ -106,7 +116,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "Z'oiseaux rares" || 
     book?.title === "ZOISEAUX RARES" ||
     book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ||
-    isLaReunionDesReligions;
+    isLaReunionDesReligions ||
+    isLesReligionsIleMaurice;
   
   return (
     <>

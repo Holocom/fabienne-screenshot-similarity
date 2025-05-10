@@ -29,6 +29,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des religions" ||
     title?.includes("union des religion") ||
     title === "La Réunion des Religions";
+    
+  // Cas spécial pour Les religions à l'ile Maurice
+  const isLesReligionsIleMaurice = 
+    title === "Les religions à l'ile Maurice" || 
+    title === "Les religions à l'île Maurice" ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("religions") && 
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("maurice");
   
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
@@ -53,6 +60,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782362470035
+            </p>
+          </>
+        ) : isLesReligionsIleMaurice ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album / documentaire - illustré par Hélène Moreau - Vizavi - 2015 - 64 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9789990337945
             </p>
           </>
         ) : (
