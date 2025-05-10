@@ -106,6 +106,9 @@ const BookDetailPage = () => {
   // Vérifie si c'est "TU ME FAIS TOURNER LA TERRE" version anglaise (imaginons un nouvel ID)
   const isTuMeFaisTournerAnglais = bookId === "nouveau-id-version-anglaise"; // ID à remplacer si vous avez un vrai ID
   
+  // Ajouter le check pour UN FLAMBOYANT PÈRE-NOËL
+  const isFlamboyantNoel = bookId === "b733fd7b-1bc8-4e37-bc19-94f0a445311d";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } else if (isLesReligionsIleMaurice) {
@@ -114,6 +117,8 @@ const BookDetailPage = () => {
     console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE / OU I FÉ TOURNE MON TERRE' par son ID");
   } else if (isTuMeFaisTournerAnglais) {
     console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE / YOU MAKE MY WORLD SPIN' par son ID");
+  } else if (isFlamboyantNoel) {
+    console.log("Livre identifié comme 'UN FLAMBOYANT PÈRE-NOËL' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -141,6 +146,7 @@ const BookDetailPage = () => {
                        isLesReligionsIleMaurice ? "Les religions à l'ile Maurice" :
                        isTuMeFaisTournerCreole ? "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" :
                        isTuMeFaisTournerAnglais ? "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" :
+                       isFlamboyantNoel ? "UN FLAMBOYANT PÈRE-NOËL" :
                        book.title
               }}
               bookDetails={bookDetails || {
