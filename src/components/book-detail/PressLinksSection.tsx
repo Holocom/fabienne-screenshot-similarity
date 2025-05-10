@@ -14,6 +14,11 @@ interface PressLinksSectionProps {
 }
 
 export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks, bookTitle }) => {
+  // Ne rien afficher pour le livre "AS-TU LA LANGUE BIEN PENDUE ?"
+  if (bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?" || bookTitle.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
+    return null;
+  }
+  
   // Book-specific press links
   const brownBabyPressLinks: SimplePressLink[] = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby" },
@@ -21,9 +26,6 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/" },
     { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621" }
   ];
-  
-  // Note: Pour "AS-TU LA LANGUE BIEN PENDUE ?", nous utilisons uniquement les liens de la base de données
-  // et n'utilisons plus les liens hardcodés pour éviter les doublons
   
   const flamboyantPereNoelLinks: SimplePressLink[] = [
     { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
@@ -36,10 +38,6 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   
   if (bookTitle === "Brown Baby") {
     displayLinks = brownBabyPressLinks;
-  } else if (bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?") {
-    // Pour ce livre spécifique, on utilise uniquement les liens de la base de données
-    // Ne pas ajouter de liens hardcodés supplémentaires
-    displayLinks = pressLinks;
   } else if (bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël")) {
     displayLinks = flamboyantPereNoelLinks;
   }

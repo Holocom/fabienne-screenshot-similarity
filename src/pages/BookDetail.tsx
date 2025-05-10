@@ -190,10 +190,8 @@ const BookDetailPage = () => {
           isbn: "9782916533520"
         };
         
-        const newPressLinks = [
-          { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
-          { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
-        ];
+        // Plus de liens de presse pour ce livre
+        const newPressLinks = [];
         
         // Force an update to the database
         updateBookMutation.mutate({
