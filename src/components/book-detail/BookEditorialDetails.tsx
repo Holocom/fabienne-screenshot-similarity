@@ -104,10 +104,11 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
   else if (bookTitle === "TU ME FAIS TOURNER LA TERRE" ||
            bookTitle === "Tu me fais tourner la terre" ||
            bookTitle === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
+           bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
            normalizedTitle?.includes("tu me fais tourner") ||
            bookId === "451338a8-2537-454d-a990-00dbc0988370") {
-    editorialText = `Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages`;
-    isbn = "9782912949745";
+    editorialText = `Album jeunesse bilingue français/anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages`;
+    isbn = "9789990337938";
     console.log(`ISBN défini pour TU ME FAIS TOURNER LA TERRE: ${isbn}`);
   }
   else {

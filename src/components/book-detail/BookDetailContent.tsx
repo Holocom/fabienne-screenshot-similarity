@@ -92,6 +92,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "TU ME FAIS TOURNER LA TERRE" ||
     book?.title === "Tu me fais tourner la terre" ||
     book?.title?.includes("TU ME FAIS TOURNER") ||
+    book?.title?.includes("YOU MAKE MY WORLD SPIN") ||
     book?.id === "451338a8-2537-454d-a990-00dbc0988370";
   
   // Log pour débogage si c'est La Réunion des religions
@@ -174,8 +175,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       ) : (
         <div className="w-full">
           <BookHeader 
-            title={isTuMeFaisTourner && !book.title.includes('\n') ? 
-              "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" : book.title} 
+            title={book.title} 
             editorialText={editorialText}
             showISBN={shouldShowISBN}
             isbn={isbn}

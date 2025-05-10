@@ -30,6 +30,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       // Mettre "TU ME FAIS TOURNER LA TERRE" en italique
       .replace(/TU ME FAIS TOURNER LA TERRE/g, '<em>TU ME FAIS TOURNER LA TERRE</em>')
       .replace(/Tu me fais tourner la terre/gi, '<em>Tu me fais tourner la terre</em>')
+      // Ajouter une règle pour mettre "YOU MAKE MY WORLD SPIN" en italique
+      .replace(/YOU MAKE MY WORLD SPIN/g, '<em>YOU MAKE MY WORLD SPIN</em>')
       // Mettre en évidence certains mots pour Z'OISEAUX RARES
       .replace(/"ma ma"/g, '<strong>"ma ma"</strong>').replace(/"mu mu"/g, '<strong>"mu mu"</strong>').replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>').replace(/"ga ga"/g, '<strong>"ga ga"</strong>').replace(/"papa"/g, '<strong>"papa"</strong>').replace(/"doudou"/g, '<strong>"doudou"</strong>').replace(/"joujou"/g, '<strong>"joujou"</strong>')
       // Gérer les doubles guillemets français qui peuvent venir du copier-coller
