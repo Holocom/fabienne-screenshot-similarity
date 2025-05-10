@@ -37,15 +37,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     pressLinks.map(link => [link.url, link])
   ).values());
   
-  // Filtrer les prix et distinctions sans utiliser l'année comme critère de doublon
-  const uniqueAwards = Array.from(new Map(
-    awards.map(award => [award.name, award])
-  ).values());
-  
-  const uniqueDistinctions = Array.from(new Map(
-    distinctions.map(distinction => [distinction.name, distinction])
-  ).values());
-  
   // Filtrer les éditions pour éliminer les doublons
   const uniqueEditions = Array.from(new Map(
     editions.map(edition => [edition.name, edition])
@@ -77,9 +68,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "ZOISEAUX RARES" ||
     book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356";
   
-  // Regrouper tous les prix et distinctions pour l'affichage
-  const combinedAwardsAndDistinctions = [...uniqueAwards, ...uniqueDistinctions];
-  
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}
@@ -103,10 +91,10 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
         </div>
       )}
       
-      {/* Description du livre - S'assurer qu'elle s'affiche correctement */}
+      {/* Description du livre */}
       <BookDescriptionSection description={book?.description || ""} bookTitle={book.title} />
       
-      {/* Section des éditions - Placée avant les liens de presse */}
+      {/* Section des éditions */}
       {uniqueEditions.length > 0 && 
        book?.title !== "Brown Baby" && (
         <EditionsSection editions={uniqueEditions} />
@@ -118,12 +106,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       {/* Section des liens de blog pour Brown Baby */}
       {book?.title === "Brown Baby" && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
       
-      {/* Section des prix et distinctions combinée pour tous les livres */}
-      {combinedAwardsAndDistinctions.length > 0 && (
-        <div className="bg-[#00366b]/5 p-4 rounded-lg my-6">
-          <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
-          {/* On n'affiche plus la section des distinctions séparément car elle est incluse dans les prix */}
-        </div>
+      {/* Section des prix */}
+      <AwardsSection awards={awards} bookTitle={book.title} />
+      
+      {/* Section des distinctions (affichées séparément comme dans l'exemple) */}
+      {distinctions.length > 0 && book?.title !== "Brown Baby" && (
+        <DistinctionsSection distinctions={distinctions} bookTitle={book.title} />
       )}
       
       {/* Section des liens Seligmann pour Brown Baby */}

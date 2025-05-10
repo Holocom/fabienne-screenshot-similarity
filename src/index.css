@@ -108,7 +108,7 @@
     @apply text-[#6ba438];
   }
   
-  /* Nouvelle couleur bleu marine pour les prix et distinctions */
+  /* Couleur bleu marine pour les prix et distinctions */
   .book-detail .awards-title {
     @apply text-[#00366b] font-bold text-xl mb-4 mt-10 tracking-wide;
     font-family: 'Carlito', sans-serif;

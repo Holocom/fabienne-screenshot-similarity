@@ -17,10 +17,15 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
   // Determine which distinctions to display
   const displayDistinctions = isCustom ? customDistinctions : distinctions;
   
-  // Éliminer les doublons basés sur le nom uniquement (ignorer l'année)
-  const uniqueDistinctions = Array.from(new Map(
-    displayDistinctions.map(distinction => [distinction.name, distinction])
-  ).values());
+  // Éliminer les doublons basés sur le nom uniquement
+  const uniqueDistinctionsMap = new Map();
+  displayDistinctions.forEach(distinction => {
+    if (distinction && distinction.name) {
+      uniqueDistinctionsMap.set(distinction.name, distinction);
+    }
+  });
+  
+  const uniqueDistinctions = Array.from(uniqueDistinctionsMap.values());
   
   if (uniqueDistinctions.length === 0) return null;
 

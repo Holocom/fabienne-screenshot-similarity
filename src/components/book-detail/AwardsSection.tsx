@@ -30,16 +30,21 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
                         bookTitle === "Brown Baby" ? brownBabyAwards : 
                         awards;
   
-  // Éliminer les doublons basés sur le nom uniquement (ignorer l'année)
-  const uniqueAwards = Array.from(new Map(
-    displayAwards.map(award => [award.name, award])
-  ).values());
+  // Éliminer les doublons basés sur le nom uniquement
+  const uniqueAwardsMap = new Map();
+  displayAwards.forEach(award => {
+    if (award && award.name) {
+      uniqueAwardsMap.set(award.name, award);
+    }
+  });
+  
+  const uniqueAwards = Array.from(uniqueAwardsMap.values());
   
   if (uniqueAwards.length === 0) return null;
 
   return (
     <div className="my-6 text-[#00366b]">
-      <h3 className="text-xl font-bold mb-2 text-[#00366b] uppercase">PRIX ET RÉCOMPENSES</h3>
+      <h3 className="text-xl font-bold mb-2 text-[#00366b] uppercase">PRIX ET DISTINCTIONS</h3>
       <ul className="space-y-1 list-none pl-0">
         {uniqueAwards.map((award, index) => (
           <li key={`award-${index}`} className="text-[#00366b] mb-1">
