@@ -244,6 +244,48 @@ const BookDetailPage = () => {
         console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
         hasUpdatedRef.current = true;
       }
+    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES") {
+      // Add specific update case for "Z'OISEAUX RARES"
+      try {
+        console.log("Updating Z'OISEAUX RARES");
+        
+        const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\". Vers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
+        
+        const newDetails = {
+          publisher: "Zébulo Éditions",
+          illustrator: "Julie Bernard", 
+          year: "2019",
+          pages: "20",
+          isbn: "9791096163069"
+        };
+        
+        // Liens de presse pour ce livre
+        const newPressLinks = [
+          { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/z-oiseaux-rares", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/z-oiseaux-rares" },
+          { url: "https://www.babelio.com/livres/Jonca-ZOiseaux-rares/1257825", label: "https://www.babelio.com/livres/Jonca-ZOiseaux-rares/1257825" },
+          { url: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/", label: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/" }
+        ];
+        
+        // Awards pour ce livre
+        const newAwards = [
+          { name: "Sélection Kibookin - Salon du livre de Montreuil 2019", year: "2019" },
+          { name: "Sélection Festival du livre jeunesse et de la bande dessinée de Cherbourg-en-Cotentin", year: null },
+          { name: "Coup de cœur Takam Tikou 2020", year: "2020" }
+        ];
+        
+        // Force an update to the database
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: newAwards,
+          editions: []
+        });
+      } catch (error) {
+        console.error("Error updating Z'OISEAUX RARES:", error);
+        hasUpdatedRef.current = true;
+      }
     } else {
       hasUpdatedRef.current = true;
     }
@@ -348,6 +390,16 @@ const BookDetailPage = () => {
     details.illustrator = "Flo Vandermeersch";
     details.year = "2024";
     details.pages = "44";
+  } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES") {
+    editorialText = `Album sonore - illustré par Julie Bernard - Zébulo Éditions - 2019 - 20 pages`;
+    isbn = "9791096163069";
+    
+    // Force specific details for this book
+    details.isbn = "9791096163069";
+    details.publisher = "Zébulo Éditions";
+    details.illustrator = "Julie Bernard";
+    details.year = "2019";
+    details.pages = "20";
   } else {
     // Format standard pour les autres livres
     editorialText = `${book?.categories?.name || "Jeunesse"} – illustré par ${details.illustrator || "Non spécifié"} – ${details.publisher || "Non spécifié"} – ${details.year || "2024"} – ${details.pages || "0"} pages`;
