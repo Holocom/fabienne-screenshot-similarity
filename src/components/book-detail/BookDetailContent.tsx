@@ -34,6 +34,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "UN FLAMBOYANT PÈRE-NOËL" ||
     book?.title === "Un Flamboyant Père-Noël" ||
     book?.id === "b733fd7b-1bc8-4e37-bc19-94f0a445311d";
+    
+  // Détecter si c'est "MA CUISINE MARMAILLE"
+  const isMaCuisineMarmaille = 
+    book?.title === "MA CUISINE MARMAILLE" ||
+    book?.title === "Ma Cuisine Marmaille" ||
+    book?.id === "31bd8bad-b180-4f39-bc59-a40b3e367975";
 
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -146,6 +152,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est MA CUISINE MARMAILLE
+  if (isMaCuisineMarmaille) {
+    console.log(`Content détecté MA CUISINE MARMAILLE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}"`);
+  }
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -192,7 +204,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isLaReunionDesEnfants ||
     isPetitGarcon ||
     isTuMeFaisTournerCreole ||
-    isTuMeFaisTournerAnglais;
+    isTuMeFaisTournerAnglais ||
+    isMaCuisineMarmaille;
   
   return (
     <>

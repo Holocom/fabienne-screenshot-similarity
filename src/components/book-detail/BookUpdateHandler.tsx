@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -282,6 +283,44 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         return false;
       }
     }
+    // Update for "MA CUISINE MARMAILLE"
+    else if (book.title === "MA CUISINE MARMAILLE" || book.title === "Ma Cuisine Marmaille" || book.id === "31bd8bad-b180-4f39-bc59-a40b3e367975") {
+      try {
+        console.log("Mise à jour des informations de MA CUISINE MARMAILLE");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Prenez une grande cuisinière. Ajoutez des enfants passionnés, des parents et des amis gourmands. Mixez le tout avec des recettes faciles, saines et variées. Et vous obtiendrez « Ma cuisine marmailles », un livre qui permet à tous, dès 6 ans, de s'en donner à cœur joie. Cet ouvrage contient une centaine de recettes spécialement conçues pour être réalisées par les enfants. Au sommaire, trois chapitres, selon l'âge des cuisiniers en herbe : moins de 7 ans, 7-10 ans, plus de 10 ans. Les recettes sont rédigées dans un style spécialement adapté à de jeunes lecteurs. Les pages sont émaillées d'astuces et de conseils. Les photographies privilégient les couleurs vives. Des illustrations amusantes complètent l'ensemble.";
+        
+        const newDetails = {
+          publisher: "Epsilon Éditions – 4 Épices",
+          illustrator: "Caroline Grondin", 
+          year: "2016",
+          pages: "160",
+          isbn: "9782912949721"
+        };
+        
+        // Pas de liens de presse spécifiques pour ce livre
+        const newPressLinks = [];
+        
+        // Pas de prix ou distinctions pour ce livre
+        const newAwards = [];
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: newAwards,
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de MA CUISINE MARMAILLE:", error);
+        toast.error("Erreur lors de la mise à jour de MA CUISINE MARMAILLE");
+        return false;
+      }
+    }
     
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
@@ -318,6 +357,15 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         book.title === "TU ME FAIS TOURNER LA TERRE" ||
         book.title === "Tu me fais tourner la terre") {
       console.log("Force la mise à jour de TU ME FAIS TOURNER LA TERRE");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
+    // Force la mise à jour pour MA CUISINE MARMAILLE aussi
+    if (book.id === "31bd8bad-b180-4f39-bc59-a40b3e367975" || 
+        book.title === "MA CUISINE MARMAILLE" ||
+        book.title === "Ma Cuisine Marmaille") {
+      console.log("Force la mise à jour de MA CUISINE MARMAILLE");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }

@@ -60,6 +60,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.includes("YOU MAKE MY WORLD SPIN") ||
     (title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner") &&
       !title?.includes("OU I FÉ TOURNE MON TERRE"));
+      
+  // Cas spécial pour MA CUISINE MARMAILLE
+  const isMaCuisineMarmaille = 
+    title === "MA CUISINE MARMAILLE" ||
+    title === "Ma Cuisine Marmaille" ||
+    title?.toLowerCase().includes("cuisine marmaille");
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -144,6 +150,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9789990337938
+            </p>
+          </>
+        ) : isMaCuisineMarmaille ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Recettes de Brigitte Grondin - Illustrations de Caroline Grondin - Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices - 2016 – 160 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782912949721
             </p>
           </>
         ) : (
