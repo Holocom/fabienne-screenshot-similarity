@@ -16,18 +16,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle?.toLowerCase().includes("jacqueline dalais") ||
     bookTitle?.toLowerCase().includes("cle des saveurs");
     
-  // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
-  if (isJacquelineDalais && description) {
-    const lastSentencePattern = /Cet ouvrage est une invitation au voyage et au partage\./;
-    const modifiedDescription = description.replace(
-      lastSentencePattern, 
-      "\n\nCet ouvrage est une invitation au voyage et au partage."
-    );
-    
-    // Utiliser la description modifiée
-    return renderDescription(modifiedDescription);
-  }
-
+  // On ne change plus le formatage pour Jacqueline Dalais, on utilise juste le formatage d'italique
+  
   // Séparer le texte en paragraphes (double saut de ligne)
   return renderDescription(description || "");
   
