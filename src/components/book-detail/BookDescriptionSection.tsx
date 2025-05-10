@@ -7,7 +7,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   description,
   bookTitle
 }) => {
-  if (!description) return <p>En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu´il double naturellement pour dire “”ma ma””, “”mu mu”” et parfois d´autres mots “”gueu gueu””, “”ga ga””. Vers neuf mois apparaissent ses premiers mots composés d´une syllabe ou de deux syllabes doublées “”papa””, “”doudou””, “”joujou””. C´est à la fois de l´imitation et de l´exploration. Cet ouvrage vous permet d´encourager votre bébé à les prononcer sur le thème des espèces protégées de l´Île de La Réunion.</p>;
+  if (!description) return <p>En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu´il double naturellement pour dire “”ma ma””, “”mu mu”” et parfois d´autres mots “”gueu gueu””, “”ga ga””. Vers neuf mois apparaissent ses premiers mots composés d´une syllabe ou de deux syllabes doublées “”papa””, “”doudou””, “”joujou””. C´est à la fois de l´imitation et de l´exploration. 
+Cet ouvrage vous permet d´encourager votre bébé à les prononcer sur le thème des espèces protégées de l´Île de La Réunion.</p>;
 
   // Séparer le texte en paragraphes (double saut de ligne)
   const paragraphs = description.split('\n\n');
