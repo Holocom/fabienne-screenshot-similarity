@@ -17,6 +17,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   if (title?.toLowerCase().includes("pere") && title?.toLowerCase().includes("noel")) {
     displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
   }
+  
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
@@ -28,8 +29,9 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
           __html: editorialText
         }} />
         
+        {/* S'assurer que l'ISBN s'affiche correctement lorsqu'il doit être montré */}
         {showISBN && isbn && (
-          <p className="text-[#ea384c] text-lg md:text-xl">
+          <p className="text-[#ea384c] text-lg md:text-xl font-medium">
             ISBN : {isbn}
           </p>
         )}

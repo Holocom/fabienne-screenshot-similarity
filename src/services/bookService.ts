@@ -74,18 +74,23 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
 };
 
 export const getBookDetails = async (bookId: string): Promise<BookDetail | null> => {
-  const { data, error } = await supabase
-    .from('book_details')
-    .select('*')
-    .eq('book_id', bookId)
-    .maybeSingle();
-  
-  if (error) {
-    console.error('Error fetching book details:', error);
+  try {
+    const { data, error } = await supabase
+      .from('book_details')
+      .select('*')
+      .eq('book_id', bookId)
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error fetching book details:', error);
+      return null;
+    }
+    
+    return data as BookDetail;
+  } catch (error) {
+    console.error('Unexpected error in getBookDetails:', error);
     return null;
   }
-  
-  return data as BookDetail;
 };
 
 export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
@@ -119,55 +124,60 @@ export const getPressLinks = async (bookId: string): Promise<PressLink[]> => {
 };
 
 export const updateBookDetails = async (bookId: string, details: Partial<BookDetail>): Promise<BookDetail | null> => {
-  // Vérifier si les détails existent déjà
-  const { data: existingData } = await supabase
-    .from('book_details')
-    .select('*')
-    .eq('book_id', bookId)
-    .maybeSingle();
-
-  let result;
-  
-  if (existingData) {
-    // Mettre à jour les détails existants
-    const { data, error } = await supabase
+  try {
+    // Vérifier si les détails existent déjà
+    const { data: existingData } = await supabase
       .from('book_details')
-      .update({
-        ...details,
-        updated_at: new Date().toISOString()
-      })
+      .select('*')
       .eq('book_id', bookId)
-      .select()
       .maybeSingle();
+
+    let result;
     
-    if (error) {
-      console.error('Error updating book details:', error);
-      return null;
+    if (existingData) {
+      // Mettre à jour les détails existants
+      const { data, error } = await supabase
+        .from('book_details')
+        .update({
+          ...details,
+          updated_at: new Date().toISOString()
+        })
+        .eq('book_id', bookId)
+        .select()
+        .maybeSingle();
+      
+      if (error) {
+        console.error('Error updating book details:', error);
+        return null;
+      }
+      
+      result = data;
+    } else {
+      // Créer de nouveaux détails
+      const { data, error } = await supabase
+        .from('book_details')
+        .insert({
+          book_id: bookId,
+          ...details,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error creating book details:', error);
+        return null;
+      }
+      
+      result = data;
     }
     
-    result = data;
-  } else {
-    // Créer de nouveaux détails
-    const { data, error } = await supabase
-      .from('book_details')
-      .insert({
-        book_id: bookId,
-        ...details,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
-      .select()
-      .single();
-    
-    if (error) {
-      console.error('Error creating book details:', error);
-      return null;
-    }
-    
-    result = data;
+    return result as BookDetail;
+  } catch (error) {
+    console.error('Unexpected error in updateBookDetails:', error);
+    return null;
   }
-  
-  return result as BookDetail;
 };
 
 export const updateBook = async (bookId: string, bookData: Partial<Book>): Promise<Book | null> => {
@@ -203,11 +213,15 @@ export const updateBook = async (bookId: string, bookData: Partial<Book>): Promi
 export const addPressLink = async (bookId: string, link: Omit<PressLink, 'id' | 'created_at'>): Promise<PressLink | null> => {
   try {
     // Vérifier si un lien avec la même URL existe déjà
-    const { data: existingLinks } = await supabase
+    const { data: existingLinks, error: checkError } = await supabase
       .from('press_links')
       .select('*')
       .eq('book_id', bookId)
       .eq('url', link.url);
+    
+    if (checkError) {
+      console.error('Error checking existing press links:', checkError);
+    }
     
     if (existingLinks && existingLinks.length > 0) {
       console.log(`Press link with URL ${link.url} already exists, skipping.`);
@@ -329,7 +343,7 @@ export const getAwards = async (bookId: string): Promise<Award[]> => {
     // Déduplication par nom et année pour éviter les doublons en base de données
     const uniqueKeys = new Set();
     const uniqueData = data.filter(award => {
-      const key = `${award.name}-${award.year}`;
+      const key = `${award.name}-${award.year || 'none'}`;
       if (uniqueKeys.has(key)) {
         return false;
       }
@@ -432,6 +446,18 @@ export const updateCompleteBookInfo = async (
     console.log("Détails du livre:", detailsData);
     console.log("Liens de presse:", pressLinks);
     
+    // Vérifier d'abord que le livre existe
+    const { data: bookExists } = await supabase
+      .from('books')
+      .select('id')
+      .eq('id', bookId)
+      .maybeSingle();
+      
+    if (!bookExists) {
+      console.error(`Le livre avec l'ID ${bookId} n'existe pas.`);
+      return false;
+    }
+    
     // Mise à jour des données principales du livre (y compris la description)
     if (Object.keys(bookData).length > 0) {
       console.log("Mise à jour des données principales du livre avec:", bookData);
@@ -445,19 +471,23 @@ export const updateCompleteBookInfo = async (
       }
     }
     
-    // Mise à jour des détails du livre
+    // Mise à jour des détails du livre avec gestion des erreurs améliorée
     if (Object.keys(detailsData).length > 0) {
-      const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
-      if (!detailsUpdateResult) {
-        console.warn('Échec de la mise à jour des détails pour le livre ID:', bookId);
-        // On continue le traitement
-      } else {
-        console.log("Détails du livre mis à jour avec succès");
+      try {
+        const detailsUpdateResult = await updateBookDetails(bookId, detailsData);
+        if (!detailsUpdateResult) {
+          console.warn('Échec de la mise à jour des détails pour le livre ID:', bookId);
+          // On continue le traitement
+        } else {
+          console.log("Détails du livre mis à jour avec succès");
+        }
+      } catch (detailsError) {
+        console.error("Erreur lors de la mise à jour des détails:", detailsError);
+        // Continuer malgré l'erreur
       }
     }
     
-    // Suppression des liens de presse existants pour le livre "AS-TU LA LANGUE BIEN PENDUE ?"
-    // et uniquement pour ce livre, afin d'éviter les doublons
+    // Ajout des liens de presse avec meilleure gestion des erreurs
     if (pressLinks.length > 0) {
       const { data: existingLinks } = await supabase
         .from('press_links')
@@ -469,25 +499,40 @@ export const updateCompleteBookInfo = async (
       // Ajout des liens de presse
       let addedPressLinks = 0;
       for (const link of pressLinks) {
-        const pressLinkResult = await addPressLink(bookId, link);
-        if (pressLinkResult) addedPressLinks++;
+        try {
+          const pressLinkResult = await addPressLink(bookId, link);
+          if (pressLinkResult) addedPressLinks++;
+        } catch (linkError) {
+          console.error("Erreur lors de l'ajout d'un lien de presse:", linkError);
+          // Continuer avec les autres liens
+        }
       }
       console.log(`Added ${addedPressLinks}/${pressLinks.length} press links`);
     }
     
-    // Ajout des prix et distinctions
+    // Ajout des prix et distinctions avec meilleure gestion des erreurs
     let addedAwards = 0;
     for (const award of awards) {
-      const awardResult = await addAward(bookId, award);
-      if (awardResult) addedAwards++;
+      try {
+        const awardResult = await addAward(bookId, award);
+        if (awardResult) addedAwards++;
+      } catch (awardError) {
+        console.error("Erreur lors de l'ajout d'un prix:", awardError);
+        // Continuer avec les autres prix
+      }
     }
     console.log(`Added ${addedAwards}/${awards.length} awards`);
     
-    // Ajout des éditions
+    // Ajout des éditions avec meilleure gestion des erreurs
     let addedEditions = 0;
     for (const edition of editions) {
-      const editionResult = await addEdition(bookId, edition);
-      if (editionResult) addedEditions++;
+      try {
+        const editionResult = await addEdition(bookId, edition);
+        if (editionResult) addedEditions++;
+      } catch (editionError) {
+        console.error("Erreur lors de l'ajout d'une édition:", editionError);
+        // Continuer avec les autres éditions
+      }
     }
     console.log(`Added ${addedEditions}/${editions.length} editions`);
     

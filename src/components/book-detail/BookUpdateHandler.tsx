@@ -20,27 +20,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
   const { 
     updateBookMutation, 
     preventUpdates, 
-    hasUpdatedRef 
+    hasUpdatedRef,
+    forceUpdate
   } = useBookUpdate(bookId);
   
-  useEffect(() => {
-    if (preventUpdates || !bookId || hasUpdatedRef.current) {
-      return;
-    }
+  // Fonction pour gérer les cas spécifiques de mise à jour
+  const handleBookSpecificUpdates = () => {
+    if (!bookId || !book?.title) return false;
     
-    console.log("Vérification si le livre a besoin d'une mise à jour:", bookId);
-    console.log("Informations du livre:", book?.title, bookId, book?.description);
-    
-    if (
-      updateBookMutation.isPending || 
-      isLoadingBook || 
-      !book || 
-      isBookError ||
-      !book.title
-    ) {
-      return;
-    }
-
     // Special case for Ambroise Vollard book
     if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
       try {
@@ -69,12 +56,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           awards: [],
           editions: []
         });
+        return true;
       } catch (error) {
         console.error("Error in update effect for Ambroise Vollard book:", error);
-        hasUpdatedRef.current = true;
+        return false;
       }
-    } else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") && book.id) {
-      // Update for Flamboyant Père Noël book
+    } 
+    // Update for Flamboyant Père Noël book
+    else if (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) {
       try {
         hasUpdatedRef.current = true;
         
@@ -88,7 +77,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           isbn: "9782919300297"
         };
         
-        // Liens de presse pour ce livre - on laisse la déduplication au composant PressLinksSection
+        // Liens de presse pour ce livre
         const newPressLinks = [
           { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
           { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
@@ -119,14 +108,17 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           awards: newAwards,
           editions: newEditions
         });
+        return true;
       } catch (error) {
         console.error("Error in update effect:", error);
-        hasUpdatedRef.current = true;
+        return false;
       }
-    } else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
-      // Add specific update case for "AS-TU LA LANGUE BIEN PENDUE ?"
+    } 
+    // Add specific update case for "AS-TU LA LANGUE BIEN PENDUE ?"
+    else if (book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || book.title?.toUpperCase() === "AS-TU LA LANGUE BIEN PENDUE ?") {
       try {
         console.log("Updating AS-TU LA LANGUE BIEN PENDUE ?");
+        hasUpdatedRef.current = true;
         
         const newDescription = "Des dessins qui cachent des expressions et un jeu du pendu pour les retrouver en deux temps trois mouvements. Ce livre est une invitation aux jeux de mots. Un voyage au pays des expressions qui font le charme de notre langue. Langue que tu pourras donner au chat, si tu sèches sur la réponse.";
         
@@ -138,13 +130,12 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           isbn: "9782916533520"
         };
         
-        // Liens de presse pour ce livre - on laisse la déduplication au composant PressLinksSection
+        // Liens de presse pour ce livre
         const newPressLinks = [
           { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/tu-la-langue-bien-pendue" },
           { url: "http://www.encres-vagabondes.com/magazine/jonca.htm", label: "http://www.encres-vagabondes.com/magazine/jonca.htm" }
         ];
         
-        // Force an update to the database
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
@@ -153,14 +144,17 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           awards: [],
           editions: []
         });
+        return true;
       } catch (error) {
         console.error("Error updating AS-TU LA LANGUE BIEN PENDUE ?:", error);
-        hasUpdatedRef.current = true;
+        return false;
       }
-    } else if (book.title === "EXPRESSIONS MÉLANZÉ" || book.title === "Expressions Mélanzé" || book.title === "Expressions Melanze") {
-      // Add specific update case for "EXPRESSIONS MÉLANZÉ"
+    } 
+    // Update for "EXPRESSIONS MÉLANZÉ"
+    else if (book.title === "EXPRESSIONS MÉLANZÉ" || book.title === "Expressions Mélanzé" || book.title === "Expressions Melanze") {
       try {
         console.log("Updating EXPRESSIONS MÉLANZÉ");
+        hasUpdatedRef.current = true;
         
         const newDescription = "Alon dékouvé bann lésprésyon kréol ék fransé, shakinn néna son lima-maziné. Bann lésprésyon i maive-maive ansanm, i yativien avèk po mète anlèr lo gouté nout deu lang. Ek le bann paj lo jeu, alé pran out plézir vavangue koté in lang épila l'ot lang dann in gavar ou i oubli'arpa.\n\nDécouvre des expressions créoles et françaises aussi imagées les unes que les autres. Les expressions s'entremêlent et se répondent pour révéler la saveur de nos deux langues. Et avec les pages de jeux, amuse-toi à passer d'une langue à l'autre avec délectation.";
         
@@ -177,7 +171,6 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           { name: "Finaliste du Prix Vanille Illustration (2024)", year: "2024" }
         ];
         
-        // Force an update to the database
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
@@ -186,17 +179,18 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           awards: newAwards,
           editions: []
         });
+        return true;
       } catch (error) {
         console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
-        hasUpdatedRef.current = true;
+        return false;
       }
-    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.title.toLowerCase() === "zoiseaux rares" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
-      // Mise à jour spécifique pour "Z'OISEAUX RARES", s'assurer d'avoir plusieurs conditions pour matcher
+    } 
+    // Mise à jour spécifique pour "Z'OISEAUX RARES"
+    else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.title?.toLowerCase() === "zoiseaux rares" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
       try {
         console.log("Mise à jour des informations de Z'OISEAUX RARES avec ID:", book.id);
         hasUpdatedRef.current = true;
         
-        // Mise à jour avec la description fournie - en utilisant des guillemets doubles pour bien formater
         const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
         
         const newDetails = {
@@ -226,7 +220,6 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         console.log("Détails:", newDetails);
         console.log("ID du livre:", bookId);
         
-        // Force une mise à jour directe de la description
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
@@ -234,26 +227,45 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
           pressLinks: newPressLinks,
           awards: newAwards,
           editions: []
-        }, {
-          onSuccess: () => {
-            console.log("Mise à jour réussie pour Z'OISEAUX RARES");
-            toast.success("Description mise à jour avec succès");
-          },
-          onError: (error) => {
-            console.error("Erreur lors de la mise à jour:", error);
-            toast.error("Erreur lors de la mise à jour de la description");
-          }
         });
         
+        return true;
       } catch (error) {
         console.error("Erreur lors de la mise à jour de Z'OISEAUX RARES:", error);
-        hasUpdatedRef.current = true;
         toast.error("Erreur lors de la mise à jour de Z'OISEAUX RARES");
+        return false;
       }
-    } else {
-      hasUpdatedRef.current = true;
     }
-  }, [book, bookId, isLoadingBook, isBookError, updateBookMutation, preventUpdates]);
+    
+    return false; // Aucune mise à jour spécifique n'a été effectuée
+  };
+  
+  useEffect(() => {
+    if (preventUpdates || !bookId || hasUpdatedRef.current) {
+      return;
+    }
+    
+    console.log("Vérification si le livre a besoin d'une mise à jour:", bookId);
+    console.log("Informations du livre:", book?.title, bookId, book?.description);
+    
+    if (
+      updateBookMutation.isPending || 
+      isLoadingBook || 
+      !book || 
+      isBookError ||
+      !book.title
+    ) {
+      return;
+    }
+
+    // Tenter de mettre à jour le livre avec les informations spécifiques
+    const wasUpdated = handleBookSpecificUpdates();
+    
+    if (!wasUpdated) {
+      hasUpdatedRef.current = true;
+      console.log("Aucune mise à jour spécifique disponible pour ce livre");
+    }
+  }, [book, bookId, isLoadingBook, isBookError, updateBookMutation.isPending, preventUpdates]);
 
   return null; // Ce composant ne rend rien, il gère uniquement les effets de bord
 };
