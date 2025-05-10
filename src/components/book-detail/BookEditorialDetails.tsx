@@ -14,6 +14,10 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
   let editorialText = '';
   let isbn = '';
   
+  // Normaliser le titre pour une comparaison plus fiable (enlever les accents, tout en minuscules)
+  const normalizedTitle = bookTitle?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  console.log(`Titre normalisé pour la comparaison: "${normalizedTitle}"`);
+  
   // Special case for Brown Baby
   if (bookTitle === "Brown Baby") {
     editorialText = "Roman - Atelier des Nomades - 2024 - 264 pages";
@@ -52,11 +56,19 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
     editorialText = `Album jeunesse – illustré par Nancy Ribard – 2013`;
     isbn = "9782912949509";
     console.log(`ISBN défini pour EDGAR, LE CHAT SOURIS: ${isbn}`);
-  } else if (bookTitle === "La Réunion des religions" || bookTitle === "LA RÉUNION DES RELIGIONS") {
+  } 
+  // Cas spécial pour La Réunion des religions - condition élargie
+  else if (bookTitle === "La Réunion des religions" || 
+           bookTitle === "LA RÉUNION DES RELIGIONS" || 
+           bookTitle === "La Reunion des religions" ||
+           normalizedTitle === "la reunion des religions" ||
+           bookTitle.includes("union des religion")) {
     // Format exact pour La Réunion des religions selon l'image fournie
     editorialText = `Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages`;
     isbn = "9782362470035";
     console.log(`ISBN défini pour La Réunion des religions: ${isbn}`);
+    // Force log pour débogage
+    console.log(`FORÇAGE des détails pour La Réunion des religions: {editorialText: "${editorialText}", isbn: "${isbn}"}`);
   } else {
     // Format standard pour les autres livres
     let price = '';
