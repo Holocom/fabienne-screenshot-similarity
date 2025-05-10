@@ -92,13 +92,23 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     isbn = "9782362470684";
     console.log(`ISBN défini pour LA RÉUNION DES ENFANTS: ${isbn}`);
   }
-  // Nouveau cas spécial pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
+  // Cas spécial pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
   else if (bookTitle === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" || 
            normalizedTitle === "le petit garcon qui ne souriait jamais" ||
            bookId === "3133c2f1-3422-4afd-8e6f-fce3e0ed910c") {
     editorialText = `Album jeunesse – illustré par Artem Kostyukevitch - Océan Jeunesse – 2009- 36 pages`;
     isbn = "9782916533704";
     console.log(`ISBN défini pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS: ${isbn}`);
+  }
+  // Nouveau cas spécial pour TU ME FAIS TOURNER LA TERRE
+  else if (bookTitle === "TU ME FAIS TOURNER LA TERRE" ||
+           bookTitle === "Tu me fais tourner la terre" ||
+           bookTitle === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
+           normalizedTitle?.includes("tu me fais tourner") ||
+           bookId === "451338a8-2537-454d-a990-00dbc0988370") {
+    editorialText = `Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages`;
+    isbn = "9782912949745";
+    console.log(`ISBN défini pour TU ME FAIS TOURNER LA TERRE: ${isbn}`);
   }
   else {
     // Format standard pour les autres livres

@@ -47,11 +47,32 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const isPetitGarcon = 
     title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "le petit garcon qui ne souriait jamais";
+    
+  // Cas spécial pour TU ME FAIS TOURNER LA TERRE
+  const isTuMeFaisTourner = 
+    title === "TU ME FAIS TOURNER LA TERRE" ||
+    title === "Tu me fais tourner la terre" ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner");
+
+  // Vérifier si le titre contient un saut de ligne
+  const hasLineBreak = title?.includes('\n');
   
   return <>
-      <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
-        {displayTitle?.toUpperCase()}
-      </h1>
+      {hasLineBreak ? (
+        // Si le titre contient un saut de ligne, diviser et afficher chaque ligne
+        <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0">
+          {title.split('\n').map((line, index) => (
+            <React.Fragment key={index}>
+              {index > 0 && <br />}
+              {line}
+            </React.Fragment>
+          ))}
+        </h1>
+      ) : (
+        <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
+          {displayTitle?.toUpperCase()}
+        </h1>
+      )}
       
       <div className="mb-10 mt-2">
         {/* Pour Edgar, le chat souris, afficher le texte exactement comme dans l'image */}
@@ -98,6 +119,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782916533704
+            </p>
+          </>
+        ) : isTuMeFaisTourner ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782912949745
             </p>
           </>
         ) : (

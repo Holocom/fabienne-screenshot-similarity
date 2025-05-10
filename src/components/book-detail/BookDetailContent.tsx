@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -85,6 +86,13 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isPetitGarcon = 
     book?.title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
     book?.id === "3133c2f1-3422-4afd-8e6f-fce3e0ed910c";
+    
+  // Special case for "TU ME FAIS TOURNER LA TERRE"
+  const isTuMeFaisTourner = 
+    book?.title === "TU ME FAIS TOURNER LA TERRE" ||
+    book?.title === "Tu me fais tourner la terre" ||
+    book?.title?.includes("TU ME FAIS TOURNER") ||
+    book?.id === "451338a8-2537-454d-a990-00dbc0988370";
   
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
@@ -107,6 +115,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Log pour débogage si c'est LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
   if (isPetitGarcon) {
     console.log(`Content détecté LE PETIT GARÇON QUI NE SOURIAIT JAMAIS avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
+  // Log pour débogage si c'est TU ME FAIS TOURNER LA TERRE
+  if (isTuMeFaisTourner) {
+    console.log(`Content détecté TU ME FAIS TOURNER LA TERRE avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
@@ -142,7 +156,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isLaReunionDesReligions ||
     isLesReligionsIleMaurice ||
     isLaReunionDesEnfants ||
-    isPetitGarcon;
+    isPetitGarcon ||
+    isTuMeFaisTourner;
   
   return (
     <>
@@ -159,7 +174,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       ) : (
         <div className="w-full">
           <BookHeader 
-            title={book.title} 
+            title={isTuMeFaisTourner && !book.title.includes('\n') ? 
+              "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" : book.title} 
             editorialText={editorialText}
             showISBN={shouldShowISBN}
             isbn={isbn}

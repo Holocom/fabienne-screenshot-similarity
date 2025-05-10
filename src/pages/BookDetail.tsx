@@ -100,10 +100,15 @@ const BookDetailPage = () => {
   // Vérifier si c'est "Les religions à l'ile Maurice"
   const isLesReligionsIleMaurice = bookId === "23b62768-3770-4621-8c5e-9a705891bb93";
   
+  // Vérifier si c'est "TU ME FAIS TOURNER LA TERRE"
+  const isTuMeFaisTourner = bookId === "451338a8-2537-454d-a990-00dbc0988370";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } else if (isLesReligionsIleMaurice) {
     console.log("Livre identifié comme 'Les religions à l'ile Maurice' par son ID");
+  } else if (isTuMeFaisTourner) {
+    console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -129,6 +134,7 @@ const BookDetailPage = () => {
                 // Force le titre correct si nécessaire
                 title: isLaReunionDesReligions ? "La Réunion des religions" : 
                        isLesReligionsIleMaurice ? "Les religions à l'ile Maurice" :
+                       isTuMeFaisTourner ? "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" :
                        book.title
               }}
               bookDetails={bookDetails || {

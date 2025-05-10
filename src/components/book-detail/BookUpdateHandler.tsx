@@ -312,6 +312,15 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }
+    
+    // Force la mise à jour pour TU ME FAIS TOURNER LA TERRE aussi
+    if (book.id === "451338a8-2537-454d-a990-00dbc0988370" || 
+        book.title === "TU ME FAIS TOURNER LA TERRE" ||
+        book.title === "Tu me fais tourner la terre") {
+      console.log("Force la mise à jour de TU ME FAIS TOURNER LA TERRE");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
 
     // Tenter de mettre à jour le livre avec les informations spécifiques
     const wasUpdated = handleBookSpecificUpdates();
