@@ -38,7 +38,7 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
       <ul className="space-y-1 list-none pl-0">
         {displayAwards.map((award, index) => (
           <li key={`award-${index}`} className="award-item">
-            {award.name}{!isCustom && 'year' in award && award.year ? ` (${award.year})` : ''}
+            {award.name}{!isCustom && 'year' in award && award.year && award.year !== "2024" ? ` (${award.year})` : ''}
           </li>
         ))}
       </ul>
