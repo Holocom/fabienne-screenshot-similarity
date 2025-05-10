@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -195,7 +196,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         console.log("Mise à jour des informations de Z'OISEAUX RARES avec ID:", book.id);
         hasUpdatedRef.current = true;
         
-        // Mise à jour avec la nouvelle description de l'image
+        // Mise à jour avec la description fournie
         const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
         
         const newDetails = {
