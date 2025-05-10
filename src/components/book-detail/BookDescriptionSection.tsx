@@ -3,9 +3,10 @@ import React from 'react';
 
 interface BookDescriptionProps {
   description: string | null;
+  bookTitle?: string;
 }
 
-export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ description }) => {
+export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ description, bookTitle }) => {
   if (!description) return <p>Aucune description disponible pour ce livre.</p>;
   
   // Séparer le texte en paragraphes (double saut de ligne)
@@ -19,7 +20,15 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ descrip
           // Remplacer les sauts de ligne simples par des balises <br />
           .replace(/\n/g, '<br />')
           // Appliquer les mises en forme spécifiques comme "Brown Baby" en italique
-          .replace(/Brown Baby/g, '<em>Brown Baby</em>');
+          .replace(/Brown Baby/g, '<em>Brown Baby</em>')
+          // Mettre en évidence certains mots pour Z'OISEAUX RARES
+          .replace(/"ma ma"/g, '<strong>"ma ma"</strong>')
+          .replace(/"mu mu"/g, '<strong>"mu mu"</strong>')
+          .replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>')
+          .replace(/"ga ga"/g, '<strong>"ga ga"</strong>')
+          .replace(/"papa"/g, '<strong>"papa"</strong>')
+          .replace(/"doudou"/g, '<strong>"doudou"</strong>')
+          .replace(/"joujou"/g, '<strong>"joujou"</strong>');
         
         return (
           <p 

@@ -96,7 +96,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       )}
       
       {/* Description du livre */}
-      <BookDescriptionSection description={updatedDescription} />
+      <BookDescriptionSection description={updatedDescription} bookTitle={book.title} />
       
       {/* Section des éditions - Placée avant les liens de presse */}
       {uniqueEditions.length > 0 && 
