@@ -63,6 +63,13 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
   ];
   
+  // Définir les awards spécifiques pour UN FLAMBOYANT PÈRE-NOËL (basés sur l'image 2)
+  const flamboyantNoelAwards = [
+    { name: "Prix Afrilivres 2020", url: null },
+    { name: "Prix Jeanne de Cavally 2022", url: null },
+    { name: "Finaliste du Prix Vanille Illustration 2020", url: null }
+  ];
+  
   // Vérifier si Brown Baby a besoin d'un traitement spécial
   const isBrownBaby = book?.title === "Brown Baby";
 
@@ -252,8 +259,19 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       {/* Section des liens de blog pour Brown Baby */}
       {isBrownBaby && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
       
-      {/* Section combinée des prix et distinctions */}
-      {isEdgarChatSouris ? (
+      {/* Section Prix et distinctions : conditionnée pour UN FLAMBOYANT PÈRE-NOËL */}
+      {isFlamboyantNoel ? (
+        <div className="my-6">
+          <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
+          <ul className="space-y-1 list-none pl-0">
+            {flamboyantNoelAwards.map((award, index) => (
+              <li key={`flamboyant-award-${index}`} className="text-primary-blue mb-1">
+                {award.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : isEdgarChatSouris ? (
         <div className="my-6">
           <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
           <ul className="space-y-1 list-none pl-0">
