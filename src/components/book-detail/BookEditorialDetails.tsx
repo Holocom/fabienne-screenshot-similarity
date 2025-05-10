@@ -62,8 +62,12 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
   else if (bookTitle === "La Réunion des religions" || 
            bookTitle === "LA RÉUNION DES RELIGIONS" || 
            bookTitle === "La Reunion des religions" ||
+           bookTitle === "Les religions à l'ile Maurice" ||
+           bookTitle === "LES RELIGIONS À L'ILE MAURICE" ||
            normalizedTitle === "la reunion des religions" ||
+           normalizedTitle === "les religions a lile maurice" ||
            bookTitle.includes("union des religion") ||
+           bookTitle.includes("religions à l'ile") ||
            bookTitle === "La Réunion des Religions" ||
            bookId === "0569acb0-8946-4f62-acce-881604d3146a" ||
            bookId === "23b62768-3770-4621-8c5e-9a705891bb93") {
