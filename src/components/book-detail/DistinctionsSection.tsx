@@ -17,14 +17,19 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
   // Determine which distinctions to display
   const displayDistinctions = isCustom ? customDistinctions : distinctions;
   
-  if (displayDistinctions.length === 0) return null;
+  // Éliminer les doublons basés sur le nom uniquement (ignorer l'année)
+  const uniqueDistinctions = Array.from(new Map(
+    displayDistinctions.map(distinction => [distinction.name, distinction])
+  ).values());
+  
+  if (uniqueDistinctions.length === 0) return null;
 
   return (
-    <div className="my-6">
-      <h3 className="text-xl font-bold mb-2">DISTINCTIONS</h3>
+    <div className="my-6 text-[#00366b]">
+      <h3 className="text-xl font-bold mb-2 text-[#00366b] uppercase">DISTINCTIONS</h3>
       <ul className="space-y-1 list-none pl-0">
-        {displayDistinctions.map((distinction, index) => (
-          <li key={`distinction-${index}`} className="text-gray-700 mb-1">
+        {uniqueDistinctions.map((distinction, index) => (
+          <li key={`distinction-${index}`} className="text-[#00366b] mb-1">
             {distinction.name}{!isCustom && 'year' in distinction && distinction.year ? ` (${distinction.year})` : ''}
           </li>
         ))}

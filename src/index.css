@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/carlito');
 
@@ -45,6 +46,9 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Couleur bleu marine pour les prix et distinctions */
+    --awards-color: 214 100% 21%;
   }
 
   body {
@@ -104,14 +108,15 @@
     @apply text-[#6ba438];
   }
   
+  /* Nouvelle couleur bleu marine pour les prix et distinctions */
   .book-detail .awards-title {
-    @apply text-[#3B82F6] font-bold text-xl mb-4 mt-10 tracking-wide;
+    @apply text-[#00366b] font-bold text-xl mb-4 mt-10 tracking-wide;
     font-family: 'Carlito', sans-serif;
     letter-spacing: 0.03em;
   }
   
   .book-detail .award-item {
-    @apply text-[#3B82F6] mb-2;
+    @apply text-[#00366b] mb-2;
     font-family: 'Carlito', sans-serif;
     line-height: 1.4;
   }
