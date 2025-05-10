@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -78,6 +79,13 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
     // Cas spécifique pour certains livres qui ont des URLs locales
     if (bookTitle === "Ambroise Vollard, un don singulier") {
       return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
+    }
+    
+    // Cas spécifique pour TU ME FAIS TOURNER LA TERRE
+    if (bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" || 
+        bookTitle === "TU ME FAIS TOURNER LA TERRE" ||
+        bookTitle?.includes("TU ME FAIS TOURNER")) {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/JEUNESSE/tu-me-fais-tourner-la-Terre-you-make-my-world-spin.png";
     }
     
     // Vérifier si l'URL est déjà une URL complète Supabase Storage
