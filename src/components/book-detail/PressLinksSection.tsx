@@ -42,7 +42,9 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   const edgarChatSourisLinks: SimplePressLink[] = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
     { url: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839", label: "https://www.babelio.com/livres/Jonca-Edgar-le-chat-souris/435839" },
-    { url: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html", label: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html" }
+    { url: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html", label: "http://coupdecœurlecteurs.blogspot.com/2013/09/edgar-le-chat-souris.html" },
+    { url: "https://la1ere.francetvinfo.fr/reunion/2013/08/20/la-reunion-primee-au-15eme-salon-du-livre-d-ouessant-56299.html", label: "https://la1ere.francetvinfo.fr/reunion/2013/08/20/la-reunion-primee-au-15eme-salon-du-livre-d-ouessant-56299.html" },
+    { url: "https://imazpress.com/actus-reunion/la-reunion-primee-au-salon-du-livre-insulaire-douessant", label: "https://imazpress.com/actus-reunion/la-reunion-primee-au-salon-du-livre-insulaire-douessant" }
   ];
                       
   // Determine which links to display
