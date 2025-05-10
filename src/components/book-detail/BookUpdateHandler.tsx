@@ -40,7 +40,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     ) {
       return;
     }
-    
+
     // Special case for Ambroise Vollard book
     if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
       try {
