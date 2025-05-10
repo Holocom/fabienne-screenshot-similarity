@@ -49,7 +49,12 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
     console.log(`ISBN défini pour Z'OISEAUX RARES: ${isbn}`);
   } else {
     // Format standard pour les autres livres
-    editorialText = `${bookDetails?.categories?.name || "Jeunesse"} – illustré par ${bookDetails?.illustrator || "Non spécifié"} – ${bookDetails?.publisher || "Non spécifié"} – ${bookDetails?.year || "2024"} – ${bookDetails?.pages || "0"} pages`;
+    let price = '';
+    if (bookDetails?.price) {
+      price = ` - ${bookDetails.price}€`;
+    }
+    
+    editorialText = `${bookDetails?.categories?.name || "Jeunesse"} – illustré par ${bookDetails?.illustrator || "Non spécifié"} – ${bookDetails?.publisher || "Non spécifié"} – ${bookDetails?.year || "2024"} – ${bookDetails?.pages || "0"} pages${price}`;
     
     // Récupérer l'ISBN à partir des détails du livre si disponible
     if (bookDetails?.isbn) {

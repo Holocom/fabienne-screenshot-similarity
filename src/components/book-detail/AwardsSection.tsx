@@ -33,11 +33,11 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
   if (displayAwards.length === 0) return null;
 
   return (
-    <div>
-      <h3 className="awards-title">PRIX ET DISTINCTIONS</h3>
+    <div className="my-6">
+      <h3 className="text-xl font-bold mb-2">PRIX ET RÉCOMPENSES</h3>
       <ul className="space-y-1 list-none pl-0">
         {displayAwards.map((award, index) => (
-          <li key={`award-${index}`} className="award-item">
+          <li key={`award-${index}`} className="text-gray-700 mb-1">
             {award.name}{!isCustom && 'year' in award && award.year ? ` (${award.year})` : ''}
           </li>
         ))}

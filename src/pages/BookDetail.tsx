@@ -6,7 +6,8 @@ import {
   getBookById, 
   getBookDetails, 
   getPressLinks, 
-  getAwards, 
+  getAwards,
+  getDistinctions,
   getEditions 
 } from '@/services/bookService';
 import { LoadingState } from '@/components/book-detail/LoadingState';
@@ -26,6 +27,7 @@ const BookDetailPage = () => {
       queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
       queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
       queryClient.invalidateQueries({ queryKey: ['awards', bookId] });
+      queryClient.invalidateQueries({ queryKey: ['distinctions', bookId] });
       queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
     }
   }, [bookId, queryClient]);
@@ -69,6 +71,15 @@ const BookDetailPage = () => {
   });
   
   const {
+    data: distinctions = [],
+    isLoading: isLoadingDistinctions
+  } = useQuery({
+    queryKey: ['distinctions', bookId],
+    queryFn: () => getDistinctions(bookId || ''),
+    enabled: !!bookId
+  });
+  
+  const {
     data: editions = [],
     isLoading: isLoadingEditions
   } = useQuery({
@@ -78,7 +89,8 @@ const BookDetailPage = () => {
   });
 
   // Déterminer si tout est en cours de chargement
-  const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions;
+  const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || 
+                    isLoadingAwards || isLoadingDistinctions || isLoadingEditions;
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
@@ -112,6 +124,7 @@ const BookDetailPage = () => {
               }}
               pressLinks={pressLinks}
               awards={awards}
+              distinctions={distinctions}
               editions={editions}
             />
           </BookDetailLayout>

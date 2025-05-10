@@ -49,6 +49,7 @@ export type Database = {
           illustrator: string | null
           isbn: string | null
           pages: string | null
+          price: string | null
           publisher: string | null
           updated_at: string | null
           year: string | null
@@ -60,6 +61,7 @@ export type Database = {
           illustrator?: string | null
           isbn?: string | null
           pages?: string | null
+          price?: string | null
           publisher?: string | null
           updated_at?: string | null
           year?: string | null
@@ -71,6 +73,7 @@ export type Database = {
           illustrator?: string | null
           isbn?: string | null
           pages?: string | null
+          price?: string | null
           publisher?: string | null
           updated_at?: string | null
           year?: string | null
@@ -143,6 +146,38 @@ export type Database = {
           slug?: string
         }
         Relationships: []
+      }
+      distinctions: {
+        Row: {
+          book_id: string | null
+          created_at: string | null
+          id: string
+          name: string
+          year: string | null
+        }
+        Insert: {
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          name: string
+          year?: string | null
+        }
+        Update: {
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          name?: string
+          year?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "distinctions_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       editions: {
         Row: {

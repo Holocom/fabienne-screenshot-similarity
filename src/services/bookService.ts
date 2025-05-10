@@ -358,6 +358,79 @@ export const getAwards = async (bookId: string): Promise<Award[]> => {
   }
 };
 
+export const getDistinctions = async (bookId: string): Promise<any[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('distinctions')
+      .select('*')
+      .eq('book_id', bookId)
+      .order('created_at');
+    
+    if (error) {
+      console.error('Error fetching distinctions:', error);
+      return [];
+    }
+    
+    // Déduplication par nom et année pour éviter les doublons
+    const uniqueKeys = new Set();
+    const uniqueData = data.filter(distinction => {
+      const key = `${distinction.name}-${distinction.year || 'none'}`;
+      if (uniqueKeys.has(key)) {
+        return false;
+      }
+      uniqueKeys.add(key);
+      return true;
+    });
+    
+    return uniqueData;
+  } catch (error) {
+    console.error('Unexpected error in getDistinctions:', error);
+    return [];
+  }
+};
+
+export const addDistinction = async (bookId: string, distinction: { name: string, year?: string | null }): Promise<any | null> => {
+  try {
+    // Vérifier si une distinction avec le même nom et la même année existe déjà
+    const { data: existingDistinctions } = await supabase
+      .from('distinctions')
+      .select('*')
+      .eq('book_id', bookId)
+      .eq('name', distinction.name);
+    
+    const distinctionExists = existingDistinctions?.some(
+      existing => existing.year === distinction.year
+    );
+    
+    if (distinctionExists) {
+      console.log(`Distinction "${distinction.name}" (${distinction.year}) already exists, skipping.`);
+      return existingDistinctions.find(
+        existing => existing.year === distinction.year
+      );
+    }
+    
+    const { data, error } = await supabase
+      .from('distinctions')
+      .insert({
+        book_id: bookId,
+        name: distinction.name,
+        year: distinction.year
+      })
+      .select()
+      .maybeSingle();
+    
+    if (error) {
+      console.error('Error adding distinction:', error);
+      return null;
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Unexpected error in addDistinction:', error);
+    return null;
+  }
+};
+
 export const getEditions = async (bookId: string): Promise<Edition[]> => {
   try {
     const { data, error } = await supabase
@@ -438,7 +511,8 @@ export const updateCompleteBookInfo = async (
   detailsData: Partial<BookDetail>,
   pressLinks: Array<Omit<PressLink, 'id' | 'created_at'>>,
   awards: Array<Omit<Award, 'id' | 'created_at'>>,
-  editions: Array<Omit<Edition, 'id' | 'created_at'>>
+  editions: Array<Omit<Edition, 'id' | 'created_at'>>,
+  distinctions: Array<{name: string, year?: string | null}> = []
 ): Promise<boolean> => {
   try {
     console.log("Mise à jour des informations du livre:", bookId);
@@ -522,6 +596,19 @@ export const updateCompleteBookInfo = async (
       }
     }
     console.log(`Added ${addedAwards}/${awards.length} awards`);
+    
+    // Ajout des distinctions
+    let addedDistinctions = 0;
+    for (const distinction of distinctions) {
+      try {
+        const distinctionResult = await addDistinction(bookId, distinction);
+        if (distinctionResult) addedDistinctions++;
+      } catch (distinctionError) {
+        console.error("Erreur lors de l'ajout d'une distinction:", distinctionError);
+        // Continuer avec les autres distinctions
+      }
+    }
+    console.log(`Added ${addedDistinctions}/${distinctions.length} distinctions`);
     
     // Ajout des éditions avec meilleure gestion des erreurs
     let addedEditions = 0;

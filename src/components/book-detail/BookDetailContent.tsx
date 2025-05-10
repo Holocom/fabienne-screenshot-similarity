@@ -10,12 +10,14 @@ import { EditionsSection } from '@/components/book-detail/EditionsSection';
 import { SeligmannLinksSection } from '@/components/book-detail/SeligmannLinksSection';
 import { BookCoversCarousel } from '@/components/book-detail/BookCoversCarousel';
 import { getBookEditorialDetails } from './BookEditorialDetails';
+import { DistinctionsSection } from './DistinctionsSection';
 
 interface BookDetailContentProps {
   book: Book;
   bookDetails: BookDetail;
   pressLinks: PressLink[];
   awards: Award[];
+  distinctions: any[];
   editions: Edition[];
 }
 
@@ -24,6 +26,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   bookDetails,
   pressLinks,
   awards,
+  distinctions,
   editions
 }) => {
   // Obtenir les détails éditoriaux
@@ -37,6 +40,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Filtrer les prix pour éliminer les doublons
   const uniqueAwards = Array.from(new Map(
     awards.map(award => [`${award.name}-${award.year || 'none'}`, award])
+  ).values());
+  
+  // Filtrer les distinctions pour éliminer les doublons
+  const uniqueDistinctions = Array.from(new Map(
+    distinctions.map(distinction => [`${distinction.name}-${distinction.year || 'none'}`, distinction])
   ).values());
   
   // Filtrer les éditions pour éliminer les doublons
@@ -108,11 +116,14 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       {/* Section des liens de blog pour Brown Baby */}
       {book?.title === "Brown Baby" && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
       
-      {/* Section des prix pour les autres livres */}
-      {uniqueAwards.length > 0 && 
-       book?.title !== "Brown Baby" && 
-       !(book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) && (
+      {/* Section des prix pour tous les livres */}
+      {uniqueAwards.length > 0 && (
         <AwardsSection awards={uniqueAwards} bookTitle={book.title} />
+      )}
+      
+      {/* Section des distinctions pour tous les livres */}
+      {uniqueDistinctions.length > 0 && (
+        <DistinctionsSection distinctions={uniqueDistinctions} bookTitle={book.title} />
       )}
       
       {/* Section des liens Seligmann pour Brown Baby */}
