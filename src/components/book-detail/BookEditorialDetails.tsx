@@ -82,7 +82,17 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     editorialText = `Album / documentaire - illustré par Hélène Moreau - Vizavi - 2015 - 64 pages`;
     isbn = "9789990337945";
     console.log(`ISBN défini pour Les religions à l'ile Maurice (mis à jour): ${isbn}`);
-  } else {
+  }
+  // Nouveau cas spécial pour LA RÉUNION DES ENFANTS
+  else if (bookTitle === "LA RÉUNION DES ENFANTS" || 
+           bookTitle === "La Réunion des enfants" ||
+           normalizedTitle === "la reunion des enfants" ||
+           bookId === "c88b5c00-3543-46a1-9996-d82e2c260849") {
+    editorialText = `Album jeunesse – illustré par Marion Pradier - Océan Jeunesse – 2014 - 52 pages`;
+    isbn = "9782362470684";
+    console.log(`ISBN défini pour LA RÉUNION DES ENFANTS: ${isbn}`);
+  }
+  else {
     // Format standard pour les autres livres
     let price = '';
     if (bookDetails?.price) {

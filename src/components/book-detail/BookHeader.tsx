@@ -37,6 +37,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("religions") && 
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("maurice");
   
+  // Cas spécial pour LA RÉUNION DES ENFANTS
+  const isLaReunionDesEnfants =
+    title === "LA RÉUNION DES ENFANTS" ||
+    title === "La Réunion des enfants" ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des enfants";
+  
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
@@ -69,6 +75,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9789990337945
+            </p>
+          </>
+        ) : isLaReunionDesEnfants ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album jeunesse – illustré par Marion Pradier - Océan Jeunesse – 2014 - 52 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN : 9782362470684
             </p>
           </>
         ) : (

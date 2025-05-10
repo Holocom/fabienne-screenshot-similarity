@@ -74,6 +74,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "Les religions à l'ile Maurice" || 
     book?.title === "Les religions à l'île Maurice" ||
     book?.id === "23b62768-3770-4621-8c5e-9a705891bb93";
+
+  // Special case for "LA RÉUNION DES ENFANTS"
+  const isLaReunionDesEnfants =
+    book?.title === "LA RÉUNION DES ENFANTS" ||
+    book?.title === "La Réunion des enfants" ||
+    book?.id === "c88b5c00-3543-46a1-9996-d82e2c260849";
   
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
@@ -84,6 +90,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Log pour débogage si c'est Les religions à l'ile Maurice
   if (isLesReligionsIleMaurice) {
     console.log(`Content détecté Les religions à l'ile Maurice avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+
+  // Log pour débogage si c'est La Réunion des enfants
+  if (isLaReunionDesEnfants) {
+    console.log(`Content détecté LA RÉUNION DES ENFANTS avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
@@ -117,7 +129,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "ZOISEAUX RARES" ||
     book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ||
     isLaReunionDesReligions ||
-    isLesReligionsIleMaurice;
+    isLesReligionsIleMaurice ||
+    isLaReunionDesEnfants;
   
   return (
     <>
