@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PressLink } from '@/integrations/supabase/schema';
 
@@ -57,14 +58,7 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   const lesReligionsIleMauriceLinks: SimplePressLink[] = [
     { url: "https://sabariscon.com/2016/06/20/les-religions-a-lile-maurice-fabienne-jonca-et-helene-moreau-vizavi-2015/", label: "https://sabariscon.com/2016/06/20/les-religions-a-lile-maurice-fabienne-jonca-et-helene-moreau-vizavi-2015/" }
   ];
-  
-  // Nouveaux liens pour JACE. MAGIK GOUZOU
-  const jaceMagikGouzouLinks: SimplePressLink[] = [
-    { url: "https://streep.re/rencontre-avec-jace/", label: "Streep - Rencontre avec Jace" },
-    { url: "https://actualite.re/le-chevalier-des-temps-modernes", label: "Actualité - Le chevalier des temps modernes" },
-    { url: "https://alternatives.gallimard.fr/catalogue/jace-magik-gouzou/", label: "Gallimard - JACE. MAGIK GOUZOU" }
-  ];
-  
+                      
   // Determine which links to display
   let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
   
@@ -82,8 +76,6 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = reunionDesReligionsLinks;
   } else if (bookTitle === "Les religions à l'ile Maurice" || bookTitle === "Les religions à l'île Maurice" || bookTitle.toLowerCase().includes("religions") && bookTitle.toLowerCase().includes("maurice")) {
     displayLinks = lesReligionsIleMauriceLinks;
-  } else if (bookTitle === "JACE. MAGIK GOUZOU") {
-    displayLinks = jaceMagikGouzouLinks;
   }
   
   // Créer une map pour stocker des liens uniques par URL

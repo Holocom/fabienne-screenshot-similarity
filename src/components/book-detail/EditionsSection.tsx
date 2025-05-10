@@ -4,12 +4,10 @@ import { Edition } from '@/integrations/supabase/schema';
 
 interface EditionsSectionProps {
   editions: Edition[];
-  bookTitle?: string; // Ajout du titre du livre comme prop optionnelle
 }
 
-export const EditionsSection: React.FC<EditionsSectionProps> = ({ editions, bookTitle }) => {
-  // Ne pas afficher la section pour "JACE. MAGIK GOUZOU"
-  if (editions.length === 0 || bookTitle === "JACE. MAGIK GOUZOU") return null;
+export const EditionsSection: React.FC<EditionsSectionProps> = ({ editions }) => {
+  if (editions.length === 0) return null;
 
   // Group editions into two columns
   const halfLength = Math.ceil(editions.length / 2);
