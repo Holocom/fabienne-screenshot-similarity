@@ -28,18 +28,33 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   ];
                       
   // Determine which links to display
-  const displayLinks = bookTitle === "Brown Baby" ? brownBabyPressLinks :
-                      bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?" ? langueBienPendueLinks :
-                      bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël") ? flamboyantPereNoelLinks :
-                      pressLinks;
-                      
-  if (displayLinks.length === 0) return null;
+  let displayLinks = pressLinks;
+  
+  if (bookTitle === "Brown Baby") {
+    displayLinks = brownBabyPressLinks;
+  } else if (bookTitle === "AS-TU LA LANGUE BIEN PENDUE ?") {
+    displayLinks = langueBienPendueLinks;
+  } else if (bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël")) {
+    displayLinks = flamboyantPereNoelLinks;
+  }
+  
+  // Éliminer les liens en double en utilisant un Set basé sur les URLs
+  const uniqueUrls = new Set();
+  const uniqueLinks = displayLinks.filter(link => {
+    if (uniqueUrls.has(link.url)) {
+      return false;
+    }
+    uniqueUrls.add(link.url);
+    return true;
+  });
+  
+  if (uniqueLinks.length === 0) return null;
 
   return (
     <div className="mb-8">
       <h3 className="press-title text-[#4b9e5f] font-bold text-xl mb-4 uppercase">PRESSE</h3>
       <ul className="space-y-2 list-none pl-0">
-        {displayLinks.map((link, index) => (
+        {uniqueLinks.map((link, index) => (
           <li key={`press-${index}`}>
             <a 
               href={link.url} 
