@@ -46,6 +46,13 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://la1ere.francetvinfo.fr/reunion/2013/08/20/la-reunion-primee-au-15eme-salon-du-livre-d-ouessant-56299.html", label: "https://la1ere.francetvinfo.fr/reunion/2013/08/20/la-reunion-primee-au-15eme-salon-du-livre-d-ouessant-56299.html" },
     { url: "https://imazpress.com/actus-reunion/la-reunion-primee-au-salon-du-livre-insulaire-douessant", label: "https://imazpress.com/actus-reunion/la-reunion-primee-au-salon-du-livre-insulaire-douessant" }
   ];
+  
+  const reunionDesReligionsLinks: SimplePressLink[] = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/la-reunion-des-religions", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/la-reunion-des-religions" },
+    { url: "https://www.ricochet-jeunes.org/livres/la-reunion-des-religions", label: "https://www.ricochet-jeunes.org/livres/la-reunion-des-religions" },
+    { url: "https://www.encres-vagabondes.com/magazine/jonca3.htm", label: "https://www.encres-vagabondes.com/magazine/jonca3.htm" },
+    { url: "https://www.les-notes.fr/analyse/la-reunion-des-religions/", label: "https://www.les-notes.fr/analyse/la-reunion-des-religions/" }
+  ];
                       
   // Determine which links to display
   let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
@@ -60,6 +67,8 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = zOiseauxRaresLinks;
   } else if (bookTitle === "EDGAR, LE CHAT SOURIS" || bookTitle === "Edgar, le chat souris") {
     displayLinks = edgarChatSourisLinks;
+  } else if (bookTitle === "La Réunion des religions" || bookTitle === "LA RÉUNION DES RELIGIONS") {
+    displayLinks = reunionDesReligionsLinks;
   }
   
   // Créer une map pour stocker des liens uniques par URL

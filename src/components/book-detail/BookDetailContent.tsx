@@ -59,6 +59,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Special case for "EDGAR, LE CHAT SOURIS"
   const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS" || book?.title === "Edgar, le chat souris";
   
+  // Special case for "La Réunion des religions"
+  const isLaReunionDesReligions = book?.title === "La Réunion des religions" || book?.title === "LA RÉUNION DES RELIGIONS";
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -87,7 +90,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "Z'OISEAUX RARES" || 
     book?.title === "Z'oiseaux rares" || 
     book?.title === "ZOISEAUX RARES" ||
-    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356";
+    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ||
+    isLaReunionDesReligions;
   
   return (
     <>
