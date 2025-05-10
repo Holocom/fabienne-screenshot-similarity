@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Book, Award, Edition, PressLink, BookDetails } from '@/integrations/supabase/schema';
+import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
 import { BookDescriptionSection } from '@/components/book-detail/BookDescriptionSection';
 import { AwardsSection } from '@/components/book-detail/AwardsSection';
@@ -9,11 +9,11 @@ import { BlogLinksSection } from '@/components/book-detail/BlogLinksSection';
 import { EditionsSection } from '@/components/book-detail/EditionsSection';
 import { SeligmannLinksSection } from '@/components/book-detail/SeligmannLinksSection';
 import { BookCoversCarousel } from '@/components/book-detail/BookCoversCarousel';
-import { BookEditorialDetails } from './BookEditorialDetails';
+import { getBookEditorialDetails } from './BookEditorialDetails';
 
 interface BookDetailContentProps {
   book: Book;
-  bookDetails: BookDetails;
+  bookDetails: BookDetail;
   pressLinks: PressLink[];
   awards: Award[];
   editions: Edition[];
@@ -27,7 +27,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   editions
 }) => {
   // Obtenir les détails éditoriaux
-  const { editorialText, isbn } = BookEditorialDetails({ bookTitle: book.title, bookDetails });
+  const { editorialText, isbn } = getBookEditorialDetails({ bookTitle: book.title, bookDetails });
   
   // Filtrer les liens de presse pour éliminer les doublons
   const uniquePressLinks = Array.from(new Map(

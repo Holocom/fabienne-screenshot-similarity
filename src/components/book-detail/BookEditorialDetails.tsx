@@ -1,12 +1,13 @@
 
 import React from 'react';
+import { BookDetail } from '@/integrations/supabase/schema';
 
-interface BookEditorialDetailsProps {
+interface BookDetailsProps {
   bookTitle: string;
   bookDetails: any;
 }
 
-export const BookEditorialDetails: React.FC<BookEditorialDetailsProps> = ({ bookTitle, bookDetails }) => {
+export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsProps): { editorialText: string; isbn: string } => {
   // Update the editorial text information specifically for this book
   let editorialText = '';
   let isbn = '';

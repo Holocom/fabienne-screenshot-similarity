@@ -64,6 +64,9 @@ const BookDetailPage = () => {
     queryFn: () => getEditions(bookId || ''),
     enabled: !!bookId
   });
+
+  // Déterminer si tout est en cours de chargement
+  const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || isLoadingAwards || isLoadingEditions;
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
