@@ -8,30 +8,25 @@ interface BookDescriptionProps {
 export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({ description }) => {
   if (!description) return <p>Aucune description disponible pour ce livre.</p>;
   
-  // Format the description to display names in italics as needed
+  // Séparer le texte en paragraphes (double saut de ligne)
   const paragraphs = description.split('\n\n');
+  
   return (
     <div className="description mb-8">
       {paragraphs.map((paragraph, index) => {
-        // Add italics to specific words in the text
-        let formattedParagraph = paragraph;
-        
-        // Handle different books with specific formatting
-        if (description.includes("Vollard")) {
-          // For Ambroise Vollard book, don't apply italics to "Vollard" anymore
-          formattedParagraph = formattedParagraph;
-        } else if (description.includes("Brown Baby")) {
-          // Keep existing formatting for Brown Baby
-          formattedParagraph = formattedParagraph.replace(/Brown Baby/g, '<em>Brown Baby</em>');
-        }
-        
-        // Add space after period before "Quelle" if needed
-        formattedParagraph = formattedParagraph.replace(/étincelant\.Quelle/g, 'étincelant. Quelle');
+        // Pour le cas où il y aurait des sauts de ligne simples dans un paragraphe
+        const formattedParagraph = paragraph
+          // Remplacer les sauts de ligne simples par des balises <br />
+          .replace(/\n/g, '<br />')
+          // Appliquer les mises en forme spécifiques comme avant
+          .replace(/Brown Baby/g, '<em>Brown Baby</em>')
+          // Correction des espaces manquants après les points
+          .replace(/étincelant\.Quelle/g, 'étincelant. Quelle');
         
         return (
           <p 
             key={index} 
-            className="mb-4 whitespace-pre-line text-base md:text-lg leading-relaxed" 
+            className="mb-4 text-base md:text-lg leading-relaxed" 
             dangerouslySetInnerHTML={{ __html: formattedParagraph }}
           />
         );
