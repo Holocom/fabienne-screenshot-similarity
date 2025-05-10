@@ -162,6 +162,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
     (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
+    isFlamboyantNoel ||
     book?.title === "Ambroise Vollard, un don singulier" ||
     book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
     book?.title === "EXPRESSIONS MÉLANZÉ" ||

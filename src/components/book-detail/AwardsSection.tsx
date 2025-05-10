@@ -46,9 +46,23 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
 
   // Éliminer les doublons basés sur le nom uniquement
   const uniqueAwardsMap = new Map();
+  
+  // Fonction pour normaliser les noms de prix (enlever les espaces, mettre en minuscules)
+  const normalizeAwardName = (name: string) => {
+    // Pour "UN FLAMBOYANT PÈRE-NOËL", on normalise les noms spécifiques pour éliminer les doublons
+    if (bookTitle.includes("FLAMBOYANT") && bookTitle.includes("NOËL")) {
+      // Enlever l'année entre parenthèses et normaliser
+      return name.replace(/\s*\(\d+\)\s*$/, '').toLowerCase().trim();
+    }
+    // Pour les autres livres, juste normaliser
+    return name.trim().toLowerCase();
+  };
+  
   displayAwards.forEach(award => {
     if (award && award.name) {
-      uniqueAwardsMap.set(award.name, award);
+      // Utiliser le nom normalisé comme clé
+      const normalizedName = normalizeAwardName(award.name);
+      uniqueAwardsMap.set(normalizedName, award);
     }
   });
   

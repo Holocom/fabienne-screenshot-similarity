@@ -23,11 +23,24 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
   // Determine which distinctions to display
   const displayDistinctions = isCustom ? customDistinctions : distinctions;
   
+  // Fonction pour normaliser les noms de distinctions (enlever les espaces, mettre en minuscules)
+  const normalizeDistinctionName = (name: string) => {
+    // Pour "UN FLAMBOYANT PÈRE-NOËL", on normalise les noms spécifiques pour éliminer les doublons
+    if (bookTitle.includes("FLAMBOYANT") && bookTitle.includes("NOËL")) {
+      // Enlever l'année entre parenthèses et normaliser
+      return name.replace(/\s*\(\d+\)\s*$/, '').toLowerCase().trim();
+    }
+    // Pour les autres livres, juste normaliser
+    return name.trim().toLowerCase();
+  };
+  
   // Éliminer les doublons basés sur le nom uniquement
   const uniqueDistinctionsMap = new Map();
   displayDistinctions.forEach(distinction => {
     if (distinction && distinction.name) {
-      uniqueDistinctionsMap.set(distinction.name, distinction);
+      // Utiliser le nom normalisé comme clé
+      const normalizedName = normalizeDistinctionName(distinction.name);
+      uniqueDistinctionsMap.set(normalizedName, distinction);
     }
   });
   
