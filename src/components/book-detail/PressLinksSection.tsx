@@ -48,10 +48,17 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   // On utilise cette approche pour conserver le premier lien trouvé pour chaque URL
   const uniqueLinksMap = new Map<string, PressLink | SimplePressLink>();
   
-  // Parcourir tous les liens et ne conserver que le premier pour chaque URL
+  // Ajouter la normalisation des URL pour une déduplication plus robuste
+  const normalizeUrl = (url: string): string => {
+    // Supprime les espaces, rend tout en minuscule et supprime les barres obliques finales
+    return url.trim().toLowerCase().replace(/\/+$/, '');
+  };
+  
+  // Parcourir tous les liens et ne conserver que le premier pour chaque URL normalisée
   displayLinks.forEach(link => {
-    if (!uniqueLinksMap.has(link.url)) {
-      uniqueLinksMap.set(link.url, link);
+    const normalizedUrl = normalizeUrl(link.url);
+    if (!uniqueLinksMap.has(normalizedUrl)) {
+      uniqueLinksMap.set(normalizedUrl, link);
     }
   });
   
