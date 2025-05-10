@@ -10,6 +10,9 @@ export const useBookUpdate = (bookId: string | undefined) => {
   const [preventUpdates, setPreventUpdates] = useState(false);
   
   useEffect(() => {
+    // Force new update for debugging
+    sessionStorage.removeItem('updatedBooks');
+    
     const updatedBooks = sessionStorage.getItem('updatedBooks') || '{}';
     const updatedBooksObj = JSON.parse(updatedBooks);
     

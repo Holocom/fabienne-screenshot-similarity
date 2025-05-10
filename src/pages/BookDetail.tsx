@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -85,6 +84,7 @@ const BookDetailPage = () => {
     }
     
     console.log("Checking if book needs update:", bookId);
+    console.log("Book info:", book?.title, bookId);
     
     if (
       updateBookMutation.isPending || 
@@ -245,11 +245,12 @@ const BookDetailPage = () => {
         console.error("Error updating EXPRESSIONS MÉLANZÉ:", error);
         hasUpdatedRef.current = true;
       }
-    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES") {
+    } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
       // Mise à jour spécifique pour "Z'OISEAUX RARES"
       try {
-        console.log("Updating Z'OISEAUX RARES");
+        console.log("Updating Z'OISEAUX RARES with ID:", book.id);
         
+        // Proper description based on the image
         const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\". Vers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
         
         const newDetails = {
@@ -267,7 +268,7 @@ const BookDetailPage = () => {
           { url: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/", label: "https://comj.fr/zoiseaux-rares-fabienne-jonca-julie-bernard/" }
         ];
         
-        // Awards pour ce livre - en bleu dans l'image
+        // Awards pour ce livre
         const newAwards = [
           { name: "Sélection Kibookin - Salon du livre de Montreuil 2019", year: "2019" },
           { name: "Sélection Festival du livre jeunesse et de la bande dessinée de Cherbourg-en-Cotentin", year: null },
@@ -391,7 +392,7 @@ const BookDetailPage = () => {
     details.illustrator = "Flo Vandermeersch";
     details.year = "2024";
     details.pages = "44";
-  } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES") {
+  } else if (book.title === "Z'OISEAUX RARES" || book.title === "Z'oiseaux rares" || book.title === "ZOISEAUX RARES" || book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356") {
     editorialText = `Album sonore - illustré par Julie Bernard - Zébulo Éditions - 2019 - 20 pages`;
     isbn = "9791096163069";
     
@@ -481,7 +482,11 @@ const BookDetailPage = () => {
                         book?.title === "EXPRESSIONS MÉLANZÉ" ||
                         book?.title === "Expressions Mélanzé" ||
                         book?.title === "Expressions Melanze" ||
-                        book?.title === "JACE. MAGIK GOUZOU")}
+                        book?.title === "JACE. MAGIK GOUZOU" ||
+                        book?.title === "Z'OISEAUX RARES" || 
+                        book?.title === "Z'oiseaux rares" || 
+                        book?.title === "ZOISEAUX RARES" ||
+                        book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356")}
                 isbn={book?.title === "JACE. MAGIK GOUZOU" ? 
                       "9782072726590" : 
                       book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël") ? 
@@ -489,7 +494,10 @@ const BookDetailPage = () => {
                       book?.title === "Ambroise Vollard, un don singulier" || book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ?
                       "9782952720496" : 
                       book?.title === "EXPRESSIONS MÉLANZÉ" || book?.title === "Expressions Mélanzé" || book?.title === "Expressions Melanze" ?
-                      "9782956127741" : "9782916533520"}
+                      "9782956127741" :
+                      book?.title === "Z'OISEAUX RARES" || book?.title === "Z'oiseaux rares" || book?.title === "ZOISEAUX RARES" || 
+                      book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ? 
+                      "9791096163069" : "9782916533520"}
               />
             </div>
           )}
