@@ -1,15 +1,12 @@
-
 import React from 'react';
-
 interface BookHeaderProps {
   title: string;
   editorialText: string;
   showISBN: boolean;
   isbn?: string;
 }
-
-export const BookHeader: React.FC<BookHeaderProps> = ({ 
-  title, 
+export const BookHeader: React.FC<BookHeaderProps> = ({
+  title,
   editorialText,
   showISBN,
   isbn
@@ -19,24 +16,22 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   if (title?.toLowerCase().includes("pere") && title?.toLowerCase().includes("noel")) {
     displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
   }
-  
-  return (
-    <>
+  return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
       </h1>
       
       <div className="mb-10 mt-2">
         {/* Using red color for editorial text */}
-        <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{ __html: editorialText }}>
-        </p>
+        <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{
+        __html: editorialText
+      }}>Jeunesse – illustré par Julie Bernard – Zébulo Éditions – 2019 – 20 pages
+
+ISBN : 9791096163069</p>
         
-        {showISBN && isbn && (
-          <p className="text-[#ea384c] text-lg md:text-xl">
+        {showISBN && isbn && <p className="text-[#ea384c] text-lg md:text-xl">
             ISBN : {isbn}
-          </p>
-        )}
+          </p>}
       </div>
-    </>
-  );
+    </>;
 };
