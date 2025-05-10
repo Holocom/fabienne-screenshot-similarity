@@ -57,9 +57,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isBrownBaby = book?.title === "Brown Baby";
 
   // Special case for "EDGAR, LE CHAT SOURIS"
-  const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS";
+  const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS" || book?.title === "Edgar, le chat souris";
   
-  // Add specific check for Z'OISEAUX RARES
+  // Add specific check for Z'OISEAUX RARES and other books that need ISBN display
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
     (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
@@ -133,6 +133,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
               bookTitle={book.title}
               hideTitle={true}
               className="mt-0"
+              combineWithAwards={true}
             />
           )}
         </div>

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -191,7 +190,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         console.log("Mise à jour des informations de Z'OISEAUX RARES avec ID:", book.id);
         hasUpdatedRef.current = true;
         
-        const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à la fois de l'imitation et de l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
+        const newDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\".\n\nVers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à l'imitation et à l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'Île de La Réunion.";
         
         const newDetails = {
           publisher: "Zébulo Éditions",
@@ -242,22 +241,30 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         console.log("Mise à jour des informations de EDGAR, LE CHAT SOURIS");
         hasUpdatedRef.current = true;
         
-        const newDescription = "Edgar est un chat très drôle ! Et il arrive à cette petite fille une drôle d'histoire... Découvre comment Edgar est devenu le chat souris !";
+        const newDescription = "Parfois en s'endormant, le chat Edgar pense à sa vie d'avant, au grand bureau sur lequel il s'allongeait pendant que sa maîtresse écrivait. Aux délicieuses pâtées qu'elle lui préparait. À ses interminables caresses. Tout cela, c'était avant le décès de sa protectrice. Les héritiers l'ayant mis dehors, le voici à présent contraint d'affronter le froid qui le mord si fort et la faim qui étreint ses entrailles ! Mais Edgar ne veut pas baisser les pattes, alors il se donne un défi : trouver un travail ! Mais comment s'y prendre ? Suivre les conseils de deux souris, pourquoi pas !\n\nUne histoire optimiste sur les rencontres inattendues qui permettent aux uns et aux autres de s'enrichir de leurs différences, d'apprendre à jouer avec de nouveaux codes et surtout d'oser s'affranchir des idées reçues.";
         
         const newDetails = {
-          publisher: "Océan Jeunesse",
-          illustrator: "Audrey Caron", 
-          year: "2025",
+          publisher: "Éditions Orphie",
+          illustrator: "Nancy Ribard", 
+          year: "2013",
           pages: "48",
-          isbn: "9782916533520"
+          isbn: "9782912949509"
         };
+        
+        // Ajout des distinctions et prix spécifiques
+        const newAwards = [
+          { name: "Prix de l'album Jeunesse au Salon du livre insulaire d'Ouessant 2013", year: "2013" },
+          { name: "Sélection Coup de cœur des lecteurs saint-paulois 2013", year: "2013" },
+          { name: "Sélection Prix du Paille-en-queue 2014", year: "2014" },
+          { name: "Coup de cœur Takam Tikou", year: null }
+        ];
         
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
           detailsData: newDetails,
           pressLinks: [],
-          awards: [],
+          awards: newAwards,
           editions: []
         });
         

@@ -48,8 +48,8 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
     isbn = "9791096163069";
     console.log(`ISBN défini pour Z'OISEAUX RARES: ${isbn}`);
   } else if (bookTitle === "EDGAR, LE CHAT SOURIS" || bookTitle === "Edgar, le chat souris") {
-    editorialText = `Jeunesse – illustré par Audrey Caron – Océan Jeunesse – 2025 – 48 pages`;
-    isbn = "9782916533520";
+    editorialText = `Album jeunesse – illustré par Nancy Ribard – 2013 – 48 pages`;
+    isbn = "9782912949509";
     console.log(`ISBN défini pour EDGAR, LE CHAT SOURIS: ${isbn}`);
   } else {
     // Format standard pour les autres livres
