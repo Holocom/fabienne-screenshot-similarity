@@ -44,15 +44,19 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = flamboyantPereNoelLinks;
   }
   
-  // Éliminer les liens en double en utilisant un Set basé sur les URLs
-  const uniqueUrls = new Set<string>();
-  const uniqueLinks = displayLinks.filter(link => {
-    if (uniqueUrls.has(link.url)) {
-      return false;
+  // Créer une map pour stocker des liens uniques par URL
+  // On utilise cette approche pour conserver le premier lien trouvé pour chaque URL
+  const uniqueLinksMap = new Map<string, PressLink | SimplePressLink>();
+  
+  // Parcourir tous les liens et ne conserver que le premier pour chaque URL
+  displayLinks.forEach(link => {
+    if (!uniqueLinksMap.has(link.url)) {
+      uniqueLinksMap.set(link.url, link);
     }
-    uniqueUrls.add(link.url);
-    return true;
   });
+  
+  // Convertir la Map en tableau
+  const uniqueLinks = Array.from(uniqueLinksMap.values());
   
   if (uniqueLinks.length === 0) return null;
 
