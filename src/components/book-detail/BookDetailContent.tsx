@@ -6,7 +6,6 @@ import { BookDescriptionSection } from '@/components/book-detail/BookDescription
 import { AwardsSection } from '@/components/book-detail/AwardsSection';
 import { PressLinksSection } from '@/components/book-detail/PressLinksSection';
 import { BlogLinksSection } from '@/components/book-detail/BlogLinksSection';
-import { EditionsSection } from '@/components/book-detail/EditionsSection';
 import { SeligmannLinksSection } from '@/components/book-detail/SeligmannLinksSection';
 import { BookCoversCarousel } from '@/components/book-detail/BookCoversCarousel';
 import { getBookEditorialDetails } from './BookEditorialDetails';
@@ -35,11 +34,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Filtrer les liens de presse pour éliminer les doublons
   const uniquePressLinks = Array.from(new Map(
     pressLinks.map(link => [link.url, link])
-  ).values());
-  
-  // Filtrer les éditions pour éliminer les doublons
-  const uniqueEditions = Array.from(new Map(
-    editions.map(edition => [edition.name, edition])
   ).values());
   
   // Brown Baby blog links
@@ -115,12 +109,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       
       {/* Description du livre */}
       <BookDescriptionSection description={book?.description || ""} bookTitle={book.title} />
-      
-      {/* Section des éditions */}
-      {uniqueEditions.length > 0 && 
-       !isBrownBaby && (
-        <EditionsSection editions={uniqueEditions} />
-      )}
       
       {/* Section des liens de presse - Afficher les liens spécifiques pour Edgar, le chat souris */}
       {isEdgarChatSouris ? (
