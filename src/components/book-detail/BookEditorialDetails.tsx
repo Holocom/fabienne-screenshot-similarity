@@ -57,16 +57,18 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails }: BookDetailsP
     isbn = "9782912949509";
     console.log(`ISBN défini pour EDGAR, LE CHAT SOURIS: ${isbn}`);
   } 
-  // Cas spécial pour La Réunion des religions - condition élargie
+  // Cas spécial pour La Réunion des religions - condition très élargie pour s'assurer de capturer toutes les variantes
   else if (bookTitle === "La Réunion des religions" || 
            bookTitle === "LA RÉUNION DES RELIGIONS" || 
            bookTitle === "La Reunion des religions" ||
            normalizedTitle === "la reunion des religions" ||
-           bookTitle.includes("union des religion")) {
+           bookTitle.includes("union des religion") ||
+           bookTitle === "La Réunion des Religions" ||
+           bookId === "0569acb0-8946-4f62-acce-881604d3146a") {  // Ajout d'une vérification par ID
     // Format exact pour La Réunion des religions selon l'image fournie
     editorialText = `Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages`;
     isbn = "9782362470035";
-    console.log(`ISBN défini pour La Réunion des religions: ${isbn}`);
+    console.log(`ISBN défini explicitement pour La Réunion des religions: ${isbn}`);
     // Force log pour débogage
     console.log(`FORÇAGE des détails pour La Réunion des religions: {editorialText: "${editorialText}", isbn: "${isbn}"}`);
   } else {

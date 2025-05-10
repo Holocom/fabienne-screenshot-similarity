@@ -18,11 +18,17 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
   }
   
-  // Cas spécial pour Edgar, le chat souris
+  // Cas spéciaux pour l'affichage
   const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
   
-  // Cas spécial pour La Réunion des religions
-  const isLaReunionDesReligions = title === "La Réunion des religions" || title === "LA RÉUNION DES RELIGIONS";
+  // Cas spécial pour La Réunion des religions - condition élargie pour capture toutes les variantes possibles
+  const isLaReunionDesReligions = 
+    title === "La Réunion des religions" || 
+    title === "LA RÉUNION DES RELIGIONS" || 
+    title === "La Reunion des religions" ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des religions" ||
+    title?.includes("union des religion") ||
+    title === "La Réunion des Religions";
   
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">

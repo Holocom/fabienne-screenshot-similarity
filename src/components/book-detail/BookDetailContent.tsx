@@ -59,8 +59,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Special case for "EDGAR, LE CHAT SOURIS"
   const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS" || book?.title === "Edgar, le chat souris";
   
-  // Special case for "La Réunion des religions"
-  const isLaReunionDesReligions = book?.title === "La Réunion des religions" || book?.title === "LA RÉUNION DES RELIGIONS";
+  // Special case for "La Réunion des religions" - condition élargie
+  const isLaReunionDesReligions = 
+    book?.title === "La Réunion des religions" || 
+    book?.title === "LA RÉUNION DES RELIGIONS" ||
+    book?.title === "La Reunion des religions" ||
+    book?.id === "0569acb0-8946-4f62-acce-881604d3146a";
   
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
