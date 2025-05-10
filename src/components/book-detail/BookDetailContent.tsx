@@ -41,6 +41,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "Ma Cuisine Marmaille" ||
     book?.id === "31bd8bad-b180-4f39-bc59-a40b3e367975";
 
+  // Détecter si c'est "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS"
+  const isJacquelineDalais = 
+    book?.title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" ||
+    book?.id === "e6586dd6-2fd3-4426-b491-cee425a863c2";
+
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
@@ -157,6 +162,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Content détecté MA CUISINE MARMAILLE avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}"`);
   }
+
+  // Log pour débogage si c'est LA CLÉ DES SAVEURS DE JACQUELINE DALAIS
+  if (isJacquelineDalais) {
+    console.log(`Content détecté LA CLÉ DES SAVEURS DE JACQUELINE DALAIS avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}"`);
+  }
   
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
@@ -205,7 +216,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isPetitGarcon ||
     isTuMeFaisTournerCreole ||
     isTuMeFaisTournerAnglais ||
-    isMaCuisineMarmaille;
+    isMaCuisineMarmaille ||
+    isJacquelineDalais;
   
   return (
     <>

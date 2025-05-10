@@ -321,6 +321,44 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         return false;
       }
     }
+    // Update for "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS"
+    else if (book.title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" || book.id === "e6586dd6-2fd3-4426-b491-cee425a863c2") {
+      try {
+        console.log("Mise à jour des informations de LA CLÉ DES SAVEURS DE JACQUELINE DALAIS");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Quel est donc le secret de cette cuisinière autodidacte qui ravit les palais mauriciens depuis près d'un demi-siècle ? Pour la première fois, Jacqueline Dalais nous livre les recettes Signature qui ont fait sa renommée bien au-delà de nos frontières insulaires et quelques-unes de ses recettes Tradition, transmises amoureusement de génération en génération. Générosité des goûts, des saveurs, des couleurs... s'il est bien un mot qui illustre la cuisine de cette grande dame, c'est la générosité. Cet ouvrage est une invitation au voyage et au partage.";
+        
+        const newDetails = {
+          publisher: "Éditions Vizavi",
+          illustrator: "Non spécifié", 
+          year: "2014",
+          pages: "126",
+          isbn: "9789990337860"
+        };
+        
+        // Pas de liens de presse spécifiques pour ce livre
+        const newPressLinks = [];
+        
+        // Pas de prix ou distinctions pour ce livre
+        const newAwards = [];
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: newAwards,
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de LA CLÉ DES SAVEURS DE JACQUELINE DALAIS:", error);
+        toast.error("Erreur lors de la mise à jour de LA CLÉ DES SAVEURS DE JACQUELINE DALAIS");
+        return false;
+      }
+    }
     
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
@@ -366,6 +404,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         book.title === "MA CUISINE MARMAILLE" ||
         book.title === "Ma Cuisine Marmaille") {
       console.log("Force la mise à jour de MA CUISINE MARMAILLE");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
+    // Force la mise à jour pour LA CLÉ DES SAVEURS DE JACQUELINE DALAIS
+    if (book.id === "e6586dd6-2fd3-4426-b491-cee425a863c2" || 
+        book.title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS") {
+      console.log("Force la mise à jour de LA CLÉ DES SAVEURS DE JACQUELINE DALAIS");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }

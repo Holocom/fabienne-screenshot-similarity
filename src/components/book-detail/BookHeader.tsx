@@ -66,6 +66,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "MA CUISINE MARMAILLE" ||
     title === "Ma Cuisine Marmaille" ||
     title?.toLowerCase().includes("cuisine marmaille");
+  
+  // Cas spécial pour LA CLÉ DES SAVEURS DE JACQUELINE DALAIS
+  const isJacquelineDalais = 
+    title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" ||
+    title?.toLowerCase().includes("jacqueline dalais") ||
+    title?.toLowerCase().includes("cle des saveurs");
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -159,6 +165,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782912949721
+            </p>
+          </>
+        ) : isJacquelineDalais ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Recettes de Jacqueline Dalais - Éditions Vizavi – 2014 - 126 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9789990337860
             </p>
           </>
         ) : (
