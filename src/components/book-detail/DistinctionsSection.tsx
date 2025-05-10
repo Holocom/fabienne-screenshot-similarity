@@ -6,7 +6,8 @@ interface DistinctionsSectionProps {
   bookTitle: string;
   isCustom?: boolean;
   customDistinctions?: Array<{ name: string, url: string | null }>;
-  hideTitle?: boolean; // Nouvel attribut pour masquer le titre si nécessaire
+  hideTitle?: boolean;
+  className?: string;
 }
 
 export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({ 
@@ -14,7 +15,8 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
   bookTitle, 
   isCustom = false,
   customDistinctions = [],
-  hideTitle = false // Par défaut, on affiche le titre
+  hideTitle = false,
+  className = ''
 }) => {
   // Determine which distinctions to display
   const displayDistinctions = isCustom ? customDistinctions : distinctions;
@@ -32,7 +34,7 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
   if (uniqueDistinctions.length === 0) return null;
 
   return (
-    <div className="my-6 text-primary-blue">
+    <div className={`my-6 text-primary-blue ${className}`}>
       {!hideTitle && (
         <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">DISTINCTIONS</h3>
       )}

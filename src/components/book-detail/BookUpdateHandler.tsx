@@ -236,6 +236,38 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         return false;
       }
     }
+    // Update for "EDGAR, LE CHAT SOURIS"
+    else if (book.title === "EDGAR, LE CHAT SOURIS" || book.title === "Edgar, le chat souris") {
+      try {
+        console.log("Mise à jour des informations de EDGAR, LE CHAT SOURIS");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Edgar est un chat très drôle ! Et il arrive à cette petite fille une drôle d'histoire... Découvre comment Edgar est devenu le chat souris !";
+        
+        const newDetails = {
+          publisher: "Océan Jeunesse",
+          illustrator: "Audrey Caron", 
+          year: "2025",
+          pages: "48",
+          isbn: "9782916533520"
+        };
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: [],
+          awards: [],
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de EDGAR, LE CHAT SOURIS:", error);
+        toast.error("Erreur lors de la mise à jour de EDGAR, LE CHAT SOURIS");
+        return false;
+      }
+    }
     
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };

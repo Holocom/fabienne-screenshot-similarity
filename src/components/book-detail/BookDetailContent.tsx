@@ -55,6 +55,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   
   // Vérifier si Brown Baby a besoin d'un traitement spécial
   const isBrownBaby = book?.title === "Brown Baby";
+
+  // Special case for "EDGAR, LE CHAT SOURIS"
+  const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS";
   
   // Add specific check for Z'OISEAUX RARES
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
@@ -69,7 +72,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "Z'OISEAUX RARES" || 
     book?.title === "Z'oiseaux rares" || 
     book?.title === "ZOISEAUX RARES" ||
-    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356";
+    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356" ||
+    isEdgarChatSouris;
   
   return (
     <>
@@ -110,21 +114,28 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       {isBrownBaby && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
       
       {/* Section combinée des prix et distinctions */}
-      {(awards.length > 0 || distinctions.length > 0) && !isBrownBaby ? (
-        <>
-          <AwardsSection 
-            awards={awards} 
-            bookTitle={book.title} 
-            combineWithDistinctions={true}
-          />
+      {(awards.length > 0 || distinctions.length > 0) ? (
+        <div className="my-6">
+          <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
+          {awards.length > 0 && (
+            <ul className="space-y-1 list-none pl-0">
+              {awards.map((award, index) => (
+                <li key={`award-${index}`} className="text-primary-blue mb-1">
+                  {award.name}{award.year ? ` (${award.year})` : ''}
+                </li>
+              ))}
+            </ul>
+          )}
+          
           {distinctions.length > 0 && (
             <DistinctionsSection 
               distinctions={distinctions} 
               bookTitle={book.title}
-              hideTitle={true} // On cache le titre car déjà inclus dans AwardsSection
+              hideTitle={true}
+              className="mt-0"
             />
           )}
-        </>
+        </div>
       ) : isBrownBaby ? (
         <AwardsSection 
           awards={[]} 
