@@ -45,7 +45,7 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
   }
   
   // Éliminer les liens en double en utilisant un Set basé sur les URLs
-  const uniqueUrls = new Set();
+  const uniqueUrls = new Set<string>();
   const uniqueLinks = displayLinks.filter(link => {
     if (uniqueUrls.has(link.url)) {
       return false;
