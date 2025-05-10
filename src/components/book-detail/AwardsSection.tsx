@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Award } from '@/integrations/supabase/schema';
 interface AwardsSectionProps {
@@ -48,10 +49,10 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
   });
   const uniqueAwards = Array.from(uniqueAwardsMap.values());
   if (uniqueAwards.length === 0) return null;
-  return <div className="my-6 text-[#00350b]">
-      <h3 className="text-xl font-bold mb-2 text-[#00366b] uppercase">PRIX ET DISTINCTIONS</h3>
+  return <div className="my-6 text-primary-blue">
+      <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
       <ul className="space-y-1 list-none pl-0">
-        {uniqueAwards.map((award, index) => <li key={`award-${index}`} className="text-[#00366b] mb-1">
+        {uniqueAwards.map((award, index) => <li key={`award-${index}`} className="text-primary-blue mb-1">
             {award.name}{!isCustom && 'year' in award && award.year ? ` (${award.year})` : ''}
           </li>)}
       </ul>

@@ -64,6 +64,7 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				beige: '#f5f2e9',
+				'primary-blue': '#4285f4', // Ajout de la couleur bleue pour les prix et distinctions
 			},
 			fontFamily: {
 				'serif': ['Playfair Display', 'serif'],
