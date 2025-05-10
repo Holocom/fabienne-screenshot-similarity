@@ -168,6 +168,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isTuMeFaisTournerCreole ||
     isTuMeFaisTournerAnglais;
   
+    // Special case pour JACE. MAGIK GOUZOU
+  const isJaceMagikGouzou = book?.title === "JACE. MAGIK GOUZOU";
+  
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}
@@ -194,10 +197,10 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       {/* Description du livre */}
       <BookDescriptionSection description={book?.description || ""} bookTitle={book.title} />
       
-      {/* Section des éditions */}
+      {/* Section des éditions - Passer le titre du livre pour permettre de masquer pour JACE. MAGIK GOUZOU */}
       {uniqueEditions.length > 0 && 
        !isBrownBaby && (
-        <EditionsSection editions={uniqueEditions} />
+        <EditionsSection editions={uniqueEditions} bookTitle={book.title} />
       )}
       
       {/* Section des liens de presse - Afficher les liens spécifiques pour Edgar, le chat souris */}
