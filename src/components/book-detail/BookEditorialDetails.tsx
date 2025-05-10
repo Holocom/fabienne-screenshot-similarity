@@ -73,6 +73,14 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     console.log(`ISBN défini explicitement pour La Réunion des religions: ${isbn}`);
     // Force log pour débogage
     console.log(`FORÇAGE des détails pour La Réunion des religions: {editorialText: "${editorialText}", isbn: "${isbn}"}`);
+  }
+  // Add special case for Les religions à l'ile Maurice
+  else if (bookTitle === "Les religions à l'ile Maurice" || 
+           bookTitle === "Les religions à l'île Maurice" || 
+           normalizedTitle?.includes("religions") && normalizedTitle?.includes("maurice")) {
+    editorialText = `Album documentaire - illustré par Hélène Moreau - Vizavi - 2015 - 56 pages`;
+    isbn = "9789994936646";
+    console.log(`ISBN défini pour Les religions à l'ile Maurice: ${isbn}`);
   } else {
     // Format standard pour les autres livres
     let price = '';

@@ -53,6 +53,11 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://www.encres-vagabondes.com/magazine/jonca3.htm", label: "https://www.encres-vagabondes.com/magazine/jonca3.htm" },
     { url: "https://www.les-notes.fr/analyse/la-reunion-des-religions/", label: "https://www.les-notes.fr/analyse/la-reunion-des-religions/" }
   ];
+  
+  // Add new press links for "Les religions à l'ile Maurice"
+  const lesReligionsIleMauriceLinks: SimplePressLink[] = [
+    { url: "https://sabariscon.com/2016/06/20/les-religions-a-lile-maurice-fabienne-jonca-et-helene-moreau-vizavi-2015/", label: "https://sabariscon.com/2016/06/20/les-religions-a-lile-maurice-fabienne-jonca-et-helene-moreau-vizavi-2015/" }
+  ];
                       
   // Determine which links to display
   let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
@@ -69,6 +74,8 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = edgarChatSourisLinks;
   } else if (bookTitle === "La Réunion des religions" || bookTitle === "LA RÉUNION DES RELIGIONS") {
     displayLinks = reunionDesReligionsLinks;
+  } else if (bookTitle === "Les religions à l'ile Maurice" || bookTitle === "Les religions à l'île Maurice" || bookTitle.toLowerCase().includes("religions") && bookTitle.toLowerCase().includes("maurice")) {
+    displayLinks = lesReligionsIleMauriceLinks;
   }
   
   // Créer une map pour stocker des liens uniques par URL
