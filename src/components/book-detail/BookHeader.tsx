@@ -28,9 +28,11 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
           __html: editorialText
         }} />
         
-        {showISBN && isbn && <p className="text-[#ea384c] text-lg md:text-xl">
+        {showISBN && isbn && (
+          <p className="text-[#ea384c] text-lg md:text-xl">
             ISBN : {isbn}
-          </p>}
+          </p>
+        )}
       </div>
     </>;
 };

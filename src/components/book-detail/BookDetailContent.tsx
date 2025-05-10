@@ -55,6 +55,21 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
   ];
   
+  // Add specific check for Z'OISEAUX RARES
+  const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
+    book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
+    (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
+    book?.title === "Ambroise Vollard, un don singulier" ||
+    book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
+    book?.title === "EXPRESSIONS MÉLANZÉ" ||
+    book?.title === "Expressions Mélanzé" ||
+    book?.title === "Expressions Melanze" ||
+    book?.title === "JACE. MAGIK GOUZOU" ||
+    book?.title === "Z'OISEAUX RARES" || 
+    book?.title === "Z'oiseaux rares" || 
+    book?.title === "ZOISEAUX RARES" ||
+    book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356";
+  
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}
@@ -72,19 +87,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
           <BookHeader 
             title={book.title} 
             editorialText={editorialText}
-            showISBN={book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
-              book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
-              (book?.title?.toLowerCase().includes("flamboyant") && book?.title?.toLowerCase().includes("noël")) ||
-              book?.title === "Ambroise Vollard, un don singulier" ||
-              book?.title === "AMBROISE VOLLARD, UN DON SINGULIER" ||
-              book?.title === "EXPRESSIONS MÉLANZÉ" ||
-              book?.title === "Expressions Mélanzé" ||
-              book?.title === "Expressions Melanze" ||
-              book?.title === "JACE. MAGIK GOUZOU" ||
-              book?.title === "Z'OISEAUX RARES" || 
-              book?.title === "Z'oiseaux rares" || 
-              book?.title === "ZOISEAUX RARES" ||
-              book.id === "ed5bd9ea-ad20-4426-b48b-19e4ed5b5356"}
+            showISBN={shouldShowISBN}
             isbn={isbn}
           />
         </div>
