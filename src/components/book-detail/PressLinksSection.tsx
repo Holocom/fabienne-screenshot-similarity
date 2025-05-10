@@ -2,6 +2,12 @@
 import React from 'react';
 import { PressLink } from '@/integrations/supabase/schema';
 
+// Interface simplifiée pour les liens hardcodés
+interface SimplePressLink {
+  url: string;
+  label: string | null;
+}
+
 interface PressLinksSectionProps {
   pressLinks: PressLink[];
   bookTitle: string;
@@ -9,26 +15,26 @@ interface PressLinksSectionProps {
 
 export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks, bookTitle }) => {
   // Book-specific press links
-  const brownBabyPressLinks = [
+  const brownBabyPressLinks: SimplePressLink[] = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/brown-baby" },
     { url: "https://etlettres.com/la-couleur-du-coeur/", label: "https://etlettres.com/la-couleur-du-coeur/" },
     { url: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/", label: "https://voya-g.com/fabienne-jonca-presente-brown-baby-roman-empreint-de-poesie-de-resistance-et-de-racines-afro-americaines/" },
     { url: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621", label: "https://lexpress.mu/s/fabienne-jonca-blues-antiracisme-bleus-a-notre-humanite-540621" }
   ];
   
-  const langueBienPendueLinks = [
+  const langueBienPendueLinks: SimplePressLink[] = [
     { url: "https://takamtikou.bnf.fr", label: "Takam Tikou - BnF" },
     { url: "https://encresvagabondes.com", label: "Encres Vagabondes" }
   ];
   
-  const flamboyantPereNoelLinks = [
+  const flamboyantPereNoelLinks: SimplePressLink[] = [
     { url: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122", label: "https://www.babelio.com/livres/Jonca-Un-flamboyant-pere-Noel/1282122" },
     { url: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html", label: "https://www.super-chouette.net/2020/12/un-flamboyant-pere-noel.html" },
     { url: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html", label: "https://lepetitmondedulivrejeunesse.over-blog.fr/2020/12/album-noel-et-vetements.html" }
   ];
                       
   // Determine which links to display
-  let displayLinks = pressLinks;
+  let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
   
   if (bookTitle === "Brown Baby") {
     displayLinks = brownBabyPressLinks;
