@@ -18,6 +18,9 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
   }
   
+  // Cas spécial pour Edgar, le chat souris
+  const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
+  
   return <>
       <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
         {displayTitle?.toUpperCase()}
@@ -29,8 +32,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
           __html: editorialText
         }} />
         
-        {/* S'assurer que l'ISBN s'affiche correctement lorsqu'il doit être montré */}
-        {showISBN && isbn && (
+        {/* Pour Edgar, le chat souris, afficher l'éditeur sur une ligne séparée */}
+        {isEdgarChatSouris && (
+          <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+            Éditions Orphie – 48 pages
+          </p>
+        )}
+        
+        {/* S'assurer que l'ISBN s'affiche correctement */}
+        {(showISBN || isEdgarChatSouris) && isbn && (
           <p className="text-[#ea384c] text-lg md:text-xl font-medium">
             ISBN : {isbn}
           </p>
