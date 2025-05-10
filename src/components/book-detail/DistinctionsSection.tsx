@@ -6,13 +6,15 @@ interface DistinctionsSectionProps {
   bookTitle: string;
   isCustom?: boolean;
   customDistinctions?: Array<{ name: string, url: string | null }>;
+  hideTitle?: boolean; // Nouvel attribut pour masquer le titre si nécessaire
 }
 
 export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({ 
   distinctions, 
   bookTitle, 
   isCustom = false,
-  customDistinctions = []
+  customDistinctions = [],
+  hideTitle = false // Par défaut, on affiche le titre
 }) => {
   // Determine which distinctions to display
   const displayDistinctions = isCustom ? customDistinctions : distinctions;
@@ -31,7 +33,9 @@ export const DistinctionsSection: React.FC<DistinctionsSectionProps> = ({
 
   return (
     <div className="my-6 text-primary-blue">
-      <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">DISTINCTIONS</h3>
+      {!hideTitle && (
+        <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">DISTINCTIONS</h3>
+      )}
       <ul className="space-y-1 list-none pl-0">
         {uniqueDistinctions.map((distinction, index) => (
           <li key={`distinction-${index}`} className="text-primary-blue mb-1">

@@ -53,6 +53,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
   ];
   
+  // Vérifier si Brown Baby a besoin d'un traitement spécial
+  const isBrownBaby = book?.title === "Brown Baby";
+  
   // Add specific check for Z'OISEAUX RARES
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
@@ -71,7 +74,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}
-      {book?.title === "Brown Baby" ? (
+      {isBrownBaby ? (
         <BookCoversCarousel 
           bookTitle={book.title}
           showCovers={true}
@@ -96,7 +99,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       
       {/* Section des éditions */}
       {uniqueEditions.length > 0 && 
-       book?.title !== "Brown Baby" && (
+       !isBrownBaby && (
         <EditionsSection editions={uniqueEditions} />
       )}
       
@@ -104,18 +107,35 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       <PressLinksSection pressLinks={uniquePressLinks} bookTitle={book.title} />
       
       {/* Section des liens de blog pour Brown Baby */}
-      {book?.title === "Brown Baby" && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
+      {isBrownBaby && <BlogLinksSection blogLinks={brownBabyBlogLinks} />}
       
-      {/* Section des prix */}
-      <AwardsSection awards={awards} bookTitle={book.title} />
-      
-      {/* Section des distinctions (affichées séparément comme dans l'exemple) */}
-      {distinctions.length > 0 && book?.title !== "Brown Baby" && (
-        <DistinctionsSection distinctions={distinctions} bookTitle={book.title} />
-      )}
+      {/* Section combinée des prix et distinctions */}
+      {(awards.length > 0 || distinctions.length > 0) && !isBrownBaby ? (
+        <>
+          <AwardsSection 
+            awards={awards} 
+            bookTitle={book.title} 
+            combineWithDistinctions={true}
+          />
+          {distinctions.length > 0 && (
+            <DistinctionsSection 
+              distinctions={distinctions} 
+              bookTitle={book.title}
+              hideTitle={true} // On cache le titre car déjà inclus dans AwardsSection
+            />
+          )}
+        </>
+      ) : isBrownBaby ? (
+        <AwardsSection 
+          awards={[]} 
+          bookTitle={book.title} 
+          isCustom={true} 
+          customAwards={brownBabyBlogLinks.map(link => ({ name: link.label, url: link.url }))}
+        />
+      ) : null}
       
       {/* Section des liens Seligmann pour Brown Baby */}
-      {book?.title === "Brown Baby" && (
+      {isBrownBaby && (
         <SeligmannLinksSection seligmannLinks={brownBabySeligmannLinks} />
       )}
     </>

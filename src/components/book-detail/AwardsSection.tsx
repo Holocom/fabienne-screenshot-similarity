@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Award } from '@/integrations/supabase/schema';
+
 interface AwardsSectionProps {
   awards: Award[];
   bookTitle: string;
@@ -9,12 +10,15 @@ interface AwardsSectionProps {
     name: string;
     url: string | null;
   }>;
+  combineWithDistinctions?: boolean; // Nouvelle propriété pour indiquer que des distinctions suivent
 }
+
 export const AwardsSection: React.FC<AwardsSectionProps> = ({
   awards,
   bookTitle,
   isCustom = false,
-  customAwards = []
+  customAwards = [],
+  combineWithDistinctions = false
 }) => {
   // Brown Baby specific awards
   const brownBabyAwards = [{
@@ -47,8 +51,11 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
       uniqueAwardsMap.set(award.name, award);
     }
   });
+  
   const uniqueAwards = Array.from(uniqueAwardsMap.values());
-  if (uniqueAwards.length === 0) return null;
+  
+  if (uniqueAwards.length === 0 && !combineWithDistinctions) return null;
+  
   return <div className="my-6 text-primary-blue">
       <h3 className="text-xl font-bold mb-2 text-primary-blue uppercase">PRIX ET DISTINCTIONS</h3>
       <ul className="space-y-1 list-none pl-0">
