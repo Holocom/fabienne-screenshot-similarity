@@ -397,6 +397,17 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               </p>
             )}
           </>
+        ) : isPetitesHistoiresMusiques ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Sandrine Barège – Fabienne Jonca – Conception graphique Olivier Bard - 4 Épices – 2012 – 72 pages
+            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9789990337938
+              </p>
+            )}
+          </>
         ) : (
           <>
             {/* Using red color for editorial text */}
