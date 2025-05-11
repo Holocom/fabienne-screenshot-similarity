@@ -22,7 +22,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   // Cas spéciaux pour l'affichage
   const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
   
-  // Cas spécial pour La Réunion des religions - condition élargie pour capture toutes les variantes possibles
+  // Cas spécial pour DE LA PLANTE AU SUCRE
+  const isDePlanteSucre = 
+    title === "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" ||
+    title?.toLowerCase().includes("plante au sucre") ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("plante au sucre");
+  
+  // Cas spécial pour l'affichage
   const isLaReunionDesReligions = 
     title === "La Réunion des religions" || 
     title === "LA RÉUNION DES RELIGIONS" || 
@@ -160,6 +166,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     !isSocieteAdrienBellier && 
     !isLaReunionIleOuvrages &&
     !isRouteDesTamarins &&
+    !isDePlanteSucre &&
     !isCommandeCategory;
   
   return <>
@@ -351,6 +358,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               Beau livre - Co-écrit avec Bernard Leveneur – Photographies (hors archives) de Romain Philippon - Conception graphique Olivier Bard - 4 Épices – 2012 – 120 pages
             </p>
             {/* ISBN supprimé pour SOCIÉTÉ ADRIEN BELLIER */}
+          </>
+        ) : isDePlanteSucre ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions – 2012 – 144 pages
+            </p>
+            {/* ISBN supprimé pour DE LA PLANTE AU SUCRE */}
           </>
         ) : (
           <>

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -166,6 +165,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour ROUTE DES TAMARINS
   const isRouteDesTamarins = bookId === "5db0f368-4220-4ca4-97c7-883dab8c2559";
   
+  // Ajouter le check pour DE LA PLANTE AU SUCRE
+  const isDePlanteSucre = bookId === "4458feae-b1cc-4a82-9798-377b7066ae49";
+  
   if (isRouteDesTamarins) {
     console.log("Livre identifié comme 'ROUTE DES TAMARINS, LA REUNION DES DEFIS' par son ID");
   }
@@ -223,6 +225,9 @@ const BookDetailPage = () => {
   else if (isSemader30Regards) {
     console.log("Livre identifié comme 'SEMADER, 30 REGARDS SUR LES 30 ANS' par son ID");
   }
+  else if (isDePlanteSucre) {
+    console.log("Livre identifié comme 'DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE' par son ID");
+  }
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
@@ -255,6 +260,7 @@ const BookDetailPage = () => {
                        isSocieteAdrienBellier ? "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" :
                        isLaReunionIleOuvrages ? "LA REUNION, L'ILE AUX OUVRAGES" :
                        isRouteDesTamarins ? "ROUTE DES TAMARINS, LA REUNION DES DEFIS" :
+                       isDePlanteSucre ? "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" :
                        book.title
               }}
               bookDetails={bookDetails || {

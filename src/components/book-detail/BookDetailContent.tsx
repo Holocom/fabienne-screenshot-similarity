@@ -111,6 +111,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "ROUTE DES TAMARINS, LA REUNION DES DEFIS" ||
     book?.id === "5db0f368-4220-4ca4-97c7-883dab8c2559";
   
+  // Détecter si c'est "DE LA PLANTE AU SUCRE"
+  const isDePlanteSucre = 
+    book?.title === "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" ||
+    book?.id === "4458feae-b1cc-4a82-9798-377b7066ae49";
+  
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
@@ -276,6 +281,15 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est DE LA PLANTE AU SUCRE
+  if (isDePlanteSucre) {
+    console.log(`Content détecté DE LA PLANTE AU SUCRE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  else if (isRouteDesTamarins) {
+    console.log("Livre identifié comme 'ROUTE DES TAMARINS, LA REUNION DES DEFIS' par son ID");
+  }
+  
   // Log pour débogage si c'est SEMADER, 30 REGARDS SUR LES 30 ANS
   if (isSemader30Regards) {
     console.log(`Content détecté SEMADER, 30 REGARDS SUR LES 30 ANS avec ID: ${book?.id}`);
@@ -343,7 +357,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     !isSemader30Regards && 
     !isSocieteAdrienBellier &&
     !isLaReunionIleOuvrages &&
-    !isRouteDesTamarins;
+    !isRouteDesTamarins &&
+    !isDePlanteSucre;
   
   return (
     <>
