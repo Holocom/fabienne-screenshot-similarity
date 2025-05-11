@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface BookDescriptionProps {
   description: string | null;
@@ -82,7 +83,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   const isCasesCréolesReunion = 
     bookTitle === "CASES CRÉOLES DE LA RÉUNION" ||
     bookTitle?.toLowerCase().includes("cases créoles");
-    
+  
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
     const lastSentencePattern = /Cet ouvrage est une invitation au voyage et au partage\./;
@@ -132,6 +133,17 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour CASES CRÉOLES DE LA RÉUNION, cas spécial avec formatage précis
   if (isCasesCréolesReunion && description) {
+    // Formatage spécifique pour Cases Créoles avec la dernière phrase en italique
+    if (description.includes("Première partie sur L'histoire des cases de La Réunion co-écrite avec Bernard Leveneur")) {
+      const lastSentence = "Première partie sur L'histoire des cases de La Réunion co-écrite avec Bernard Leveneur.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
     return renderDescription(description);
   }
   
