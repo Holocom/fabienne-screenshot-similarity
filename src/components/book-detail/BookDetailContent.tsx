@@ -66,6 +66,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
     book?.title === "MANIFESTE POUR LA LECTURE" ||
     book?.id === "dacd7eab-7fab-408e-88b0-21ef99efff5b";
+    
+  // Détecter si c'est "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES"
+  const isPetitesHistoiresMusiques = 
+    book?.title === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" ||
+    book?.id === "b9b54f90-a190-49b3-a215-992362b1cc6a";
 
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -266,7 +271,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isSaveursMetissees ||
     isCoupsDeCoeurBrigitte ||
     isDuBonheurAssiette ||
-    isManifestePourLaLecture;
+    isManifestePourLaLecture ||
+    isPetitesHistoiresMusiques;
   
   return (
     <>

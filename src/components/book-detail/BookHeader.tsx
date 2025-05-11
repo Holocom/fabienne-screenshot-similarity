@@ -96,6 +96,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
     title === "MANIFESTE POUR LA LECTURE" ||
     title?.toLowerCase().includes("manifeste pour la lecture");
+    
+  // Cas spécial pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
+  const isPetitesHistoiresMusiques = 
+    title === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" ||
+    title?.toLowerCase().includes("petites histoires des musiques") ||
+    title?.toLowerCase().includes("musiques réunionnaises");
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -234,6 +240,16 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782919300686
+            </p>
+          </>
+        ) : isPetitesHistoiresMusiques ? (
+          // Nouveau cas spécial pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Sandrine Barège – Fabienne Jonca – Conception graphique Olivier Bard - 4 Épices – 2012 – 72 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN : 9782952720441
             </p>
           </>
         ) : (

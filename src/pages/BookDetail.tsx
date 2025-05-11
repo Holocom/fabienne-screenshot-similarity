@@ -141,7 +141,13 @@ const BookDetailPage = () => {
   // Ajouter le check pour MANIFESTE POUR LA LECTURE
   const isManifestePourLaLecture = bookId === "dacd7eab-7fab-408e-88b0-21ef99efff5b";
   
-  if (isLaReunionDesReligions) {
+  // Ajouter le check pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
+  const isPetitesHistoiresMusiques = bookId === "b9b54f90-a190-49b3-a215-992362b1cc6a";
+  
+  if (isPetitesHistoiresMusiques) {
+    console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
+  } 
+  else if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } 
   else if (isLesReligionsIleMaurice) {
@@ -207,6 +213,7 @@ const BookDetailPage = () => {
                        isCuisineBienEtre ? "MA CUISINE BIEN-ÊTRE" :
                        isDuBonheurAssiette ? "DU BONHEUR DANS VOTRE ASSIETTE" :
                        isManifestePourLaLecture ? "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" :
+                       isPetitesHistoiresMusiques ? "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" :
                        book.title
               }}
               bookDetails={bookDetails || {
