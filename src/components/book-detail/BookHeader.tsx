@@ -27,14 +27,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" ||
     title?.toLowerCase().includes("plante au sucre") ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("plante au sucre");
-    
-  // Cas spécial pour VIVE LE CHANGEMENT D'AIR
-  const isViveLeChangementAir = 
-    title === "VIVE LE CHANGEMENT D'AIR" ||
-    title?.toLowerCase().includes("vive le changement") ||
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("vive le changement");
   
-  // Cas spécial pour LA RÉUNION DES RELIGIONS
+  // Cas spécial pour l'affichage
   const isLaReunionDesReligions = 
     title === "La Réunion des religions" || 
     title === "LA RÉUNION DES RELIGIONS" || 
@@ -173,7 +167,6 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     !isLaReunionIleOuvrages &&
     !isRouteDesTamarins &&
     !isDePlanteSucre &&
-    !isViveLeChangementAir &&
     !isCommandeCategory;
   
   return <>
@@ -205,20 +198,6 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
                 ISBN 9782912949509
               </p>
             )}
-          </>
-        ) : isViveLeChangementAir ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Jeunesse – illustré par Non spécifié – Océan Éditions – 2010 – 144 pages
-            </p>
-            {/* ISBN supprimé pour VIVE LE CHANGEMENT D'AIR */}
-          </>
-        ) : isDePlanteSucre ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions – 2010 – 144 pages
-            </p>
-            {/* ISBN supprimé pour DE LA PLANTE AU SUCRE */}
           </>
         ) : isLaReunionDesReligions ? (
           <>
