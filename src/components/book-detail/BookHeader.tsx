@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -150,6 +151,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "ROUTE DES TAMARINS, LA REUNION DES DEFIS" ||
     title?.toLowerCase().includes("route des tamarins") ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("route des tamarins");
+    
+  // Cas spécial pour VIVE LE CHANGEMENT D'AIR
+  const isViveLeChangement = 
+    title === "VIVE LE CHANGEMENT D'AIR" || 
+    title === "VIVE LE CHANGEMENT D'AIR !" ||
+    title?.toLowerCase().includes("vive le changement");
     
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
@@ -366,6 +373,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             {/* ISBN supprimé pour DE LA PLANTE AU SUCRE */}
           </>
+        ) : isViveLeChangement ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions — 2010 — 144 pages
+            </p>
+            {/* ISBN supprimé pour VIVE LE CHANGEMENT D'AIR */}
+          </>
         ) : (
           <>
             {/* Using red color for editorial text */}
@@ -384,3 +398,4 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </div>
     </>;
 };
+

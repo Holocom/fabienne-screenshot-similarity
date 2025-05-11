@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface BookDescriptionProps {
@@ -95,6 +96,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle?.toLowerCase().includes("semader") && 
     bookTitle?.toLowerCase().includes("30 regards");
   
+  // Ajouter un cas spécial pour "VIVE LE CHANGEMENT D'AIR"
+  const isViveLeChangement = 
+    bookTitle === "VIVE LE CHANGEMENT D'AIR" || 
+    bookTitle === "VIVE LE CHANGEMENT D'AIR !" ||
+    bookTitle?.toLowerCase().includes("vive le changement");
+    
   // Cas spéciaux pour chaque livre
   if (isPetitesHistoiresMusiques && description) {
     // Description spécifique pour Petites Histoires des Musiques Réunionnaises
@@ -298,6 +305,18 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(formattedDescription);
   }
   
+  // Cas spécial pour VIVE LE CHANGEMENT D'AIR
+  if (isViveLeChangement && description) {
+    // Créer le texte avec saut de ligne explicite en HTML
+    const formattedText = `De 1998 à 2023, l'agenda d'histoire de La Réunion a connu des tirages records. Chaque année, pendant plus de 25 ans, son éditeur a invité des auteurs locaux à travailler sur un thème.<br/><br/>L'édition 2010 était consacrée aux pratiques du changement d'air qui se sont développées à partir du XIXe siècle dans l'île. D'Hell Bourg à Cilaos en passant par l'Étang-Salé ou St-Gilles-les-Bains, ce tourisme intérieur a connu un essor important à une époque où sortir de l'île n'était pas chose simple. Réservé à une élite, cette pratique a toutefois permis le développement d'une première économie touristique, d'une architecture singulière... et très vite de la photographie souvenir. Toutes ces images constituent aujourd'hui un patrimoine inestimable, car elles ont permis d'immortaliser les grands paysages et surtout la vie quotidienne des Réunionnais.`;
+    
+    // Utiliser dangerouslySetInnerHTML pour interpréter les balises HTML
+    return (
+      <div dangerouslySetInnerHTML={{ __html: formattedText }} className="text-gray-700 text-base md:text-lg space-y-4" />
+    );
+  }
+  
   // Cas par défaut: retourner la description telle quelle
   return renderDescription(description);
 };
+
