@@ -21,9 +21,17 @@ const BookDetailPage = () => {
   
   console.log(`Chargement des détails pour le livre avec ID: ${bookId}`);
   
-  // Force a refresh of the data on every mount
+  // Force a refresh of the data on every mount with stronger invalidation
   useEffect(() => {
     if (bookId) {
+      // Force refetch all data for this book
+      queryClient.removeQueries({ queryKey: ['book', bookId] });
+      queryClient.removeQueries({ queryKey: ['bookDetails', bookId] });
+      queryClient.removeQueries({ queryKey: ['pressLinks', bookId] });
+      queryClient.removeQueries({ queryKey: ['awards', bookId] });
+      queryClient.removeQueries({ queryKey: ['distinctions', bookId] });
+      queryClient.removeQueries({ queryKey: ['editions', bookId] });
+      
       queryClient.invalidateQueries({ queryKey: ['book', bookId] });
       queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
       queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });

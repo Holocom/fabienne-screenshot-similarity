@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookDescriptionProps {
   description: string | null;
@@ -8,28 +7,48 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   description,
   bookTitle
 }) => {
+  // Vérifier si c'est MANIFESTE POUR LA LECTURE
+  const isManifestePourLaLecture = 
+    bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
+    bookTitle === "MANIFESTE POUR LA LECTURE" ||
+    bookTitle?.toLowerCase().includes("manifeste pour la lecture");
+  
+  if (isManifestePourLaLecture) {
+    // Nous n'utilisons plus une description codée en dur, mais formatons la description de la base de données
+    const manifesteDescription = description || 
+      'Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».';
+    
+    // Mise en forme spéciale avec formatage de paragraphes et mise en évidence des noms
+    const paragraphs = manifesteDescription.split(/\n\n|\n/);
+    
+    return (
+      <div className="description mb-8">
+        {paragraphs.map((paragraph, index) => {
+          // Formater les noms en rouge et les citations en italique
+          const formattedParagraph = paragraph
+            // Noms en rouge
+            .replace(/Nassuf Djailani/g, '<span class="text-[#ea384c]">Nassuf Djailani</span>')
+            .replace(/Kenza Sefrioui/g, '<span class="text-[#ea384c]">Kenza Sefrioui</span>')
+            .replace(/Jennifer Richard/g, '<span class="text-[#ea384c]">Jennifer Richard</span>')
+            .replace(/Ananda Devi/g, '<span class="text-[#ea384c]">Ananda Devi</span>')
+            .replace(/Véronique Tadjo/g, '<span class="text-[#ea384c]">Véronique Tadjo</span>')
+            .replace(/Fabienne Jonca/g, '<span class="text-[#ea384c]">Fabienne Jonca</span>')
+            // Citations en italique
+            .replace(/« ce garçon du fond de la classe[^»]+»/g, '<em>$&</em>')
+            .replace(/« un port d'attache qui tient dans la poche »/g, '<em>$&</em>')
+            .replace(/« compagnons de notre voyage de vie »/g, '<em>$&</em>')
+            .replace(/« sans livres, le monde serait clos »/g, '<em>$&</em>')
+            .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »/g, '<em>$&</em>');
+            
+          return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
+            __html: formattedParagraph
+          }} />;
+        })}
+      </div>
+    );
+  }
+
   if (!description) {
-    // Vérifier si c'est MANIFESTE POUR LA LECTURE et ajouter la description personnalisée
-    const isManifestePourLaLecture = 
-      bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
-      bookTitle === "MANIFESTE POUR LA LECTURE" ||
-      bookTitle?.toLowerCase().includes("manifeste pour la lecture");
-    
-    if (isManifestePourLaLecture) {
-      // Description spécifique pour MANIFESTE POUR LA LECTURE exactement comme dans l'image 2
-      return (
-        <div className="description mb-8">
-          <p className="mb-4 text-base md:text-lg leading-relaxed">Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme <span className="text-[#ea384c]">Nassuf Djailani</span> qui se remémore depuis Mayotte <em>« ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir »</em>. Ils font part de leurs rencontres comme <span className="text-[#ea384c]">Kenza Sefrioui</span> qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village.</p>
-          
-          <p className="mb-4 text-base md:text-lg leading-relaxed">Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture.</p>
-          
-          <p className="mb-4 text-base md:text-lg leading-relaxed">4e de couverture</p>
-          
-          <p className="mb-4 text-base md:text-lg leading-relaxed">Pour <span className="text-[#ea384c]">Jennifer Richard</span>, le livre est <em>« un port d'attache qui tient dans la poche »</em> ; pour <span className="text-[#ea384c]">Ananda Devi</span>, les livres sont des <em>« compagnons de notre voyage de vie »</em> ; pour <span className="text-[#ea384c]">Véronique Tadjo</span>, <em>« sans livres, le monde serait clos »</em>, et, pour <span className="text-[#ea384c]">Fabienne Jonca</span>, lire, <em>« c'est s'ouvrir aux autres et à soi-même être soi »</em>.</p>
-        </div>
-      );
-    }
-    
     // Description par défaut pour les autres livres sans description
     return <p className="text-left mx-[2px]">En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu´il double naturellement pour dire ""ma ma"", ""mu mu"" et parfois d´autres mots ""gueu gueu"", ""ga ga"". Vers neuf mois apparaissent ses premiers mots composés d´une syllabe ou de deux syllabes doublées ""papa"", ""doudou"", ""joujou"". C´est à l´imitation et de l´exploration. Cet ouvrage vous permet d´encourager votre bébé à les prononcer sur le thème des espèces protégées de l´Île de La Réunion.</p>;
   }
@@ -63,12 +82,6 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE" ||
     bookTitle?.toLowerCase().includes("bonheur dans votre assiette");
     
-  // Vérifier si c'est MANIFESTE POUR LA LECTURE
-  const isManifestePourLaLecture = 
-    bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
-    bookTitle === "MANIFESTE POUR LA LECTURE" ||
-    bookTitle?.toLowerCase().includes("manifeste pour la lecture");
-  
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
     const lastSentencePattern = /Cet ouvrage est une invitation au voyage et au partage\./;
