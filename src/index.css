@@ -78,6 +78,16 @@
     font-family: 'Carlito', sans-serif;
   }
   
+  /* Classe spéciale pour élargir la description de MANIFESTE POUR LA LECTURE */
+  .manifeste-lecture-width {
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
   .book-detail .description {
     @apply leading-relaxed text-base md:text-lg mb-10;
     font-family: 'Carlito', sans-serif;

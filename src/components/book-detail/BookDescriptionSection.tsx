@@ -22,7 +22,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     const paragraphs = manifesteDescription.split(/\n\n|\n/);
     
     return (
-      <div className="description mb-8">
+      <div className="description mb-8 manifeste-lecture-width">
         {paragraphs.map((paragraph, index) => {
           // Plus de formatage en rouge, tout reste en noir
           // Mais on garde les citations en italique
