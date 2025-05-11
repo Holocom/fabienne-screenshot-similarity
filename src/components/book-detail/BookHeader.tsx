@@ -123,6 +123,11 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().includes("semader") && 
     title?.toLowerCase().includes("30 regards");
   
+  // Cas spécial pour LE GRAND HAZIER, UN DOMAINE CREOLE
+  const isGrandHazier = 
+    title === "LE GRAND HAZIER, UN DOMAINE CREOLE" ||
+    title?.toLowerCase().includes("grand hazier");
+  
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
   
@@ -130,8 +135,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const hasLineBreak = title?.includes('\n');
   
   // Déterminer si l'ISBN doit être affiché
-  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS, ni pour les livres de catégorie COMMANDE
-  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isSemader30Regards && !isCommandeCategory;
+  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS, LE GRAND HAZIER, ni pour les livres de catégorie COMMANDE
+  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isSemader30Regards && !isGrandHazier && !isCommandeCategory;
   
   return <>
       {hasLineBreak ? (
@@ -330,6 +335,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               Témoignages - Photographies de Edgar Marsy et fonds Semader – Conception 21° Sud – 2015 - 72 pages
             </p>
             {/* ISBN supprimé pour SEMADER, 30 REGARDS SUR LES 30 ANS */}
+          </>
+        ) : isGrandHazier ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Beau livre - Co-écrit avec Bernard Leveneur – Photographies (hors archives) de François-Louis Athénas - Conception graphique Olivier Bard - 4 Épices – 2013 – 96 pages
+            </p>
+            {/* ISBN supprimé pour LE GRAND HAZIER, UN DOMAINE CREOLE */}
           </>
         ) : (
           <>

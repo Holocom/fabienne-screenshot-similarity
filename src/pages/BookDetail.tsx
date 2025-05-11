@@ -117,7 +117,7 @@ const BookDetailPage = () => {
   // Vérifier si c'est "TU ME FAIS TOURNER LA TERRE" version créole
   const isTuMeFaisTournerCreole = bookId === "451338a8-2537-454d-a990-00dbc0988370";
   
-  // Vérifie si c'est "TU ME FAIS TOURNER LA TERRE" version anglaise (imaginons un nouvel ID)
+  // Vérifie si c'est "TU ME FAIS TOURNER LA TERRE" version anglaise
   const isTuMeFaisTournerAnglais = bookId === "nouveau-id-version-anglaise"; // ID à remplacer si vous avez un vrai ID
   
   // Ajouter le check pour UN FLAMBOYANT PÈRE-NOËL
@@ -133,7 +133,7 @@ const BookDetailPage = () => {
   const isCoupsDeCoeurBrigitte = bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
   
   // Ajouter le check pour MA CUISINE BIEN-ÊTRE (avec l'ID correct)
-  const isCuisineBienEtre = bookId === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9";
+  const isCuisineBienEtre = bookId === "8525480b-e8cd-4149-b427-16672a5f55b4";
   
   // Ajouter le check pour DU BONHEUR DANS VOTRE ASSIETTE
   const isDuBonheurAssiette = bookId === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
@@ -153,7 +153,13 @@ const BookDetailPage = () => {
   // Ajouter le check pour SEMADER, 30 REGARDS SUR LES 30 ANS
   const isSemader30Regards = bookId === "c5896f91-0f7c-431c-9752-00ff7fb803c1";
   
-  if (isPetitesHistoiresMusiques) {
+  // Ajouter le check pour LE GRAND HAZIER, UN DOMAINE CREOLE
+  const isGrandHazier = bookId === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1";
+  
+  if (isGrandHazier) {
+    console.log("Livre identifié comme 'LE GRAND HAZIER, UN DOMAINE CREOLE' par son ID");
+  }
+  else if (isPetitesHistoiresMusiques) {
     console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
   } 
   else if (isLaReunionDesReligions) {
@@ -226,6 +232,7 @@ const BookDetailPage = () => {
                        isCasesCréolesReunion ? "CASES CRÉOLES DE LA RÉUNION" :
                        isPontRiviereEst ? "LE PONT DE LA RIVIERE DE L'EST" :
                        isSemader30Regards ? "SEMADER, 30 REGARDS SUR LES 30 ANS" :
+                       isGrandHazier ? "LE GRAND HAZIER, UN DOMAINE CREOLE" :
                        book.title
               }}
               bookDetails={bookDetails || {
