@@ -60,6 +60,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "DU BONHEUR DANS VOTRE ASSIETTE" ||
     book?.id === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
     
+  // Détecter si c'est "MA CUISINE BIEN-ÊTRE"
+  const isCuisineBienEtre = 
+    book?.title === "MA CUISINE BIEN-ÊTRE" ||
+    book?.id === "8525480b-e8cd-4149-b427-16672a5f55b4";
+    
   // Détecter si c'est "MANIFESTE POUR LA LECTURE"
   const isManifestePourLaLecture = 
     book?.title === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
@@ -163,6 +168,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isTuMeFaisTournerAnglais = 
     book?.title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
     (book?.title?.includes("TU ME FAIS TOURNER") && !book?.title?.includes("OU I FÉ TOURNE MON TERRE"));
+  
+  // Log pour débogage si c'est MA CUISINE BIEN-ÊTRE
+  if (isCuisineBienEtre) {
+    console.log(`Content détecté MA CUISINE BIEN-ÊTRE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
+  }
   
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
