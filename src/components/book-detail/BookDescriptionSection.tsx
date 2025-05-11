@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface BookDescriptionProps {
   description: string | null;
@@ -44,9 +45,6 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
         <div className="description mb-8">
           {/* Première partie - description du livre */}
           {renderDescription(parts[0])}
-          
-          {/* Séparateur */}
-          <div className="my-6 border-t border-gray-200"></div>
           
           {/* Biographie de l'auteur */}
           <div className="mt-6">
