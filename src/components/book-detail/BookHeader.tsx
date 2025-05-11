@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -28,6 +27,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" ||
     title?.toLowerCase().includes("plante au sucre") ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("plante au sucre");
+  
+  // Cas spécial pour Z'OISEAUX RARES
+  const isZOiseauxRares = 
+    title === "Z'OISEAUX RARES" || 
+    title === "Z'oiseaux rares" || 
+    title === "ZOISEAUX RARES" ||
+    title?.toLowerCase().includes("oiseaux rares");
   
   // Cas spécial pour l'affichage
   const isLaReunionDesReligions = 
@@ -406,6 +412,17 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             {!isCommandeCategory && (
               <p className="text-[#ea384c] text-lg md:text-xl font-medium">
                 ISBN 9782952720441
+              </p>
+            )}
+          </>
+        ) : isZOiseauxRares ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Album sonore - illustré par Julie Bernard - Zébulo Éditions –2019 – 20 pages
+            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN : {isbn}
               </p>
             )}
           </>
