@@ -1,211 +1,121 @@
 
 import React from 'react';
+import Image from 'react-bootstrap/Image';
+import { Book } from '@/integrations/supabase/schema';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+
 interface BookHeaderProps {
-  title: string;
-  editorialText: string;
-  showISBN: boolean;
-  isbn?: string;
+  book: Book;
+  bookId?: string;
+  detailsData?: {
+    publisher?: string;
+    illustrator?: string;
+    year?: string;
+    pages?: string;
+    isbn?: string;
+  };
 }
-export const BookHeader: React.FC<BookHeaderProps> = ({
-  title,
-  editorialText,
-  showISBN,
-  isbn
+
+export const BookHeader: React.FC<BookHeaderProps> = ({ 
+  book, 
+  bookId,
+  detailsData 
 }) => {
-  // Add hyphen to PÈRE-NOËL if it's in the title
-  let displayTitle = title;
-  if (title?.toLowerCase().includes("pere") && title?.toLowerCase().includes("noel")) {
-    displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
-  }
+  const {
+    title,
+    cover_image_url,
+  } = book;
   
-  // Cas spéciaux pour l'affichage
-  const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
-  
-  // Cas spécial pour La Réunion des religions - condition élargie pour capture toutes les variantes possibles
-  const isLaReunionDesReligions = 
-    title === "La Réunion des religions" || 
-    title === "LA RÉUNION DES RELIGIONS" || 
-    title === "La Reunion des religions" ||
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des religions" ||
-    title?.includes("union des religion") ||
-    title === "La Réunion des Religions";
+  const renderPublisherInfo = () => {
+    // Vérifie si c'est "La Réunion des religions"
+    if (bookId === "0569acb0-8946-4f62-acce-881604d3146a") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Jeunesse – illustré par Moniri M'Baé – Ed. 4 Épices – 2021 – 48 pages</p>;
+    }
     
-  // Cas spécial pour Les religions à l'ile Maurice
-  const isLesReligionsIleMaurice = 
-    title === "Les religions à l'ile Maurice" || 
-    title === "Les religions à l'île Maurice" ||
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("religions") && 
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("maurice");
-  
-  // Cas spécial pour LA RÉUNION DES ENFANTS
-  const isLaReunionDesEnfants =
-    title === "LA RÉUNION DES ENFANTS" ||
-    title === "La Réunion des enfants" ||
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des enfants";
-  
-  // Cas spécial pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS
-  const isPetitGarcon = 
-    title === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
-    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "le petit garcon qui ne souriait jamais";
+    // Vérifier si c'est "Les religions à l'île Maurice"
+    if (bookId === "23b62768-3770-4621-8c5e-9a705891bb93") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Documentaire – illustré par Moniri M'Baé – Ed. Vizavi – 2015 – 48 pages</p>;
+    }
     
-  // Version créole réunionnais
-  const isTuMeFaisTournerCreole = 
-    title === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
-    title?.includes("OU I FÉ TOURNE MON TERRE");
+    // Vérifier si c'est "TU ME FAIS TOURNER LA TERRE" version créole
+    if (bookId === "451338a8-2537-454d-a990-00dbc0988370") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Album illustré bilingue français et créole – illustré par Adeline Hubert – Atelier des nomades – 2019 – 24 pages</p>;
+    }
     
-  // Version anglaise
-  const isTuMeFaisTournerAnglais = 
-    title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
-    title === "TU ME FAIS TOURNER LA TERRE" ||
-    title?.includes("YOU MAKE MY WORLD SPIN") ||
-    (title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner") &&
-      !title?.includes("OU I FÉ TOURNE MON TERRE"));
-      
-  // Cas spécial pour MA CUISINE MARMAILLE
-  const isMaCuisineMarmaille = 
-    title === "MA CUISINE MARMAILLE" ||
-    title === "Ma Cuisine Marmaille" ||
-    title?.toLowerCase().includes("cuisine marmaille");
+    // Vérifier si c'est "UN FLAMBOYANT PÈRE-NOËL"
+    if (bookId === "b733fd7b-1bc8-4e37-bc19-94f0a445311d") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Jeunesse – illustré par Iloë – Atelier des nomades – 2020 – 24 pages</p>;
+    }
+    
+    // Pour Edgar le chat souris
+    if (bookId === "59a9689a-3484-4977-b0bf-4026e3438ab9") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Jeunesse – illustré par Nancy Ribard – Éditions Orphie – 2013 – 48 pages</p>;
+    }
+    
+    // Pour LA CLÉ DES SAVEURS DE JACQUELINE DALAIS
+    if (bookId === "e6586dd6-2fd3-4426-b491-cee425a863c2") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Cuisine – Recettes de Jacqueline Dalais – Photographies de Clency Ivon – Éditions Vizavi – 2014 – 126 pages</p>;
+    }
+    
+    // Pour SAVEURS METISSÉES D'AYMERIC PATAUD
+    if (bookId === "3e02b6d4-3476-421f-802b-c9e2252cb553") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Cuisine – Recettes d'Aymeric Pataud – Photographies de Valérie Koch – Epsilon Éditions – 4 Épices – 2011 – 144 pages</p>;
+    }
+    
+    // Pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+    if (bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Cuisine – Recettes de Brigitte Grondin – Photographies de Valérie Koch – Epsilon Éditions – 4 Épices – 2012 – 96 pages</p>;
+    }
+    
+    // Pour MA CUISINE BIEN-ÊTRE
+    if (bookId === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9") {
+      return <p className="text-[#ea384c] text-lg md:text-xl mb-1">Recettes de Brigitte Grondin - Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices – 2010 – 144 pages</p>;
+    }
+    
+    // Format par défaut
+    return (
+      <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+        {detailsData?.publisher && 
+          `${detailsData.publisher}${detailsData.year ? ` – ${detailsData.year}` : ''}${detailsData.pages ? ` – ${detailsData.pages} pages` : ''}`
+        }
+      </p>
+    );
+  };
   
-  // Cas spécial pour LA CLÉ DES SAVEURS DE JACQUELINE DALAIS
-  const isJacquelineDalais = 
-    title === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" ||
-    title?.toLowerCase().includes("jacqueline dalais") ||
-    title?.toLowerCase().includes("cle des saveurs");
-
-  // Cas spécial pour SAVEURS METISSÉES D'AYMERIC PATAUD
-  const isSaveursMetissees = 
-    title === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
-    title?.toLowerCase().includes("saveurs metissees") ||
-    title?.toLowerCase().includes("aymeric pataud");
-
-  // Vérifier si le titre contient un saut de ligne
-  const hasLineBreak = title?.includes('\n');
+  const hasMultilineTitle = title && title.includes('\n');
   
-  return <>
-      {hasLineBreak ? (
-        // Si le titre contient un saut de ligne, diviser et afficher chaque ligne
-        <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0">
-          {title.split('\n').map((line, index) => (
-            <React.Fragment key={index}>
-              {index > 0 && <br />}
-              {line}
-            </React.Fragment>
-          ))}
-        </h1>
-      ) : (
-        <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-bold tracking-wide uppercase max-w-full overflow-wrap-break-word text-balance mx-0 whitespace-nowrap overflow-hidden text-ellipsis">
-          {displayTitle?.toUpperCase()}
-        </h1>
-      )}
-      
-      <div className="mb-10 mt-2">
-        {/* Pour Edgar, le chat souris, afficher le texte exactement comme dans l'image */}
-        {isEdgarChatSouris ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album jeunesse – illustré par Nancy Ribard – 2013
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949509
-            </p>
-          </>
-        ) : isLaReunionDesReligions ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782362470035
-            </p>
-          </>
-        ) : isLesReligionsIleMaurice ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album / documentaire - illustré par Hélène Moreau - Vizavi - 2015 - 64 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337945
-            </p>
-          </>
-        ) : isLaReunionDesEnfants ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album jeunesse – illustré par Marion Pradier - Océan Jeunesse – 2014 - 52 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN : 9782362470684
-            </p>
-          </>
-        ) : isPetitGarcon ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album jeunesse – illustré par Artem Kostyukevitch - Océan Jeunesse – 2009- 36 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782916533704
-            </p>
-          </>
-        ) : isTuMeFaisTournerCreole ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949745
-            </p>
-          </>
-        ) : isTuMeFaisTournerAnglais ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Album jeunesse français / anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337938
-            </p>
-          </>
-        ) : isMaCuisineMarmaille ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Recettes de Brigitte Grondin - Illustrations de Caroline Grondin - Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices - 2016 – 160 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949721
-            </p>
-          </>
-        ) : isJacquelineDalais ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Recettes de Jacqueline Dalais - Éditions Vizavi – 2014 - 126 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337860
-            </p>
-          </>
-        ) : isSaveursMetissees ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Recettes d'Aymeric Pataud – Photographies de Corinne Tellier - Epsilon Éditions – 4 Épices - 2e édition 2011 - 144 pages
-            </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949097
-            </p>
-          </>
-        ) : (
-          <>
-            {/* Using red color for editorial text */}
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1" dangerouslySetInnerHTML={{
-              __html: editorialText
-            }} />
-            
-            {/* S'assurer que l'ISBN s'affiche correctement */}
-            {showISBN && isbn && (
-              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-                ISBN : {isbn}
-              </p>
-            )}
-          </>
-        )}
+  // Retravailler les URLs des images de couverture
+  const sanitizedCoverUrl = cover_image_url 
+    ? cover_image_url
+      .replace('localhost:9000', 'media.lovable.dev') 
+      .replace('localhost:54321', 'media.lovable.dev')
+    : null;
+  
+  return (
+    <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-8">
+      <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0">
+        <AspectRatio ratio={3/4} className="bg-muted overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+          {sanitizedCoverUrl ? (
+            <img
+              src={sanitizedCoverUrl}
+              alt={`Couverture du livre ${title}`}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+              Aucune couverture disponible
+            </div>
+          )}
+        </AspectRatio>
       </div>
-    </>;
+      <div className="flex-1">
+        <div className="mb-4">
+          <h1 className={`text-2xl md:text-3xl lg:text-4xl font-bold ${hasMultilineTitle ? 'whitespace-pre-line' : ''}`}>
+            {title}
+          </h1>
+          {renderPublisherInfo()}
+        </div>
+      </div>
+    </div>
+  );
 };
