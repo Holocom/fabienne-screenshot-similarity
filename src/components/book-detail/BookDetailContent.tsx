@@ -54,6 +54,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isCoupsDeCoeurBrigitte = 
     book?.title === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" ||
     book?.id === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
+    
+  // Détecter si c'est "DU BONHEUR DANS VOTRE ASSIETTE"
+  const isDuBonheurAssiette = 
+    book?.title === "DU BONHEUR DANS VOTRE ASSIETTE" ||
+    book?.id === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
 
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -190,6 +195,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est DU BONHEUR DANS VOTRE ASSIETTE
+  if (isDuBonheurAssiette) {
+    console.log(`Content détecté DU BONHEUR DANS VOTRE ASSIETTE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -240,7 +251,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isMaCuisineMarmaille ||
     isJacquelineDalais ||
     isSaveursMetissees ||
-    isCoupsDeCoeurBrigitte;
+    isCoupsDeCoeurBrigitte ||
+    isDuBonheurAssiette;
   
   return (
     <>

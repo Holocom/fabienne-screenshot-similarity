@@ -120,6 +120,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour MA CUISINE BIEN-ÊTRE (avec l'ID correct)
   const isCuisineBienEtre = bookId === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9";
   
+  // Ajouter le check pour DU BONHEUR DANS VOTRE ASSIETTE
+  const isDuBonheurAssiette = bookId === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } 
@@ -146,6 +149,9 @@ const BookDetailPage = () => {
   }
   else if (isCuisineBienEtre) {
     console.log("Livre identifié comme 'MA CUISINE BIEN-ÊTRE' par son ID");
+  }
+  else if (isDuBonheurAssiette) {
+    console.log("Livre identifié comme 'DU BONHEUR DANS VOTRE ASSIETTE' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -178,6 +184,7 @@ const BookDetailPage = () => {
                        isSaveursMetissees ? "SAVEURS METISSÉES D'AYMERIC PATAUD" :
                        isCoupsDeCoeurBrigitte ? "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" :
                        isCuisineBienEtre ? "MA CUISINE BIEN-ÊTRE" :
+                       isDuBonheurAssiette ? "DU BONHEUR DANS VOTRE ASSIETTE" :
                        book.title
               }}
               bookDetails={bookDetails || {

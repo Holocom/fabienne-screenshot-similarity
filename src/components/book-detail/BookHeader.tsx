@@ -78,6 +78,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
     title?.toLowerCase().includes("saveurs metissees") ||
     title?.toLowerCase().includes("aymeric pataud");
+    
+  // Cas spécial pour DU BONHEUR DANS VOTRE ASSIETTE
+  const isDuBonheurAssiette = 
+    title === "DU BONHEUR DANS VOTRE ASSIETTE" || 
+    title === "Du Bonheur dans votre assiette" ||
+    title?.toLowerCase().includes("bonheur dans votre assiette");
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -189,6 +195,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782912949097
+            </p>
+          </>
+        ) : isDuBonheurAssiette ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Recettes de Brigitte Grondin - Photographies de Hervé Douris - Epsilon Éditions – 4 Épices - 5e édition 2007 – 184 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782912949219
             </p>
           </>
         ) : (

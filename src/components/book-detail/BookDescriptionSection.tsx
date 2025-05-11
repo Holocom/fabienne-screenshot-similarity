@@ -33,6 +33,11 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle === "MA CUISINE BIEN-ÊTRE" ||
     bookTitle?.toLowerCase().includes("cuisine bien-être") ||
     bookTitle?.toLowerCase().includes("cuisine bien etre");
+    
+  // Vérifier si c'est DU BONHEUR DANS VOTRE ASSIETTE
+  const isDuBonheurAssiette = 
+    bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE" ||
+    bookTitle?.toLowerCase().includes("bonheur dans votre assiette");
   
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
@@ -58,6 +63,11 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour MA CUISINE BIEN-ÊTRE, on met certains passages en italique
   if (isCuisineBienEtre && description) {
+    return renderDescription(description);
+  }
+  
+  // Pour DU BONHEUR DANS VOTRE ASSIETTE, formater correctement la description
+  if (isDuBonheurAssiette && description) {
     return renderDescription(description);
   }
 
@@ -109,7 +119,9 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       .replace(/« A table ! »/g, '<em>« A table ! »</em>')
       .replace(/« Côté jardin »/g, '<em>« Côté jardin »</em>')
       .replace(/« intérêts nutritionnels »/g, '<em>« intérêts nutritionnels »</em>')
-      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>');
+      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>')
+      // Mise en italique pour le texte de DU BONHEUR DANS VOTRE ASSIETTE
+      .replace(/Du bonheur dans votre assiette(?!<\/em>)/g, '<em>Du bonheur dans votre assiette</em>');
       
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
