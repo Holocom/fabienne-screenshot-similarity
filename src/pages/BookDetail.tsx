@@ -24,7 +24,7 @@ const BookDetailPage = () => {
   // Force a refresh of the data on every mount with stronger invalidation
   useEffect(() => {
     if (bookId) {
-      // Force refetch all data for this book
+      // Force refetch all data for this book by first removing existing query data
       queryClient.removeQueries({ queryKey: ['book', bookId] });
       queryClient.removeQueries({ queryKey: ['bookDetails', bookId] });
       queryClient.removeQueries({ queryKey: ['pressLinks', bookId] });
@@ -32,6 +32,7 @@ const BookDetailPage = () => {
       queryClient.removeQueries({ queryKey: ['distinctions', bookId] });
       queryClient.removeQueries({ queryKey: ['editions', bookId] });
       
+      // Then invalidate to trigger refetch
       queryClient.invalidateQueries({ queryKey: ['book', bookId] });
       queryClient.invalidateQueries({ queryKey: ['bookDetails', bookId] });
       queryClient.invalidateQueries({ queryKey: ['pressLinks', bookId] });
@@ -49,7 +50,8 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['book', bookId],
     queryFn: () => getBookById(bookId || ''),
-    enabled: !!bookId
+    enabled: !!bookId,
+    staleTime: 0 // Ne jamais considérer les données comme fraîches
   });
   
   const {
@@ -58,7 +60,8 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['bookDetails', bookId],
     queryFn: () => getBookDetails(bookId || ''),
-    enabled: !!bookId
+    enabled: !!bookId,
+    staleTime: 0
   });
   
   const {
@@ -67,7 +70,8 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['pressLinks', bookId],
     queryFn: () => getPressLinks(bookId || ''),
-    enabled: !!bookId
+    enabled: !!bookId,
+    staleTime: 0
   });
   
   const {
@@ -76,7 +80,8 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['awards', bookId],
     queryFn: () => getAwards(bookId || ''),
-    enabled: !!bookId
+    enabled: !!bookId,
+    staleTime: 0
   });
   
   const {
@@ -85,7 +90,8 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['distinctions', bookId],
     queryFn: () => getDistinctions(bookId || ''),
-    enabled: !!bookId
+    enabled: !!bookId,
+    staleTime: 0
   });
   
   const {
@@ -94,7 +100,8 @@ const BookDetailPage = () => {
   } = useQuery({
     queryKey: ['editions', bookId],
     queryFn: () => getEditions(bookId || ''),
-    enabled: !!bookId
+    enabled: !!bookId,
+    staleTime: 0
   });
 
   // Déterminer si tout est en cours de chargement
@@ -205,7 +212,7 @@ const BookDetailPage = () => {
               bookDetails={bookDetails || {
                 id: "temp-id",
                 book_id: bookId || '',
-                publisher: "Oc��an Jeunesse",
+                publisher: "Océan Jeunesse",
                 illustrator: "Audrey Caron",
                 year: "2025",
                 pages: "48",

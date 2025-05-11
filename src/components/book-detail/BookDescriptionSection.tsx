@@ -16,7 +16,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   if (isManifestePourLaLecture) {
     // Nous n'utilisons plus une description codée en dur, mais formatons la description de la base de données
     const manifesteDescription = description || 
-      'Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».';
+      "Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».";
     
     // Mise en forme spéciale avec formatage de paragraphes et mise en évidence des noms
     const paragraphs = manifesteDescription.split(/\n\n|\n/);
@@ -170,7 +170,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       .replace(/"joujou"/g, '<strong>"joujou"</strong>')
       // Gérer les doubles guillemets français qui peuvent venir du copier-coller
       .replace(/´/g, "'")
-      .replace(/""/g, '"')
+      .replace(/\"\"/g, '"')
       // Mettre en italique les titres de livres pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
       .replace(/Du bonheur dans votre assiette(?!<\/em>)/g, '<em>Du bonheur dans votre assiette</em>')
       .replace(/Ma cuisine bien-être(?!<\/em>)/g, '<em>Ma cuisine bien-être</em>')
