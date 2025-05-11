@@ -20,7 +20,8 @@ export const BookDescriptionSection: React.FC<BookDescriptionSectionProps> = ({
         <div className="text-[#403E43] text-lg leading-relaxed mt-2 whitespace-pre-line">
           <p>
             De 1998 à 2023, l'agenda d'histoire de La Réunion a connu des tirages records. Chaque année, 
-            pendant plus de 25 ans, son éditeur a invité des auteurs locaux à travailler sur un thème. L'édition 
+            pendant plus de 25 ans, son éditeur a invité des auteurs locaux à travailler sur un thème.
+            L'édition 
             2010 était consacrée aux pratiques du changement d'air qui se sont développées à partir du XIXe 
             siècle dans l'île. D'Hell Bourg à Cilaos en passant par l'Étang-Salé ou St-Gilles-les-Bains, ce tourisme 
             intérieur a connu un essor important à une époque où sortir de l'île n'était pas chose simple. 
