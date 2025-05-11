@@ -1,15 +1,18 @@
+
 import React from 'react';
 interface BookHeaderProps {
   title: string;
   editorialText: string;
   showISBN: boolean;
   isbn?: string;
+  categorySlug?: string; // Ajout du paramètre pour vérifier la catégorie
 }
 export const BookHeader: React.FC<BookHeaderProps> = ({
   title,
   editorialText,
   showISBN,
-  isbn
+  isbn,
+  categorySlug // Récupération du paramètre categorySlug
 }) => {
   // Add hyphen to PÈRE-NOËL if it's in the title
   let displayTitle = title;
@@ -113,9 +116,16 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "LE PONT DE LA RIVIERE DE L'EST" ||
     title?.toLowerCase().includes("pont de la riviere") ||
     title?.toLowerCase().includes("pont de la rivière");
+    
+  // Vérifier si c'est un livre de la catégorie COMMANDE
+  const isCommandeCategory = categorySlug === "commande";
   
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
+  
+  // Déterminer si l'ISBN doit être affiché
+  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST ni pour les livres de catégorie COMMANDE
+  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isCommandeCategory;
   
   return <>
       {hasLineBreak ? (
@@ -141,135 +151,161 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album jeunesse – illustré par Nancy Ribard – 2013
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949509
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782912949509
+              </p>
+            )}
           </>
         ) : isLaReunionDesReligions ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album / documentaire - illustré par Hélène Moreau - Océan Jeunesse - 2011 - 56 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782362470035
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782362470035
+              </p>
+            )}
           </>
         ) : isLesReligionsIleMaurice ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album / documentaire - illustré par Hélène Moreau - Vizavi - 2015 - 64 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337945
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9789990337945
+              </p>
+            )}
           </>
         ) : isLaReunionDesEnfants ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album jeunesse – illustré par Marion Pradier - Océan Jeunesse – 2014 - 52 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN : 9782362470684
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN : 9782362470684
+              </p>
+            )}
           </>
         ) : isPetitGarcon ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album jeunesse – illustré par Artem Kostyukevitch - Océan Jeunesse – 2009- 36 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782916533704
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782916533704
+              </p>
+            )}
           </>
         ) : isTuMeFaisTournerCreole ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album jeunesse français / créole réunionnais - illustré par Modeste Madoré - Traduit par Laurence Daleau - Epsilon Éditions - 2015 - 28 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949745
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782912949745
+              </p>
+            )}
           </>
         ) : isTuMeFaisTournerAnglais ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Album jeunesse français / anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337938
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9789990337938
+              </p>
+            )}
           </>
         ) : isMaCuisineMarmaille ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Recettes de Brigitte Grondin - Illustrations de Caroline Grondin - Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices - 2016 – 160 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949721
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782912949721
+              </p>
+            )}
           </>
         ) : isJacquelineDalais ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Recettes de Jacqueline Dalais - Éditions Vizavi – 2014 - 126 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9789990337860
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9789990337860
+              </p>
+            )}
           </>
         ) : isSaveursMetissees ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Recettes d'Aymeric Pataud – Photographies de Corinne Tellier - Epsilon Éditions – 4 Épices - 2e édition 2011 - 144 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949097
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782912949097
+              </p>
+            )}
           </>
         ) : isDuBonheurAssiette ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Recettes de Brigitte Grondin - Photographies de Hervé Douris - Epsilon Éditions – 4 Épices - 5e édition 2007 – 184 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949219
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782912949219
+              </p>
+            )}
           </>
         ) : isCuisineBienEtre ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Recettes de Brigitte Grondin - Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices – 2010 – 144 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782912949332
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782912949332
+              </p>
+            )}
           </>
         ) : isManifestePourLaLecture ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Ananda Devi – Véronique Tadjo – Nassuf Djailani – Jennifer Richard – Michèle Rakotoson – Blaise Ndala – Gaël Octavia – Watson Charles – Gaëlle Belem – Kenza Sefrioui – Johary Ravaloson – Fabienne Jonca – Shenaz Patel – Griotte – Amarnath Hosany – Véronique Massenot. Atelier Des Nomades – 2023 – 96 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782919300686
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782919300686
+              </p>
+            )}
           </>
         ) : isPontRiviereEst ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Beau livre - Photographies de Sébastien Marchal – Conception graphique Pascal Knopfel – 4 Épices – 2023 - 224 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782952720496
-            </p>
+            {/* ISBN supprimé pour LE PONT DE LA RIVIERE DE L'EST */}
           </>
         ) : isCasesCréolesReunion ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Bernard Leveneur – Fabienne Jonca – Nicolas Peyrebonne – Patrick Hoarau - Collection PREC (Patrimoine, Réunion, Éducation, Culture) – Canopé Éditions – 2011 – 48 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN 9782845579078
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9782845579078
+              </p>
+            )}
           </>
         ) : isPetitesHistoiresMusiques ? (
           // Nouveau cas spécial pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
@@ -277,9 +313,11 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Sandrine Barège – Fabienne Jonca – Conception graphique Olivier Bard - 4 Épices – 2012 – 72 pages
             </p>
-            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-              ISBN : 9782952720441
-            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN : 9782952720441
+              </p>
+            )}
           </>
         ) : (
           <>
@@ -288,8 +326,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               __html: editorialText
             }} />
             
-            {/* S'assurer que l'ISBN s'affiche correctement */}
-            {showISBN && isbn && (
+            {/* S'assurer que l'ISBN s'affiche correctement seulement si nécessaire */}
+            {shouldDisplayISBN && (
               <p className="text-[#ea384c] text-lg md:text-xl font-medium">
                 ISBN : {isbn}
               </p>

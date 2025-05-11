@@ -88,6 +88,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     bookId: book.id // Pass the book ID explicitly
   });
   
+  // Récupérer la catégorie du livre à partir du book object
+  const categorySlug = book.category_id ? book.category_id : undefined;
+  
   // Filtrer les liens de presse pour éliminer les doublons
   const uniquePressLinks = Array.from(new Map(
     pressLinks.map(link => [link.url, link])
@@ -304,6 +307,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
             editorialText={editorialText}
             showISBN={shouldShowISBN}
             isbn={isbn}
+            categorySlug={categorySlug} // Passer la catégorie
           />
         </div>
       )}
