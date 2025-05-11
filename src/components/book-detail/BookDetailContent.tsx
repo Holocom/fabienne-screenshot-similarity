@@ -105,6 +105,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isLaReunionIleOuvrages = 
     book?.title === "LA REUNION, L'ILE AUX OUVRAGES" ||
     book?.id === "a63d08f5-49ff-4220-9a70-9627fcbe7643";
+    
+  // Détecter si c'est "ROUTE DES TAMARINS"
+  const isRouteDesTamarins = 
+    book?.title === "ROUTE DES TAMARINS, LA REUNION DES DEFIS" ||
+    book?.id === "5db0f368-4220-4ca4-97c7-883dab8c2559";
   
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -337,7 +342,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     !isPontRiviereEst && 
     !isSemader30Regards && 
     !isSocieteAdrienBellier &&
-    !isLaReunionIleOuvrages;
+    !isLaReunionIleOuvrages &&
+    !isRouteDesTamarins;
   
   return (
     <>

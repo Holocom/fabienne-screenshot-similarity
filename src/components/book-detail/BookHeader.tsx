@@ -138,6 +138,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "LA REUNION, L'ILE AUX OUVRAGES" ||
     title?.toLowerCase().includes("reunion, l'ile aux ouvrages") ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("reunion, lile aux ouvrages");
+  
+  // Cas spécial pour ROUTE DES TAMARINS
+  const isRouteDesTamarins = 
+    title === "ROUTE DES TAMARINS, LA REUNION DES DEFIS" ||
+    title?.toLowerCase().includes("route des tamarins") ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("route des tamarins");
     
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
@@ -153,6 +159,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     !isGrandHazier && 
     !isSocieteAdrienBellier && 
     !isLaReunionIleOuvrages &&
+    !isRouteDesTamarins &&
     !isCommandeCategory;
   
   return <>
@@ -317,41 +324,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               </p>
             )}
           </>
-        ) : isPontRiviereEst ? (
+        ) : isRouteDesTamarins ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Beau livre - Photographies de Sébastien Marchal – Conception graphique Pascal Knopfel – 4 Épices – 2023 - 224 pages
+              Beau livre – Conçu avec l'aide de Jean-Louis Cariou – Photographies Hervé Douris et René Carayol - Océan Éditions – 2009 – 256 pages
             </p>
-            {/* ISBN supprimé pour LE PONT DE LA RIVIERE DE L'EST */}
-          </>
-        ) : isCasesCréolesReunion ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Bernard Leveneur – Fabienne Jonca – Nicolas Peyrebonne – Patrick Hoarau - Collection PREC (Patrimoine, Réunion, Éducation, Culture) – Canopé Éditions – 2011 – 48 pages
-            </p>
-            {!isCommandeCategory && (
-              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-                ISBN 9782845579078
-              </p>
-            )}
-          </>
-        ) : isPetitesHistoiresMusiques ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Sandrine Barège – Fabienne Jonca – Conception graphique Olivier Bard - 4 Épices – 2012 – 72 pages
-            </p>
-            {!isCommandeCategory && (
-              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-                ISBN : 9782952720441
-              </p>
-            )}
-          </>
-        ) : isSemader30Regards ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Témoignages - Photographies de Edgar Marsy et fonds Semader – Conception 21° Sud – 2015 - 72 pages
-            </p>
-            {/* ISBN supprimé pour SEMADER, 30 REGARDS SUR LES 30 ANS */}
+            {/* ISBN supprimé pour ROUTE DES TAMARINS */}
           </>
         ) : isLaReunionIleOuvrages ? (
           <>

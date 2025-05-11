@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -162,7 +163,13 @@ const BookDetailPage = () => {
   // Ajouter le check pour LA REUNION, L'ILE AUX OUVRAGES
   const isLaReunionIleOuvrages = bookId === "a63d08f5-49ff-4220-9a70-9627fcbe7643";
   
-  if (isLaReunionIleOuvrages) {
+  // Ajouter le check pour ROUTE DES TAMARINS
+  const isRouteDesTamarins = bookId === "5db0f368-4220-4ca4-97c7-883dab8c2559";
+  
+  if (isRouteDesTamarins) {
+    console.log("Livre identifié comme 'ROUTE DES TAMARINS, LA REUNION DES DEFIS' par son ID");
+  }
+  else if (isLaReunionIleOuvrages) {
     console.log("Livre identifié comme 'LA REUNION, L'ILE AUX OUVRAGES' par son ID");
   }
   else if (isGrandHazier) {
@@ -247,6 +254,7 @@ const BookDetailPage = () => {
                        isGrandHazier ? "LE GRAND HAZIER, UN DOMAINE CREOLE" :
                        isSocieteAdrienBellier ? "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" :
                        isLaReunionIleOuvrages ? "LA REUNION, L'ILE AUX OUVRAGES" :
+                       isRouteDesTamarins ? "ROUTE DES TAMARINS, LA REUNION DES DEFIS" :
                        book.title
               }}
               bookDetails={bookDetails || {
