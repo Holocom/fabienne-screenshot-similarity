@@ -386,6 +386,17 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             {/* ISBN supprimé pour ENTRE JARDIN ET COUR */}
           </>
+        ) : isCasesCréolesReunion ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Bernard Leveneur – Fabienne Jonca – Nicolas Peyrebonne – Patrick Hoarau - Collection PREC (Patrimoine, Réunion, Éducation, Culture) – Canopé Éditions – 2011 – 48 pages
+            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN 9789990337938
+              </p>
+            )}
+          </>
         ) : (
           <>
             {/* Using red color for editorial text */}
