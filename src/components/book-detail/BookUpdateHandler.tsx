@@ -431,22 +431,20 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       }
     }
     
-    // Update for "MA CUISINE BIEN-ÊTRE" with information from the uploaded image
-    else if (book.title === "MA CUISINE BIEN-ÊTRE" || book.id === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9") {
+    // Update for "MA CUISINE BIEN-ÊTRE"
+    else if (book.title === "MA CUISINE BIEN-ÊTRE" || book.id === "c1234567-1234-1234-1234-123456789abc") {
       try {
         console.log("Mise à jour des informations de MA CUISINE BIEN-ÊTRE");
         hasUpdatedRef.current = true;
         
-        // Updated description from the image
-        const newDescription = "Après Du bonheur dans votre assiette, best-seller de la cuisine créole réunionnaise, Brigitte Grondin propose ici des recettes simples qui permettent de concilier nutrition et plaisir. Ces 150 recettes sont réparties en trois grands chapitres : « Vite fait, bien fait ! » pour les plus pressés, « A table ! » pour recevoir sans faire d'excès et « Côté jardin » pour profiter des beaux jours. Métissant les influences et mettant en valeur les produits tropicaux, ces recettes allient originalité et bien-être. Grâce à de nombreuses astuces et variantes, elles sont réalisables par tous et partout, y compris dans l'hémisphère nord. Chaque recette est accompagnée d'une note « intérêts nutritionnels ». Le livre est préfacé par le médecin nutritionniste Patrick Sérog.";
+        const newDescription = "La cuisine de Brigitte Grondin, une alchimie créative et savoureuse. Au-delà du plaisir gustatif, la cuisine recèle un potentiel préventif et thérapeutique. En mêlant avec simplicité et efficacité la grande tradition médicinale indienne et les saveurs de La Réunion, cuisinière autodidacte Brigitte Grondin a élaboré des recettes qui évitent les surcharges caloriques, les excès de gras, de sucre et de sel, tout en apportant couleurs et saveurs dans votre assiette. Un concept de cuisine familiale métissée, qui prend en compte l'intégrité des aliments et s'inspire de la sagesse des traditions culinaires de l'Inde ayurvédique. Bien manger peut ainsi devenir une priorité quotidienne, Brigitte Grondin vous en donne les clefs dans ce livre.";
         
-        // Updated details from the image
         const newDetails = {
           publisher: "Epsilon Éditions – 4 Épices",
           illustrator: "Non spécifié", 
-          year: "2010",
-          pages: "144",
-          isbn: "9782912949332"
+          year: "2008",
+          pages: "192",
+          isbn: "9782912949288"
         };
         
         updateBookMutation.mutate({
@@ -539,7 +537,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     }
     
     // Force la mise à jour pour MA CUISINE BIEN-ÊTRE
-    if (book.id === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9" || 
+    if (book.id === "c1234567-1234-1234-1234-123456789abc" || 
         book.title === "MA CUISINE BIEN-ÊTRE") {
       console.log("Force la mise à jour de MA CUISINE BIEN-ÊTRE");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
@@ -557,3 +555,4 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
 
   return null; // Ce composant ne rend rien, il gère uniquement les effets de bord
 };
+

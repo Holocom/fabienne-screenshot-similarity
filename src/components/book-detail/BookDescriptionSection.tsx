@@ -58,15 +58,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour MA CUISINE BIEN-ÊTRE, on met certains passages en italique
   if (isCuisineBienEtre && description) {
-    // Pour ce livre spécifique, utilisons une description avec une mise en forme plus précise
-    const formattedDescription = description
-      .replace(/Du bonheur dans votre assiette/g, '<em>Du bonheur dans votre assiette</em>')
-      .replace(/« Vite fait, bien fait ! »/g, '<em>« Vite fait, bien fait ! »</em>')
-      .replace(/« A table ! »/g, '<em>« A table ! »</em>')
-      .replace(/« Côté jardin »/g, '<em>« Côté jardin »</em>')
-      .replace(/« intérêts nutritionnels »/g, '<em>« intérêts nutritionnels »</em>');
-    
-    return renderDescription(formattedDescription);
+    return renderDescription(description);
   }
 
   // Séparer le texte en paragraphes (double saut de ligne)
@@ -121,3 +113,4 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     </div>;
   }
 };
+
