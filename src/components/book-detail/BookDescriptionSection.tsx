@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookDescriptionProps {
   description: string | null;
@@ -51,7 +50,6 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
           
           {/* Biographie de l'auteur */}
           <div className="mt-6">
-            <h3 className="text-xl font-bold mb-3 text-primary-blue">BIOGRAPHIE DE L'AUTEUR</h3>
             {renderDescription("Aymeric Pataud est issu de l'école Ritz Escoffier à Paris" + parts[1])}
           </div>
         </div>
