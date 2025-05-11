@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface BookDescriptionProps {
@@ -108,7 +109,6 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle?.toLowerCase().includes("architecture creole");
     
   // Cas spéciaux pour chaque livre
-  // Cas spéciaux pour chaque livre
   if (isPetitesHistoiresMusiques && description) {
     // Description spécifique pour Petites Histoires des Musiques Réunionnaises
     const petitesHistoiresDescription = `Cet ouvrage propose aux enfants de découvrir les instruments de musique traditionnels de La Réunion à travers des histoires amusantes et des illustrations colorées.`;
@@ -122,10 +122,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Un album pour découvrir La Réunion à travers les yeux des enfants.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -138,10 +142,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Une histoire touchante sur l'importance de l'amitié et du sourire.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -154,10 +162,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Une ode à l'amour et à la beauté du monde en français et en créole.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -170,10 +182,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "A celebration of love and the world's beauty in French and English.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -186,10 +202,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Des recettes simples et savoureuses pour les enfants.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -202,10 +222,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Un voyage culinaire à travers les saveurs de La Réunion.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -218,10 +242,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Un mélange de saveurs créoles et métropolitaines.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -234,10 +262,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Des recettes simples et gourmandes pour tous les jours.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -250,10 +282,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Une célébration de la lecture par des auteurs francophones.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -266,10 +302,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       const lastSentence = "Un conte de Noël créole pour les enfants.";
       const mainText = description.replace(lastSentence, "");
       
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
+      return (
+        <>
+          {renderDescription(mainText)}
+          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+            {lastSentence}
+          </p>
+        </>
+      );
     }
     
     return renderDescription(description);
@@ -290,18 +330,18 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour CASES CRÉOLES DE LA RÉUNION, cas spécial avec formatage précis
   if (isCasesCréolesReunion && description) {
-    // Formatage spécifique pour Cases Créoles avec la dernière phrase en italique
-    if (description.includes("Première partie sur L'histoire des cases de La Réunion co-écrite avec Bernard Leveneur")) {
-      const lastSentence = "Première partie sur L'histoire des cases de La Réunion co-écrite avec Bernard Leveneur.";
-      const mainText = description.replace(lastSentence, "");
-      
-      // Description modifiée avec la dernière phrase en italique
-      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
-      
-      return renderDescription(modifiedDescription);
-    }
+    // Pour ce cas particulier, nous allons séparer la description en deux parties
+    const mainDescription = "La collection PREC a pour ambition de donner aux enseignants de l'académie des contenus et des références artistiques de qualité en rapport avec l'histoire des arts à la Réunion.\n\nLe thème de ce premier numéro vous convie au cœur de la vie quotidienne des Réunionnais. Lieu de vie privée, la Case protège, mais se doit aussi d'être belle et accueillante. Nourrie des traditions et des savoir-faire venus d'ailleurs, elle s'est adaptée au climat et a mis en valeur les matériaux locaux. Ses formes variées et ses évolutions permanentes témoignent de la diversité et de la vitalité de la société réunionnaise.";
+    const italicPart = "Première partie sur L'histoire des cases de La Réunion co-écrite avec Bernard Leveneur.";
     
-    return renderDescription(description);
+    return (
+      <>
+        {renderDescription(mainDescription)}
+        <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+          {italicPart}
+        </p>
+      </>
+    );
   }
   
   // Pour SEMADER, 30 REGARDS SUR LES 30 ANS, cas spécial avec formattage précis
