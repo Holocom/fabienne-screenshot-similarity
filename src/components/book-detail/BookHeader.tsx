@@ -84,6 +84,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "DU BONHEUR DANS VOTRE ASSIETTE" || 
     title === "Du Bonheur dans votre assiette" ||
     title?.toLowerCase().includes("bonheur dans votre assiette");
+    
+  // Cas spécial pour MA CUISINE BIEN-ÊTRE
+  const isCuisineBienEtre = 
+    title === "MA CUISINE BIEN-ÊTRE" ||
+    title?.toLowerCase().includes("cuisine bien-être") ||
+    title?.toLowerCase().includes("cuisine bien etre");
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -204,6 +210,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782912949219
+            </p>
+          </>
+        ) : isCuisineBienEtre ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Recettes de Brigitte Grondin - Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices – 2010 – 144 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782912949332
             </p>
           </>
         ) : (

@@ -63,7 +63,9 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour MA CUISINE BIEN-ÊTRE, on met certains passages en italique
   if (isCuisineBienEtre && description) {
-    return renderDescription(description);
+    const cuisineBienEtreDescription = `Après <em>Du bonheur dans votre assiette</em>, best-seller de la cuisine réunionnaise, Brigitte Grondin propose ici des recettes simples qui permettent de concilier nutrition et plaisir. Ces 150 recettes sont réparties en trois grands chapitres : « <em>Vite fait, bien fait !</em> » pour les plus pressés, « <em>A table !</em> » pour recevoir sans faire d'excès et « <em>Côté jardin</em> » pour profiter des beaux jours. Métissant les influences et mettant en valeur les produits tropicaux, ces recettes allient originalité et bien-être. Grâce à de nombreuses astuces et variantes, elles sont réalisables par tous et partout, y compris dans l'<em>hémisphère nord</em>. Chaque recette est accompagnée d'une note « <em>intérêts nutritionnels</em> ». Le livre est préfacé par le médecin nutritionniste Patrick Sérog.`;
+    
+    return renderDescription(cuisineBienEtreDescription);
   }
   
   // Pour DU BONHEUR DANS VOTRE ASSIETTE, cas spécial avec formatage précis
