@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Image from 'react-bootstrap/Image';
 import { Book } from '@/integrations/supabase/schema';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 
@@ -21,9 +20,14 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   bookId,
   detailsData 
 }) => {
+  // Add a safety check to prevent destructuring undefined
+  if (!book) {
+    return <div>Loading book information...</div>;
+  }
+
   const {
     title,
-    cover_image_url,
+    cover_image,
   } = book;
   
   const renderPublisherInfo = () => {
@@ -85,8 +89,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const hasMultilineTitle = title && title.includes('\n');
   
   // Retravailler les URLs des images de couverture
-  const sanitizedCoverUrl = cover_image_url 
-    ? cover_image_url
+  const sanitizedCoverUrl = cover_image 
+    ? cover_image
       .replace('localhost:9000', 'media.lovable.dev') 
       .replace('localhost:54321', 'media.lovable.dev')
     : null;

@@ -257,10 +257,9 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
       ) : (
         <div className="w-full">
           <BookHeader 
-            title={book.title} 
-            editorialText={editorialText}
-            showISBN={shouldShowISBN}
-            isbn={isbn}
+            book={book}
+            bookId={book.id}
+            detailsData={bookDetails}
           />
         </div>
       )}
