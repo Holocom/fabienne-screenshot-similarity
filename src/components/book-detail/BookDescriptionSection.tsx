@@ -71,7 +71,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     // Formatage exact comme dans l'image de référence
     const customDescription = `Amateurs d'une cuisine créole authentique et préservée, les 300 recettes de cet ouvrage vous permettront de réaliser aussi bien quelques grands classiques (<em>rougail saucisses, cari bichique</em>) que de nombreuses recettes insolites (<em>soufflé de palmiste, magrets de canard aux goyaviers</em>). La sélection originale des recettes par rubriques : <em>"petit-déjeuner"</em>, <em>"pique-nique"</em>, <em>"goûter"</em>, <em>"apéritif"</em>, ou encore <em>"dîner entre amis"</em>, <em>"repas de fête"</em>, <em>"tête à tête"</em>, <em>"déjeuner en famille"</em>... propose une multitude d'entrées, de plats et de desserts.
 
-<em>Best-seller de la cuisine réunionnaise</em>, <em>Du bonheur dans votre assiette</em> s'est vendu à 40 000 exemplaires.`;
+<em>Best-seller de la cuisine réunionnaise, Du bonheur dans votre assiette</em> s'est vendu à 40 000 exemplaires.`;
     
     // Utiliser directement la description formatée
     return renderDescription(customDescription);
