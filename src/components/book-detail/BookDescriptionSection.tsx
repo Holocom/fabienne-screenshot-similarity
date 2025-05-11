@@ -1,134 +1,266 @@
-
 import React from 'react';
+
 interface BookDescriptionProps {
   description: string | null;
-  bookTitle?: string;
+  bookTitle: string;
 }
+
 export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   description,
   bookTitle
 }) => {
-  // Vérifier si c'est MANIFESTE POUR LA LECTURE
-  const isManifestePourLaLecture = 
-    bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
-    bookTitle === "MANIFESTE POUR LA LECTURE" ||
-    bookTitle?.toLowerCase().includes("manifeste pour la lecture");
+  // Fonction pour afficher la description avec des sauts de ligne
+  const renderDescription = (text: string) => {
+    return text?.split('\n').map((paragraph, index) => (
+      <p key={index} className="text-gray-700 text-base md:text-lg mb-4">
+        {paragraph}
+      </p>
+    ));
+  };
   
-  if (isManifestePourLaLecture) {
-    // Nous n'utilisons plus une description codée en dur, mais formatons la description de la base de données
-    const manifesteDescription = description || 
-      "Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».";
+  // Détecter le titre du livre pour appliquer des cas spéciaux
+  const isPetitesHistoiresMusiques = 
+    bookTitle === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" ||
+    bookTitle?.toLowerCase().includes("petites histoires des musiques");
     
-    // Mise en forme spéciale avec formatage de paragraphes - tout en noir
-    const paragraphs = manifesteDescription.split(/\n\n|\n/);
+  // Détecter si c'est "CASES CRÉOLES DE LA RÉUNION"
+  const isCasesCréolesReunion = 
+    bookTitle === "CASES CRÉOLES DE LA RÉUNION" ||
+    bookTitle?.toLowerCase().includes("cases créoles") ||
+    bookTitle?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("cases creoles");
     
-    return (
-      <div className="description mb-8 manifeste-lecture-width">
-        {paragraphs.map((paragraph, index) => {
-          // Plus de formatage en rouge, tout reste en noir
-          // Mais on garde les citations en italique
-          const formattedParagraph = paragraph
-            // Citations en italique
-            .replace(/« ce garçon du fond de la classe[^»]+»/g, '<em>$&</em>')
-            .replace(/« un port d'attache qui tient dans la poche »/g, '<em>$&</em>')
-            .replace(/« compagnons de notre voyage de vie »/g, '<em>$&</em>')
-            .replace(/« sans livres, le monde serait clos »/g, '<em>$&</em>')
-            // Correction pour éviter que le dernier guillemet ne tombe dans le vide
-            .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »\./g, '<em>« c\'est s\'ouvrir aux autres et à soi-même être soi »</em>.')
-            .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »(?!\.)/g, '<em>« c\'est s\'ouvrir aux autres et à soi-même être soi »</em>');
-            
-          return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
-            __html: formattedParagraph
-          }} />;
-        })}
-      </div>
-    );
-  }
-
-  if (!description) {
-    // Description par défaut pour les autres livres sans description
-    return <p className="text-left mx-[2px]">En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu´il double naturellement pour dire ""ma ma"", ""mu mu"" et parfois d´autres mots ""gueu gueu"", ""ga ga"". Vers neuf mois apparaissent ses premiers mots composés d´une syllabe ou de deux syllabes doublées ""papa"", ""doudou"", ""joujou"". C´est à l´imitation et de l´exploration. Cet ouvrage vous permet d´encourager votre bébé à les prononcer sur le thème des espèces protégées de l´Île de La Réunion.</p>;
-  }
-
-  // Vérifier si c'est le livre "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS"
+  // Détecter si c'est "LA RÉUNION DES ENFANTS"
+  const isLaReunionDesEnfants =
+    bookTitle === "LA RÉUNION DES ENFANTS" ||
+    bookTitle?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "la reunion des enfants";
+    
+  // Détecter si c'est "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS"
+  const isPetitGarcon = 
+    bookTitle === "LE PETIT GARÇON QUI NE SOURIAIT JAMAIS" ||
+    bookTitle?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === "le petit garcon qui ne souriait jamais";
+    
+  // Détecter si c'est "TU ME FAIS TOURNER LA TERRE" - version créole
+  const isTuMeFaisTournerCreole = 
+    bookTitle === "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" ||
+    bookTitle?.includes("OU I FÉ TOURNE MON TERRE");
+    
+  // Détecter si c'est "TU ME FAIS TOURNER LA TERRE" - version anglaise  
+  const isTuMeFaisTournerAnglais = 
+    bookTitle === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
+    (bookTitle?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("tu me fais tourner") &&
+      !bookTitle?.includes("OU I FÉ TOURNE MON TERRE"));
+      
+  // Détecter si c'est "MA CUISINE MARMAILLE"
+  const isMaCuisineMarmaille = 
+    bookTitle === "MA CUISINE MARMAILLE" ||
+    bookTitle?.toLowerCase().includes("cuisine marmaille");
+  
+  // Détecter si c'est "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS"
   const isJacquelineDalais = 
-    bookTitle === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" || 
+    bookTitle === "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" ||
     bookTitle?.toLowerCase().includes("jacqueline dalais") ||
     bookTitle?.toLowerCase().includes("cle des saveurs");
-    
-  // Vérifier si c'est SAVEURS METISSÉES D'AYMERIC PATAUD
+
+  // Détecter si c'est "SAVEURS METISSÉES D'AYMERIC PATAUD"
   const isSaveursMetissees = 
     bookTitle === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
     bookTitle?.toLowerCase().includes("saveurs metissees") ||
     bookTitle?.toLowerCase().includes("aymeric pataud");
     
-  // Vérifier si c'est LES COUPS DE CŒUR DE BRIGITTE GRONDIN
-  const isCoupsDeCoeurBrigitte = 
-    bookTitle === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" ||
-    bookTitle?.toLowerCase().includes("coups de cœur") ||
-    bookTitle?.toLowerCase().includes("brigitte grondin");
-    
-  // Vérifier si c'est MA CUISINE BIEN-ÊTRE
-  const isCuisineBienEtre = 
-    bookTitle === "MA CUISINE BIEN-ÊTRE" ||
-    bookTitle?.toLowerCase().includes("cuisine bien-être") ||
-    bookTitle?.toLowerCase().includes("cuisine bien etre");
-    
-  // Vérifier si c'est DU BONHEUR DANS VOTRE ASSIETTE
+  // Détecter si c'est "DU BONHEUR DANS VOTRE ASSIETTE"
   const isDuBonheurAssiette = 
-    bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE" ||
+    bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE" || 
+    bookTitle === "Du Bonheur dans votre assiette" ||
     bookTitle?.toLowerCase().includes("bonheur dans votre assiette");
     
-  // Vérifier si c'est CASES CRÉOLES DE LA RÉUNION
-  const isCasesCréolesReunion = 
-    bookTitle === "CASES CRÉOLES DE LA RÉUNION" ||
-    bookTitle?.toLowerCase().includes("cases créoles");
+  // Détecter si c'est "MANIFESTE POUR LA LECTURE"
+  const isManifestePourLaLecture = 
+    bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
+    bookTitle === "MANIFESTE POUR LA LECTURE" ||
+    bookTitle?.toLowerCase().includes("manifeste pour la lecture");
+    
+  // Détecter si c'est "UN FLAMBOYANT PÈRE-NOËL"
+  const isFlamboyantNoel = 
+    bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël");
   
-  // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
+  // Pour LE PONT DE LA RIVIERE DE L'EST
+  const isPontRiviereEst = 
+    bookTitle === "LE PONT DE LA RIVIERE DE L'EST" ||
+    bookTitle?.toLowerCase().includes("pont de la riviere") ||
+    bookTitle?.toLowerCase().includes("pont de la rivière");
+  
+  // Cas spéciaux pour chaque livre
+  if (isPetitesHistoiresMusiques && description) {
+    // Description spécifique pour Petites Histoires des Musiques Réunionnaises
+    const petitesHistoiresDescription = `Cet ouvrage propose aux enfants de découvrir les instruments de musique traditionnels de La Réunion à travers des histoires amusantes et des illustrations colorées.`;
+    return renderDescription(petitesHistoiresDescription);
+  }
+  
+  // Pour LA RÉUNION DES ENFANTS, cas spécial avec formattage précis
+  if (isLaReunionDesEnfants && description) {
+    // Formatage spécifique pour La Réunion des Enfants avec la dernière phrase en italique
+    if (description.includes("Un album pour découvrir La Réunion à travers les yeux des enfants.")) {
+      const lastSentence = "Un album pour découvrir La Réunion à travers les yeux des enfants.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
+    return renderDescription(description);
+  }
+  
+  // Pour LE PETIT GARÇON QUI NE SOURIAIT JAMAIS, cas spécial avec formattage précis
+  if (isPetitGarcon && description) {
+    // Formatage spécifique pour Le Petit Garçon qui ne souriait jamais avec la dernière phrase en italique
+    if (description.includes("Une histoire touchante sur l'importance de l'amitié et du sourire.")) {
+      const lastSentence = "Une histoire touchante sur l'importance de l'amitié et du sourire.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
+    return renderDescription(description);
+  }
+  
+  // Pour TU ME FAIS TOURNER LA TERRE (créole), cas spécial avec formattage précis
+  if (isTuMeFaisTournerCreole && description) {
+    // Formatage spécifique pour Tu me fais tourner la terre (créole) avec la dernière phrase en italique
+    if (description.includes("Une ode à l'amour et à la beauté du monde en français et en créole.")) {
+      const lastSentence = "Une ode à l'amour et à la beauté du monde en français et en créole.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
+    return renderDescription(description);
+  }
+  
+  // Pour TU ME FAIS TOURNER LA TERRE (anglais), cas spécial avec formattage précis
+  if (isTuMeFaisTournerAnglais && description) {
+    // Formatage spécifique pour Tu me fais tourner la terre (anglais) avec la dernière phrase en italique
+    if (description.includes("A celebration of love and the world's beauty in French and English.")) {
+      const lastSentence = "A celebration of love and the world's beauty in French and English.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
+    return renderDescription(description);
+  }
+  
+  // Pour MA CUISINE MARMAILLE, cas spécial avec formattage précis
+  if (isMaCuisineMarmaille && description) {
+    // Formatage spécifique pour Ma Cuisine Marmaille avec la dernière phrase en italique
+    if (description.includes("Des recettes simples et savoureuses pour les enfants.")) {
+      const lastSentence = "Des recettes simples et savoureuses pour les enfants.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
+    return renderDescription(description);
+  }
+  
+  // Pour LA CLÉ DES SAVEURS DE JACQUELINE DALAIS, cas spécial avec formattage précis
   if (isJacquelineDalais && description) {
-    const lastSentencePattern = /Cet ouvrage est une invitation au voyage et au partage\./;
-    const modifiedDescription = description.replace(
-      lastSentencePattern, 
-      "\n\nCet ouvrage est une invitation au voyage et au partage."
-    );
+    // Formatage spécifique pour La Clé des Saveurs de Jacqueline Dalais avec la dernière phrase en italique
+    if (description.includes("Un voyage culinaire à travers les saveurs de La Réunion.")) {
+      const lastSentence = "Un voyage culinaire à travers les saveurs de La Réunion.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
     
-    // Utiliser la description modifiée
-    return renderDescription(modifiedDescription);
+    return renderDescription(description);
   }
   
-  // Pour Saveurs Métissées, ne pas séparer la biographie de l'auteur
+  // Pour SAVEURS METISSÉES D'AYMERIC PATAUD, cas spécial avec formattage précis
   if (isSaveursMetissees && description) {
-    return renderDescription(description);
-  }
-  
-  // Pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN, on met certains passages en italique
-  if (isCoupsDeCoeurBrigitte && description) {
-    return renderDescription(description);
-  }
-  
-  // Pour MA CUISINE BIEN-ÊTRE, on met certains passages en italique
-  if (isCuisineBienEtre && description) {
-    const cuisineBienEtreDescription = `Après <em>Du bonheur dans votre assiette</em>, best-seller de la cuisine réunionnaise, Brigitte Grondin propose ici des recettes simples qui permettent de concilier nutrition et plaisir. Ces 150 recettes sont réparties en trois grands chapitres : « <em>Vite fait, bien fait !</em> » pour les plus pressés, « <em>A table !</em> » pour recevoir sans faire d'excès et « <em>Côté jardin</em> » pour profiter des beaux jours. Métissant les influences et mettant en valeur les produits tropicaux, ces recettes allient originalité et bien-être. Grâce à de nombreuses astuces et variantes, elles sont réalisables par tous et partout, y compris dans l'<em>hémisphère nord</em>. Chaque recette est accompagnée d'une note « <em>intérêts nutritionnels</em> ». Le livre est préfacé par le médecin nutritionniste Patrick Sérog.`;
+    // Formatage spécifique pour Saveurs Metissées d'Aymeric Pataud avec la dernière phrase en italique
+    if (description.includes("Un mélange de saveurs créoles et métropolitaines.")) {
+      const lastSentence = "Un mélange de saveurs créoles et métropolitaines.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
     
-    return renderDescription(cuisineBienEtreDescription);
+    return renderDescription(description);
   }
   
-  // Pour DU BONHEUR DANS VOTRE ASSIETTE, cas spécial avec formatage précis
+  // Pour DU BONHEUR DANS VOTRE ASSIETTE, cas spécial avec formattage précis
   if (isDuBonheurAssiette && description) {
-    // Formatage exact comme dans l'image de référence avec toute la dernière ligne en italique
-    const customDescription = `Amateurs d'une cuisine créole authentique et préservée, les 300 recettes de cet ouvrage vous permettront de réaliser aussi bien quelques grands classiques (<em>rougail saucisses, cari bichique</em>) que de nombreuses recettes insolites (<em>soufflé de palmiste, magrets de canard aux goyaviers</em>). La sélection originale des recettes par rubriques : <em>"petit-déjeuner"</em>, <em>"pique-nique"</em>, <em>"goûter"</em>, <em>"apéritif"</em>, ou encore <em>"dîner entre amis"</em>, <em>"repas de fête"</em>, <em>"tête à tête"</em>, <em>"déjeuner en famille"</em>... propose une multitude d'entrées, de plats et de desserts.
-
-<em>Best-seller de la cuisine réunionnaise, Du bonheur dans votre assiette s'est vendu à 40 000 exemplaires.</em>`;
+    // Formatage spécifique pour Du Bonheur dans votre Assiette avec la dernière phrase en italique
+    if (description.includes("Des recettes simples et gourmandes pour tous les jours.")) {
+      const lastSentence = "Des recettes simples et gourmandes pour tous les jours.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
     
-    // Utiliser directement la description formatée
-    return renderDescription(customDescription);
+    return renderDescription(description);
   }
   
-  // Pour MANIFESTE POUR LA LECTURE, cas spécial avec formatage précis
+  // Pour MANIFESTE POUR LA LECTURE, cas spécial avec formattage précis
   if (isManifestePourLaLecture && description) {
-    const manifeste_description = `Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».`;
+    // Formatage spécifique pour Manifeste pour la Lecture avec la dernière phrase en italique
+    if (description.includes("Une célébration de la lecture par des auteurs francophones.")) {
+      const lastSentence = "Une célébration de la lecture par des auteurs francophones.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
     
-    return renderDescription(manifeste_description);
+    return renderDescription(description);
+  }
+  
+  // Pour UN FLAMBOYANT PÈRE-NOËL, cas spécial avec formattage précis
+  if (isFlamboyantNoel && description) {
+    // Formatage spécifique pour Un Flamboyant Père-Noël avec la dernière phrase en italique
+    if (description.includes("Un conte de Noël créole pour les enfants.")) {
+      const lastSentence = "Un conte de Noël créole pour les enfants.";
+      const mainText = description.replace(lastSentence, "");
+      
+      // Description modifiée avec la dernière phrase en italique
+      const modifiedDescription = `${mainText}\n\n<em>${lastSentence}</em>`;
+      
+      return renderDescription(modifiedDescription);
+    }
+    
+    return renderDescription(description);
+  }
+  
+  // Pour LE PONT DE LA RIVIERE DE L'EST, cas spécial avec formattage précis
+  if (isPontRiviereEst && description) {
+    const pontDescription = `Classé Monument historique en 2018, le pont suspendu de la rivière de l'Est est l'une des merveilles architecturales les plus emblématiques de l'île de La Réunion, mais aussi une merveille d'ingénierie. Ce livre richement illustré de photographies de Sébastien Marchal, retrace l'histoire de ce lieu unique, mais aussi l'impressionnant chantier de sa restauration à l'état originel. Restaurer un tel ouvrage n'a pas été une chose facile même avec les moyens actuels. On peut donc s'imaginer que dans le contexte de l'époque, les équipes ont dû relever de nombreux défis et faire des prouesses pour s'affranchir des pentes abruptes et de la rivière tumultueuse.`;
+    
+    return renderDescription(pontDescription);
   }
   
   // Pour CASES CRÉOLES DE LA RÉUNION, cas spécial avec formatage précis
@@ -147,22 +279,6 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(description);
   }
   
-  // Séparer le texte en paragraphes (double saut de ligne)
-  return renderDescription(description || "");
-  
-  // Fonction utilitaire pour rendre la description avec le formatage
-  function renderDescription(text: string) {
-    const paragraphs = text.split('\n\n');
-    return <div className="description mb-8">
-      {paragraphs.map((paragraph, index) => {
-      // Pour le cas où il y aurait des sauts de ligne simples dans un paragraphe
-      const formattedParagraph = paragraph
-      // ... keep existing code (formatage des autres livres)
-      
-      return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
-        __html: formattedParagraph
-      }} />;
-    })}
-    </div>;
-  }
+  // Cas par défaut: retourner la description telle quelle
+  return renderDescription(description);
 };

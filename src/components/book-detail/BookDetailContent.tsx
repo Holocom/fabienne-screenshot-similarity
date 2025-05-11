@@ -76,6 +76,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "CASES CRÉOLES DE LA RÉUNION" || 
     book?.id === "abe5d8a2-77bb-42b0-8c3e-250a9551c9ea";
   
+  // Détecter si c'est "LE PONT DE LA RIVIERE DE L'EST"
+  const isPontRiviereEst = 
+    book?.title === "LE PONT DE LA RIVIERE DE L'EST" ||
+    book?.id === "1c0b1991-3455-4727-bc72-7a605c2ef62f";
+  
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
@@ -277,7 +282,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isDuBonheurAssiette ||
     isManifestePourLaLecture ||
     isPetitesHistoiresMusiques ||
-    isCasesCréolesReunion;
+    isCasesCréolesReunion ||
+    isPontRiviereEst;
   
   return (
     <>

@@ -108,7 +108,7 @@ const BookDetailPage = () => {
   const isLoading = isLoadingBook || isLoadingDetails || isLoadingPressLinks || 
                     isLoadingAwards || isLoadingDistinctions || isLoadingEditions;
   
-  // Vérifier spécifiquement si c'est le livre "La Réunion des religions"
+  // Vérifier spécifiquement si c'est "La Réunion des religions"
   const isLaReunionDesReligions = bookId === "0569acb0-8946-4f62-acce-881604d3146a";
   
   // Vérifier si c'est "Les religions à l'ile Maurice"
@@ -146,6 +146,9 @@ const BookDetailPage = () => {
   
   // Ajouter le check pour CASES CRÉOLES DE LA RÉUNION
   const isCasesCréolesReunion = bookId === "abe5d8a2-77bb-42b0-8c3e-250a9551c9ea";
+  
+  // Ajouter le check pour LE PONT DE LA RIVIERE DE L'EST
+  const isPontRiviereEst = bookId === "1c0b1991-3455-4727-bc72-7a605c2ef62f";
   
   if (isPetitesHistoiresMusiques) {
     console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
@@ -186,6 +189,9 @@ const BookDetailPage = () => {
   else if (isCasesCréolesReunion) {
     console.log("Livre identifié comme 'CASES CRÉOLES DE LA RÉUNION' par son ID");
   }
+  else if (isPontRiviereEst) {
+    console.log("Livre identifié comme 'LE PONT DE LA RIVIERE DE L'EST' par son ID");
+  }
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
@@ -212,6 +218,7 @@ const BookDetailPage = () => {
                        isLesReligionsIleMaurice ? "Les religions à l'ile Maurice" :
                        isPetitesHistoiresMusiques ? "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" :
                        isCasesCréolesReunion ? "CASES CRÉOLES DE LA RÉUNION" :
+                       isPontRiviereEst ? "LE PONT DE LA RIVIERE DE L'EST" :
                        book.title
               }}
               bookDetails={bookDetails || {

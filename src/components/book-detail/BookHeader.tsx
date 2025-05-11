@@ -108,6 +108,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().includes("cases créoles") ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("cases creoles");
   
+  // Cas spécial pour LE PONT DE LA RIVIERE DE L'EST
+  const isPontRiviereEst = 
+    title === "LE PONT DE LA RIVIERE DE L'EST" ||
+    title?.toLowerCase().includes("pont de la riviere") ||
+    title?.toLowerCase().includes("pont de la rivière");
+  
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
   
@@ -245,6 +251,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782919300686
+            </p>
+          </>
+        ) : isPontRiviereEst ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Beau livre - Photographies de Sébastien Marchal – Conception graphique Pascal Knopfel – 4 Épices – 2023 - 224 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782952720496
             </p>
           </>
         ) : isCasesCréolesReunion ? (
