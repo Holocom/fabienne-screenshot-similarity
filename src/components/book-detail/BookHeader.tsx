@@ -386,13 +386,6 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             {/* ISBN supprimé pour ENTRE JARDIN ET COUR */}
           </>
-        ) : isViveLeChangement ? (
-          <>
-            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions — 2010 — 144 pages
-            </p>
-            {/* ISBN supprimé pour VIVE LE CHANGEMENT D'AIR */}
-          </>
         ) : (
           <>
             {/* Using red color for editorial text */}

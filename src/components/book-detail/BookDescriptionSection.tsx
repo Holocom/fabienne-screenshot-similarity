@@ -243,7 +243,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(description);
   }
   
-  // Pour MANIFESTE POUR LA LECTURE, cas spécial avec formattage précis
+  // Pour MANIFESTE POUR LA LECTURE, cas sp��cial avec formattage précis
   if (isManifestePourLaLecture && description) {
     // Formatage spécifique pour Manifeste pour la Lecture avec la dernière phrase en italique
     if (description.includes("Une célébration de la lecture par des auteurs francophones.")) {
