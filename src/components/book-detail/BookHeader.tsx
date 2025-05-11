@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -404,7 +405,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             {!isCommandeCategory && (
               <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-                ISBN 9789990337938
+                ISBN 9782952720441
               </p>
             )}
           </>
