@@ -66,30 +66,15 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(description);
   }
   
-  // Pour DU BONHEUR DANS VOTRE ASSIETTE, formater correctement la description avec italiques
+  // Pour DU BONHEUR DANS VOTRE ASSIETTE, cas spécial avec formatage précis
   if (isDuBonheurAssiette && description) {
-    // Formater spécifiquement pour ce livre avec italiques pour les passages spécifiques
-    const formattedDescription = description
-      .replace(/(rougail saucisses, cari bichique)/g, '<em>$1</em>')
-      .replace(/(soufflé de palmiste, magrets de canard aux goyaviers)/g, '<em>$1</em>')
-      .replace(/"petit-déjeuner"/g, '<em>"petit-déjeuner"</em>')
-      .replace(/"pique-nique"/g, '<em>"pique-nique"</em>')
-      .replace(/"goûter"/g, '<em>"goûter"</em>')
-      .replace(/"apéritif"/g, '<em>"apéritif"</em>')
-      .replace(/"dîner entre amis"/g, '<em>"dîner entre amis"</em>')
-      .replace(/"repas de fête"/g, '<em>"repas de fête"</em>')
-      .replace(/"tête à tête"/g, '<em>"tête à tête"</em>')
-      .replace(/"déjeuner en famille"/g, '<em>"déjeuner en famille"</em>')
-      .replace(/Best-seller de la cuisine réunionnaise/g, '<em>Best-seller de la cuisine réunionnaise</em>')
-      .replace(/Du bonheur dans votre assiette/g, '<em>Du bonheur dans votre assiette</em>');
+    // Formatage exact comme dans l'image de référence
+    const customDescription = `Amateurs d'une cuisine créole authentique et préservée, les 300 recettes de cet ouvrage vous permettront de réaliser aussi bien quelques grands classiques (<em>rougail saucisses, cari bichique</em>) que de nombreuses recettes insolites (<em>soufflé de palmiste, magrets de canard aux goyaviers</em>). La sélection originale des recettes par rubriques : <em>"petit-déjeuner"</em>, <em>"pique-nique"</em>, <em>"goûter"</em>, <em>"apéritif"</em>, ou encore <em>"dîner entre amis"</em>, <em>"repas de fête"</em>, <em>"tête à tête"</em>, <em>"déjeuner en famille"</em>... propose une multitude d'entrées, de plats et de desserts.
+
+<em>Best-seller de la cuisine réunionnaise</em>, <em>Du bonheur dans votre assiette</em> s'est vendu à 40 000 exemplaires.`;
     
-    // Ajouter un saut de ligne avant "Best-seller de la cuisine réunionnaise"
-    const withLineBreak = formattedDescription.replace(
-      /(desserts\.)\s+(Best-seller)/,
-      '$1\n\n$2'
-    );
-    
-    return renderDescription(withLineBreak);
+    // Utiliser directement la description formatée
+    return renderDescription(customDescription);
   }
 
   // Séparer le texte en paragraphes (double saut de ligne)
@@ -124,9 +109,16 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       // Mettre en italique "Saveurs métissées" pour SAVEURS METISSÉES D'AYMERIC PATAUD
       .replace(/Saveurs métissées(?!<\/em>)/g, '<em>Saveurs métissées</em>')
       // Mettre en évidence certains mots pour Z'OISEAUX RARES
-      .replace(/"ma ma"/g, '<strong>"ma ma"</strong>').replace(/"mu mu"/g, '<strong>"mu mu"</strong>').replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>').replace(/"ga ga"/g, '<strong>"ga ga"</strong>').replace(/"papa"/g, '<strong>"papa"</strong>').replace(/"doudou"/g, '<strong>"doudou"</strong>').replace(/"joujou"/g, '<strong>"joujou"</strong>')
+      .replace(/"ma ma"/g, '<strong>"ma ma"</strong>')
+      .replace(/"mu mu"/g, '<strong>"mu mu"</strong>')
+      .replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>')
+      .replace(/"ga ga"/g, '<strong>"ga ga"</strong>')
+      .replace(/"papa"/g, '<strong>"papa"</strong>')
+      .replace(/"doudou"/g, '<strong>"doudou"</strong>')
+      .replace(/"joujou"/g, '<strong>"joujou"</strong>')
       // Gérer les doubles guillemets français qui peuvent venir du copier-coller
-      .replace(/´/g, "'").replace(/""/g, '"')
+      .replace(/´/g, "'")
+      .replace(/""/g, '"')
       // Mettre en italique les titres de livres pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
       .replace(/Du bonheur dans votre assiette(?!<\/em>)/g, '<em>Du bonheur dans votre assiette</em>')
       .replace(/Ma cuisine bien-être(?!<\/em>)/g, '<em>Ma cuisine bien-être</em>')
@@ -140,19 +132,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       .replace(/« A table ! »/g, '<em>« A table ! »</em>')
       .replace(/« Côté jardin »/g, '<em>« Côté jardin »</em>')
       .replace(/« intérêts nutritionnels »/g, '<em>« intérêts nutritionnels »</em>')
-      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>')
-      // Formatage supplémentaire spécifique pour DU BONHEUR DANS VOTRE ASSIETTE
-      .replace(/(rougail saucisses, cari bichique)(?!<\/em>)/g, '<em>$1</em>')
-      .replace(/(soufflé de palmiste, magrets de canard aux goyaviers)(?!<\/em>)/g, '<em>$1</em>')
-      .replace(/"petit-déjeuner"(?!<\/em>)/g, '<em>"petit-déjeuner"</em>')
-      .replace(/"pique-nique"(?!<\/em>)/g, '<em>"pique-nique"</em>')
-      .replace(/"goûter"(?!<\/em>)/g, '<em>"goûter"</em>')
-      .replace(/"apéritif"(?!<\/em>)/g, '<em>"apéritif"</em>')
-      .replace(/"dîner entre amis"(?!<\/em>)/g, '<em>"dîner entre amis"</em>')
-      .replace(/"repas de fête"(?!<\/em>)/g, '<em>"repas de fête"</em>')
-      .replace(/"tête à tête"(?!<\/em>)/g, '<em>"tête à tête"</em>')
-      .replace(/"déjeuner en famille"(?!<\/em>)/g, '<em>"déjeuner en famille"</em>')
-      .replace(/Best-seller de la cuisine réunionnaise(?!<\/em>)/g, '<em>Best-seller de la cuisine réunionnaise</em>');
+      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>');
       
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
