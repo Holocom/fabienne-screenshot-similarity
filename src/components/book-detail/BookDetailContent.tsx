@@ -81,6 +81,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "LE PONT DE LA RIVIERE DE L'EST" ||
     book?.id === "1c0b1991-3455-4727-bc72-7a605c2ef62f";
   
+  // Détecter si c'est "SEMADER, 30 REGARDS SUR LES 30 ANS"
+  const isSemader30Regards = 
+    book?.title === "SEMADER, 30 REGARDS SUR LES 30 ANS" ||
+    book?.id === "c5896f91-0f7c-431c-9752-00ff7fb803c1";
+  
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
@@ -231,6 +236,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est SEMADER, 30 REGARDS SUR LES 30 ANS
+  if (isSemader30Regards) {
+    console.log(`Content détecté SEMADER, 30 REGARDS SUR LES 30 ANS avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -286,7 +297,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isManifestePourLaLecture ||
     isPetitesHistoiresMusiques ||
     isCasesCréolesReunion ||
-    isPontRiviereEst;
+    isPontRiviereEst ||
+    isSemader30Regards;
   
   return (
     <>

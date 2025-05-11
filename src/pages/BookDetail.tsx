@@ -150,6 +150,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour LE PONT DE LA RIVIERE DE L'EST
   const isPontRiviereEst = bookId === "1c0b1991-3455-4727-bc72-7a605c2ef62f";
   
+  // Ajouter le check pour SEMADER, 30 REGARDS SUR LES 30 ANS
+  const isSemader30Regards = bookId === "c5896f91-0f7c-431c-9752-00ff7fb803c1";
+  
   if (isPetitesHistoiresMusiques) {
     console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
   } 
@@ -192,6 +195,9 @@ const BookDetailPage = () => {
   else if (isPontRiviereEst) {
     console.log("Livre identifié comme 'LE PONT DE LA RIVIERE DE L'EST' par son ID");
   }
+  else if (isSemader30Regards) {
+    console.log("Livre identifié comme 'SEMADER, 30 REGARDS SUR LES 30 ANS' par son ID");
+  }
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
@@ -219,6 +225,7 @@ const BookDetailPage = () => {
                        isPetitesHistoiresMusiques ? "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" :
                        isCasesCréolesReunion ? "CASES CRÉOLES DE LA RÉUNION" :
                        isPontRiviereEst ? "LE PONT DE LA RIVIERE DE L'EST" :
+                       isSemader30Regards ? "SEMADER, 30 REGARDS SUR LES 30 ANS" :
                        book.title
               }}
               bookDetails={bookDetails || {

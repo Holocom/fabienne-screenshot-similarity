@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface BookDescriptionProps {
@@ -82,13 +81,19 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     
   // Détecter si c'est "UN FLAMBOYANT PÈRE-NOËL"
   const isFlamboyantNoel = 
-    bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël");
+    bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("no��l");
   
   // Pour LE PONT DE LA RIVIERE DE L'EST
   const isPontRiviereEst = 
     bookTitle === "LE PONT DE LA RIVIERE DE L'EST" ||
     bookTitle?.toLowerCase().includes("pont de la riviere") ||
     bookTitle?.toLowerCase().includes("pont de la rivière");
+  
+  // Détecter si c'est "SEMADER, 30 REGARDS SUR LES 30 ANS"
+  const isSemader30Regards = 
+    bookTitle === "SEMADER, 30 REGARDS SUR LES 30 ANS" ||
+    bookTitle?.toLowerCase().includes("semader") && 
+    bookTitle?.toLowerCase().includes("30 regards");
   
   // Cas spéciaux pour chaque livre
   if (isPetitesHistoiresMusiques && description) {
@@ -286,7 +291,13 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(description);
   }
   
+  // Pour SEMADER, 30 REGARDS SUR LES 30 ANS, cas spécial avec formattage précis
+  if (isSemader30Regards && description) {
+    // Formatage spécifique pour le livre SEMADER
+    const formattedDescription = description;
+    return renderDescription(formattedDescription);
+  }
+  
   // Cas par défaut: retourner la description telle quelle
   return renderDescription(description);
 };
-

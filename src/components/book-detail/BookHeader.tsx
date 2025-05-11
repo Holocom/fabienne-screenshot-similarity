@@ -117,6 +117,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().includes("pont de la riviere") ||
     title?.toLowerCase().includes("pont de la rivière");
     
+  // Cas spécial pour SEMADER, 30 REGARDS SUR LES 30 ANS
+  const isSemader30Regards =
+    title === "SEMADER, 30 REGARDS SUR LES 30 ANS" ||
+    title?.toLowerCase().includes("semader") && 
+    title?.toLowerCase().includes("30 regards");
+  
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
   
@@ -308,7 +314,6 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             )}
           </>
         ) : isPetitesHistoiresMusiques ? (
-          // Nouveau cas spécial pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Sandrine Barège – Fabienne Jonca – Conception graphique Olivier Bard - 4 Épices – 2012 – 72 pages
@@ -316,6 +321,17 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             {!isCommandeCategory && (
               <p className="text-[#ea384c] text-lg md:text-xl font-medium">
                 ISBN : 9782952720441
+              </p>
+            )}
+          </>
+        ) : isSemader30Regards ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Témoignages - Photographies de Edgar Marsy et fonds Semader – Conception 21° Sud – 2015 - 72 pages
+            </p>
+            {!isCommandeCategory && (
+              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+                ISBN : 9782955151105
               </p>
             )}
           </>
