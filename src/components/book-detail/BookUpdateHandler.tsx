@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -430,6 +431,39 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       }
     }
     
+    // Update for "MA CUISINE BIEN-ÊTRE"
+    else if (book.title === "MA CUISINE BIEN-ÊTRE" || book.id === "c1234567-1234-1234-1234-123456789abc") {
+      try {
+        console.log("Mise à jour des informations de MA CUISINE BIEN-ÊTRE");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "La cuisine de Brigitte Grondin, une alchimie créative et savoureuse. Au-delà du plaisir gustatif, la cuisine recèle un potentiel préventif et thérapeutique. En mêlant avec simplicité et efficacité la grande tradition médicinale indienne et les saveurs de La Réunion, cuisinière autodidacte Brigitte Grondin a élaboré des recettes qui évitent les surcharges caloriques, les excès de gras, de sucre et de sel, tout en apportant couleurs et saveurs dans votre assiette. Un concept de cuisine familiale métissée, qui prend en compte l'intégrité des aliments et s'inspire de la sagesse des traditions culinaires de l'Inde ayurvédique. Bien manger peut ainsi devenir une priorité quotidienne, Brigitte Grondin vous en donne les clefs dans ce livre.";
+        
+        const newDetails = {
+          publisher: "Epsilon Éditions – 4 Épices",
+          illustrator: "Non spécifié", 
+          year: "2008",
+          pages: "192",
+          isbn: "9782912949288"
+        };
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: [],
+          awards: [],
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de MA CUISINE BIEN-ÊTRE:", error);
+        toast.error("Erreur lors de la mise à jour de MA CUISINE BIEN-ÊTRE");
+        return false;
+      }
+    }
+    
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
   
@@ -502,6 +536,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       forceUpdate();
     }
     
+    // Force la mise à jour pour MA CUISINE BIEN-ÊTRE
+    if (book.id === "c1234567-1234-1234-1234-123456789abc" || 
+        book.title === "MA CUISINE BIEN-ÊTRE") {
+      console.log("Force la mise à jour de MA CUISINE BIEN-ÊTRE");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
     // Tenter de mettre à jour le livre avec les informations spécifiques
     const wasUpdated = handleBookSpecificUpdates();
     
@@ -513,3 +555,4 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
 
   return null; // Ce composant ne rend rien, il gère uniquement les effets de bord
 };
+

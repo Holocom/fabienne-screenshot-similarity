@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -117,6 +118,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
   const isCoupsDeCoeurBrigitte = bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
   
+  // Ajouter le check pour MA CUISINE BIEN-ÊTRE
+  const isCuisineBienEtre = bookId === "c1234567-1234-1234-1234-123456789abc";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } 
@@ -140,6 +144,9 @@ const BookDetailPage = () => {
   }
   else if (isCoupsDeCoeurBrigitte) {
     console.log("Livre identifié comme 'LES COUPS DE CŒUR DE BRIGITTE GRONDIN' par son ID");
+  }
+  else if (isCuisineBienEtre) {
+    console.log("Livre identifié comme 'MA CUISINE BIEN-ÊTRE' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -171,6 +178,7 @@ const BookDetailPage = () => {
                        isJacquelineDalais ? "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" :
                        isSaveursMetissees ? "SAVEURS METISSÉES D'AYMERIC PATAUD" :
                        isCoupsDeCoeurBrigitte ? "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" :
+                       isCuisineBienEtre ? "MA CUISINE BIEN-ÊTRE" :
                        book.title
               }}
               bookDetails={bookDetails || {

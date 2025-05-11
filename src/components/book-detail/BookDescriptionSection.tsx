@@ -27,6 +27,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" ||
     bookTitle?.toLowerCase().includes("coups de cœur") ||
     bookTitle?.toLowerCase().includes("brigitte grondin");
+    
+  // Vérifier si c'est MA CUISINE BIEN-ÊTRE
+  const isCuisineBienEtre = 
+    bookTitle === "MA CUISINE BIEN-ÊTRE" ||
+    bookTitle?.toLowerCase().includes("cuisine bien-être") ||
+    bookTitle?.toLowerCase().includes("cuisine bien etre");
   
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
@@ -47,6 +53,11 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN, on met certains passages en italique
   if (isCoupsDeCoeurBrigitte && description) {
+    return renderDescription(description);
+  }
+  
+  // Pour MA CUISINE BIEN-ÊTRE, on met certains passages en italique
+  if (isCuisineBienEtre && description) {
     return renderDescription(description);
   }
 
@@ -89,7 +100,11 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       .replace(/Du bonheur dans votre assiette(?!<\/em>)/g, '<em>Du bonheur dans votre assiette</em>')
       .replace(/Ma cuisine bien-être(?!<\/em>)/g, '<em>Ma cuisine bien-être</em>')
       .replace(/"Coups de cœur"/g, '<em>"Coups de cœur"</em>')
-      .replace(/"hémisphère nord"/g, '<em>"hémisphère nord"</em>');
+      .replace(/"hémisphère nord"/g, '<em>"hémisphère nord"</em>')
+      // Ajout des mises en italique pour MA CUISINE BIEN-ÊTRE
+      .replace(/cuisine familiale métissée/g, '<em>cuisine familiale métissée</em>')
+      .replace(/sagesse des traditions culinaires/g, '<em>sagesse des traditions culinaires</em>')
+      .replace(/Inde ayurvédique/g, '<em>Inde ayurvédique</em>');
       
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
@@ -98,3 +113,4 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     </div>;
   }
 };
+
