@@ -130,8 +130,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const hasLineBreak = title?.includes('\n');
   
   // Déterminer si l'ISBN doit être affiché
-  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST ni pour les livres de catégorie COMMANDE
-  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isCommandeCategory;
+  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS, ni pour les livres de catégorie COMMANDE
+  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isSemader30Regards && !isCommandeCategory;
   
   return <>
       {hasLineBreak ? (
@@ -329,11 +329,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Témoignages - Photographies de Edgar Marsy et fonds Semader – Conception 21° Sud – 2015 - 72 pages
             </p>
-            {!isCommandeCategory && (
-              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-                ISBN : 9782955151105
-              </p>
-            )}
+            {/* ISBN supprimé pour SEMADER, 30 REGARDS SUR LES 30 ANS */}
           </>
         ) : (
           <>
