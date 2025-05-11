@@ -123,6 +123,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour DU BONHEUR DANS VOTRE ASSIETTE
   const isDuBonheurAssiette = bookId === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
   
+  // Ajouter le check pour MANIFESTE POUR LA LECTURE
+  const isManifestePourLaLecture = bookId === "dacd7eab-7fab-408e-88b0-21ef99efff5b";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } 
@@ -152,6 +155,9 @@ const BookDetailPage = () => {
   }
   else if (isDuBonheurAssiette) {
     console.log("Livre identifié comme 'DU BONHEUR DANS VOTRE ASSIETTE' par son ID");
+  }
+  else if (isManifestePourLaLecture) {
+    console.log("Livre identifié comme 'MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -185,6 +191,7 @@ const BookDetailPage = () => {
                        isCoupsDeCoeurBrigitte ? "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" :
                        isCuisineBienEtre ? "MA CUISINE BIEN-ÊTRE" :
                        isDuBonheurAssiette ? "DU BONHEUR DANS VOTRE ASSIETTE" :
+                       isManifestePourLaLecture ? "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" :
                        book.title
               }}
               bookDetails={bookDetails || {

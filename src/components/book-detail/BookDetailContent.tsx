@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -59,6 +60,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isDuBonheurAssiette = 
     book?.title === "DU BONHEUR DANS VOTRE ASSIETTE" ||
     book?.id === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
+    
+  // Détecter si c'est "MANIFESTE POUR LA LECTURE"
+  const isManifestePourLaLecture = 
+    book?.title === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
+    book?.title === "MANIFESTE POUR LA LECTURE" ||
+    book?.id === "dacd7eab-7fab-408e-88b0-21ef99efff5b";
 
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -201,6 +208,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est MANIFESTE POUR LA LECTURE
+  if (isManifestePourLaLecture) {
+    console.log(`Content détecté MANIFESTE POUR LA LECTURE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -252,7 +265,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isJacquelineDalais ||
     isSaveursMetissees ||
     isCoupsDeCoeurBrigitte ||
-    isDuBonheurAssiette;
+    isDuBonheurAssiette ||
+    isManifestePourLaLecture;
   
   return (
     <>

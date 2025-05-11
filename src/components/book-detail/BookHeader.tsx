@@ -90,6 +90,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "MA CUISINE BIEN-ÊTRE" ||
     title?.toLowerCase().includes("cuisine bien-être") ||
     title?.toLowerCase().includes("cuisine bien etre");
+    
+  // Cas spécial pour MANIFESTE POUR LA LECTURE
+  const isManifestePourLaLecture = 
+    title === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
+    title === "MANIFESTE POUR LA LECTURE" ||
+    title?.toLowerCase().includes("manifeste pour la lecture");
 
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
@@ -219,6 +225,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782912949332
+            </p>
+          </>
+        ) : isManifestePourLaLecture ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Ananda Devi – Véronique Tadjo – Nassuf Djailani – Jennifer Richard – Michèle Rakotoson – Blaise Ndala – Gaël Octavia – Watson Charles – Gaëlle Belem – Kenza Sefrioui – Johary Ravaloson – Fabienne Jonca – Shenaz Patel – Griotte – Amarnath Hosany – Véronique Massenot. Atelier Des Nomades – 2023 – 96 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782919300686
             </p>
           </>
         ) : (

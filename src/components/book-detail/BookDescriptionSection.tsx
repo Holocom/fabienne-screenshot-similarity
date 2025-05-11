@@ -38,6 +38,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   const isDuBonheurAssiette = 
     bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE" ||
     bookTitle?.toLowerCase().includes("bonheur dans votre assiette");
+    
+  // Vérifier si c'est MANIFESTE POUR LA LECTURE
+  const isManifestePourLaLecture = 
+    bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
+    bookTitle === "MANIFESTE POUR LA LECTURE" ||
+    bookTitle?.toLowerCase().includes("manifeste pour la lecture");
   
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
@@ -77,6 +83,13 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     
     // Utiliser directement la description formatée
     return renderDescription(customDescription);
+  }
+  
+  // Pour MANIFESTE POUR LA LECTURE, cas spécial avec formatage précis
+  if (isManifestePourLaLecture && description) {
+    const manifeste_description = `Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».`;
+    
+    return renderDescription(manifeste_description);
   }
 
   // Séparer le texte en paragraphes (double saut de ligne)
@@ -134,7 +147,13 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       .replace(/« A table ! »/g, '<em>« A table ! »</em>')
       .replace(/« Côté jardin »/g, '<em>« Côté jardin »</em>')
       .replace(/« intérêts nutritionnels »/g, '<em>« intérêts nutritionnels »</em>')
-      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>');
+      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>')
+      // Pour MANIFESTE POUR LA LECTURE, mettre les citations en italique
+      .replace(/« ce garçon du fond de la classe[^»]+»/g, '<em>$&</em>')
+      .replace(/« un port d'attache qui tient dans la poche »/g, '<em>$&</em>')
+      .replace(/« compagnons de notre voyage de vie »/g, '<em>$&</em>')
+      .replace(/« sans livres, le monde serait clos »/g, '<em>$&</em>')
+      .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »/g, '<em>$&</em>');
       
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
