@@ -429,6 +429,38 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         return false;
       }
     }
+    // Update for "MA CUISINE BIEN-ÊTRE"
+    else if (book.title === "MA CUISINE BIEN-ÊTRE" || book.id === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9") {
+      try {
+        console.log("Mise à jour des informations de MA CUISINE BIEN-ÊTRE");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Après Du bonheur dans votre assiette, best-seller de la cuisine réunionnaise, Brigitte Grondin propose ici des recettes simples qui permettent de concilier nutrition et plaisir. Ces 150 recettes sont réparties en trois grands chapitres : « Vite fait, bien fait ! » pour les plus pressés, « A table ! » pour recevoir sans faire d'excès et « Côté jardin » pour profiter des beaux jours. Métissant les influences et mettant en valeur les produits tropicaux, ces recettes allient originalité et bien-être. Grâce à de nombreuses astuces et variantes, elles sont réalisables par tous et partout, y compris dans l'hémisphère nord. Chaque recette est accompagnée d'une note « intérêts nutritionnels ». Le livre est préfacé par le médecin nutritionniste Patrick Sérog.";
+        
+        const newDetails = {
+          publisher: "Epsilon Éditions – 4 Épices",
+          illustrator: "Non spécifié", 
+          year: "2010",
+          pages: "144",
+          isbn: "9782912949332"
+        };
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: [],
+          awards: [],
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de MA CUISINE BIEN-ÊTRE:", error);
+        toast.error("Erreur lors de la mise à jour de MA CUISINE BIEN-ÊTRE");
+        return false;
+      }
+    }
     
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
@@ -487,29 +519,4 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     }
     
     // Force la mise à jour pour SAVEURS METISSÉES D'AYMERIC PATAUD
-    if (book.id === "3e02b6d4-3476-421f-802b-c9e2252cb553" || 
-        book.title === "SAVEURS METISSÉES D'AYMERIC PATAUD") {
-      console.log("Force la mise à jour de SAVEURS METISSÉES D'AYMERIC PATAUD");
-      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
-      forceUpdate();
-    }
-    
-    // Force la mise à jour pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
-    if (book.id === "ef2cb58b-988f-46e4-a5c8-4e133db97185" || 
-        book.title === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN") {
-      console.log("Force la mise à jour de LES COUPS DE CŒUR DE BRIGITTE GRONDIN");
-      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
-      forceUpdate();
-    }
-    
-    // Tenter de mettre à jour le livre avec les informations spécifiques
-    const wasUpdated = handleBookSpecificUpdates();
-    
-    if (!wasUpdated) {
-      hasUpdatedRef.current = true;
-      console.log("Aucune mise à jour spécifique disponible pour ce livre");
-    }
-  }, [book, bookId, isLoadingBook, isBookError, updateBookMutation.isPending, preventUpdates, forceUpdate]);
-
-  return null; // Ce composant ne rend rien, il gère uniquement les effets de bord
-};
+    if (book.id === "3e02b6d4-3476
