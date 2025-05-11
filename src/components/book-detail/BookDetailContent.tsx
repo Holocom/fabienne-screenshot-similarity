@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -33,6 +32,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isViveLeChangementAir = 
     book?.title === "VIVE LE CHANGEMENT D'AIR" ||
     book?.id === "821f80df-f6fe-4c27-a82a-23c639cc1bf7";
+  
+  // Détecter si c'est "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE"
+  const isEntreJardinEtCour = 
+    book?.title === "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE" ||
+    book?.id === "66b2d718-4c30-4c03-908c-d68837e089a1";
   
   // Détecter si c'est "UN FLAMBOYANT PÈRE-NOËL"
   const isFlamboyantNoel = 
@@ -277,6 +281,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est ENTRE JARDIN ET COUR
+  if (isEntreJardinEtCour) {
+    console.log(`Content détecté ENTRE JARDIN ET COUR avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
   // Récupérer la catégorie du livre à partir du book object
   const categorySlug = book.category_id ? book.category_id : undefined;
   
@@ -370,7 +380,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     !isSocieteAdrienBellier &&
     !isLaReunionIleOuvrages &&
     !isRouteDesTamarins &&
-    !isDePlanteSucre;
+    !isDePlanteSucre &&
+    !isEntreJardinEtCour;
   
   return (
     <>

@@ -1,18 +1,17 @@
-
 import React from 'react';
 interface BookHeaderProps {
   title: string;
   editorialText: string;
   showISBN: boolean;
   isbn?: string;
-  categorySlug?: string; // Ajout du paramètre pour vérifier la catégorie
+  categorySlug?: string;
 }
 export const BookHeader: React.FC<BookHeaderProps> = ({
   title,
   editorialText,
   showISBN,
   isbn,
-  categorySlug // Récupération du paramètre categorySlug
+  categorySlug
 }) => {
   // Add hyphen to PÈRE-NOËL if it's in the title
   let displayTitle = title;
@@ -157,6 +156,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title === "VIVE LE CHANGEMENT D'AIR" || 
     title === "VIVE LE CHANGEMENT D'AIR !" ||
     title?.toLowerCase().includes("vive le changement");
+  
+  // Cas spécial pour ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE
+  const isEntreJardinEtCour = 
+    title === "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE" || 
+    title?.toLowerCase().includes("entre jardin et cour") ||
+    title?.toLowerCase().includes("architecture creole");
     
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
@@ -174,6 +179,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     !isLaReunionIleOuvrages &&
     !isRouteDesTamarins &&
     !isDePlanteSucre &&
+    !isEntreJardinEtCour &&
     !isCommandeCategory;
   
   return <>
@@ -373,6 +379,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             {/* ISBN supprimé pour DE LA PLANTE AU SUCRE */}
           </>
+        ) : isEntreJardinEtCour ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions — 2005 — 144 pages
+            </p>
+            {/* ISBN supprimé pour ENTRE JARDIN ET COUR */}
+          </>
         ) : isViveLeChangement ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
@@ -398,4 +411,3 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </div>
     </>;
 };
-

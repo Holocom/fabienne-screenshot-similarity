@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface BookDescriptionProps {
@@ -82,7 +81,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     
   // Détecter si c'est "UN FLAMBOYANT PÈRE-NOËL"
   const isFlamboyantNoel = 
-    bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("no��l");
+    bookTitle?.toLowerCase().includes("flamboyant") && bookTitle?.toLowerCase().includes("noël");
   
   // Pour LE PONT DE LA RIVIERE DE L'EST
   const isPontRiviereEst = 
@@ -101,7 +100,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle === "VIVE LE CHANGEMENT D'AIR" || 
     bookTitle === "VIVE LE CHANGEMENT D'AIR !" ||
     bookTitle?.toLowerCase().includes("vive le changement");
+  
+  // Détecter si c'est "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE"
+  const isEntreJardinEtCour = 
+    bookTitle === "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE" || 
+    bookTitle?.toLowerCase().includes("entre jardin et cour") ||
+    bookTitle?.toLowerCase().includes("architecture creole");
     
+  // Cas spéciaux pour chaque livre
   // Cas spéciaux pour chaque livre
   if (isPetitesHistoiresMusiques && description) {
     // Description spécifique pour Petites Histoires des Musiques Réunionnaises
@@ -316,7 +322,17 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     );
   }
   
+  // Cas spécial pour ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE
+  if (isEntreJardinEtCour && description) {
+    // Créer le texte avec saut de ligne explicite en HTML
+    const formattedText = `De 1998 à 2023, l'agenda d'histoire de La Réunion a connu des tirages records. Chaque année, pendant plus de 25 ans, son éditeur a invité des auteurs locaux à travailler sur un thème. L'édition 2005 était consacrée à l'architecture créole. 55 textes pour donner à voir les mille et une facettes d'une architecture métissée à la croisée de diverses influences principalement importées d'Europe et d'Inde. De la paille au béton en passant par le bois et la pierre, de la varangue au lambrequin, de la petite case rurale au grand domaine via les belles citadines, cet itinéraire vous invite à découvrir l'un des aspects les plus visibles et les plus inconnus de notre histoire.`;
+    
+    // Utiliser dangerouslySetInnerHTML pour interpréter les balises HTML
+    return (
+      <div dangerouslySetInnerHTML={{ __html: formattedText }} className="text-gray-700 text-base md:text-lg space-y-4" />
+    );
+  }
+  
   // Cas par défaut: retourner la description telle quelle
   return renderDescription(description);
 };
-

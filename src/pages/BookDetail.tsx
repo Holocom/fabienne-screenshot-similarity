@@ -168,6 +168,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour DE LA PLANTE AU SUCRE, s'assurer qu'il est bien défini
   const isDePlanteSucre = bookId === "4458feae-b1cc-4a82-9798-377b7066ae49";
   
+  // Ajouter le check pour ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE
+  const isEntreJardinEtCour = bookId === "66b2d718-4c30-4c03-908c-d68837e089a1";
+  
   if (isRouteDesTamarins) {
     console.log("Livre identifié comme 'ROUTE DES TAMARINS, LA REUNION DES DEFIS' par son ID");
   }
@@ -228,6 +231,9 @@ const BookDetailPage = () => {
   else if (isDePlanteSucre) {
     console.log("Livre identifié comme 'DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE' par son ID");
   }
+  else if (isEntreJardinEtCour) {
+    console.log("Livre identifié comme 'ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE' par son ID");
+  }
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
@@ -261,6 +267,7 @@ const BookDetailPage = () => {
                        isLaReunionIleOuvrages ? "LA REUNION, L'ILE AUX OUVRAGES" :
                        isRouteDesTamarins ? "ROUTE DES TAMARINS, LA REUNION DES DEFIS" :
                        isDePlanteSucre ? "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" :
+                       isEntreJardinEtCour ? "ENTRE JARDIN ET COUR, L'ARCHITECTURE CREOLE" :
                        book.title
               }}
               bookDetails={bookDetails || {
