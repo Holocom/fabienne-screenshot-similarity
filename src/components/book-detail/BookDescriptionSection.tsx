@@ -12,7 +12,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   // Fonction pour afficher la description avec des sauts de ligne
   const renderDescription = (text: string) => {
     return text?.split('\n').map((paragraph, index) => (
-      <p key={index} className="text-gray-700 text-base md:text-lg mb-4">
+      <p key={index} className="text-gray-700 text-base md:text-lg mb-4 whitespace-normal">
         {paragraph}
       </p>
     ));
@@ -278,22 +278,24 @@ Des textes synthétiques, des encadrés de situation pour mieux comprendre le co
   
   // Pour MANIFESTE POUR LA LECTURE, cas sp��cial avec formattage précis
   if (isManifestePourLaLecture && description) {
-    // Formatage spécifique pour Manifeste pour la Lecture avec la dernière phrase en italique
-    if (description.includes("Une célébration de la lecture par des auteurs francophones.")) {
-      const lastSentence = "Une célébration de la lecture par des auteurs francophones.";
-      const mainText = description.replace(lastSentence, "");
-      
-      return (
-        <>
-          {renderDescription(mainText)}
-          <p className="text-gray-700 text-base md:text-lg mb-4 italic">
-            {lastSentence}
-          </p>
-        </>
-      );
-    }
+    // Formatage spécifique pour Manifeste pour la Lecture avec la dernière phrase en italique et sans guillemets à la ligne
+    const manifesteDescription = `Ce livre rassemble une cinquantaine d'auteurs francophones qui partagent leur passion pour la lecture. Une célébration du livre et de la littérature à travers des témoignages personnels qui soulignent l'importance de "petites histoires" et de grandes découvertes littéraires dans leur parcours.
+
+Une célébration de la lecture par des auteurs francophones.`;
     
-    return renderDescription(description);
+    // Diviser le texte pour gérer séparément la dernière phrase en italique
+    const parts = manifesteDescription.split('\n\n');
+    const mainText = parts[0];
+    const italicText = parts[1];
+    
+    return (
+      <>
+        {renderDescription(mainText)}
+        <p className="text-gray-700 text-base md:text-lg mb-4 italic">
+          {italicText}
+        </p>
+      </>
+    );
   }
   
   // Pour UN FLAMBOYANT PÈRE-NOËL, cas spécial avec formattage précis
