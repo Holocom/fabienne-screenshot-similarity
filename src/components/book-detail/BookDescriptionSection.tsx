@@ -16,6 +16,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle?.toLowerCase().includes("jacqueline dalais") ||
     bookTitle?.toLowerCase().includes("cle des saveurs");
     
+  // Vérifier si c'est SAVEURS METISSÉES D'AYMERIC PATAUD
+  const isSaveursMetissees = 
+    bookTitle === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
+    bookTitle?.toLowerCase().includes("saveurs metissees") ||
+    bookTitle?.toLowerCase().includes("aymeric pataud");
+  
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
     const lastSentencePattern = /Cet ouvrage est une invitation au voyage et au partage\./;
@@ -26,6 +32,31 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     
     // Utiliser la description modifiée
     return renderDescription(modifiedDescription);
+  }
+  
+  // Pour Saveurs Métissées, séparer la biographie de l'auteur
+  if (isSaveursMetissees && description) {
+    const biographyPattern = /Aymeric Pataud est issu de l'école Ritz Escoffier à Paris/;
+    const parts = description.split(biographyPattern);
+    
+    if (parts.length === 2) {
+      // Si la biographie est trouvée
+      return (
+        <div className="description mb-8">
+          {/* Première partie - description du livre */}
+          {renderDescription(parts[0])}
+          
+          {/* Séparateur */}
+          <div className="my-6 border-t border-gray-200"></div>
+          
+          {/* Biographie de l'auteur */}
+          <div className="mt-6">
+            <h3 className="text-xl font-bold mb-3 text-primary-blue">BIOGRAPHIE DE L'AUTEUR</h3>
+            {renderDescription("Aymeric Pataud est issu de l'école Ritz Escoffier à Paris" + parts[1])}
+          </div>
+        </div>
+      );
+    }
   }
 
   // Séparer le texte en paragraphes (double saut de ligne)
