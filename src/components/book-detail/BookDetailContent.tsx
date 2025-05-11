@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -28,6 +29,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   distinctions,
   editions
 }) => {
+  // Détecter si c'est "VIVE LE CHANGEMENT D'AIR"
+  const isViveLeChangementAir = 
+    book?.title === "VIVE LE CHANGEMENT D'AIR" ||
+    book?.id === "821f80df-f6fe-4c27-a82a-23c639cc1bf7";
+  
   // Détecter si c'est "UN FLAMBOYANT PÈRE-NOËL"
   const isFlamboyantNoel = 
     book?.title === "UN FLAMBOYANT PÈRE-NOËL" ||
@@ -123,37 +129,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     bookId: book.id // Pass the book ID explicitly
   });
   
-  // Récupérer la catégorie du livre à partir du book object
-  const categorySlug = book.category_id ? book.category_id : undefined;
-  
-  // Filtrer les liens de presse pour éliminer les doublons
-  const uniquePressLinks = Array.from(new Map(
-    pressLinks.map(link => [link.url, link])
-  ).values());
-  
-  // Filtrer les éditions pour éliminer les doublons
-  const uniqueEditions = Array.from(new Map(
-    editions.map(edition => [edition.name, edition])
-  ).values());
-  
-  // Brown Baby blog links
-  const brownBabyBlogLinks = [
-    { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html" }
-  ];
-  
-  // Brown Baby Seligmann links
-  const brownBabySeligmannLinks = [
-    { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme" },
-    { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
-  ];
-  
-  // Définir les awards spécifiques pour UN FLAMBOYANT PÈRE-NOËL (basés sur l'image 2)
-  const flamboyantNoelAwards = [
-    { name: "Prix Afrilivres 2020", url: null },
-    { name: "Prix Jeanne de Cavally 2022", url: null },
-    { name: "Finaliste du Prix Vanille Illustration 2020", url: null }
-  ];
-  
   // Vérifier si Brown Baby a besoin d'un traitement spécial
   const isBrownBaby = book?.title === "Brown Baby";
 
@@ -193,6 +168,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isTuMeFaisTournerAnglais = 
     book?.title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
     (book?.title?.includes("TU ME FAIS TOURNER") && !book?.title?.includes("OU I FÉ TOURNE MON TERRE"));
+  
+  // Log pour débogage si c'est "VIVE LE CHANGEMENT D'AIR"
+  if (isViveLeChangementAir) {
+    console.log(`Content détecté VIVE LE CHANGEMENT D'AIR avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
   
   // Log pour débogage si c'est "SOCIÉTÉ ADRIEN BELLIER"
   if (isSocieteAdrienBellier) {
@@ -295,6 +276,37 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Content détecté SEMADER, 30 REGARDS SUR LES 30 ANS avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
+  
+  // Récupérer la catégorie du livre à partir du book object
+  const categorySlug = book.category_id ? book.category_id : undefined;
+  
+  // Filtrer les liens de presse pour éliminer les doublons
+  const uniquePressLinks = Array.from(new Map(
+    pressLinks.map(link => [link.url, link])
+  ).values());
+  
+  // Filtrer les éditions pour éliminer les doublons
+  const uniqueEditions = Array.from(new Map(
+    editions.map(edition => [edition.name, edition])
+  ).values());
+  
+  // Brown Baby blog links
+  const brownBabyBlogLinks = [
+    { url: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html", label: "https://kittylamouette.blogspot.com/2024/10/brown-baby.html" }
+  ];
+  
+  // Brown Baby Seligmann links
+  const brownBabySeligmannLinks = [
+    { url: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme", label: "https://www.linfo.re/la-reunion/societe/l-autrice-reunionnaise-fabienne-jonca-remporte-le-prix-seligmann-contre-le-racisme" },
+    { url: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php", label: "https://www.lindependant.fr/2024/11/11/montesquieu-des-alberes-fabienne-jonca-obtient-le-prix-seligmann-2024-12317125.php" }
+  ];
+  
+  // Définir les awards spécifiques pour UN FLAMBOYANT PÈRE-NOËL (basés sur l'image 2)
+  const flamboyantNoelAwards = [
+    { name: "Prix Afrilivres 2020", url: null },
+    { name: "Prix Jeanne de Cavally 2022", url: null },
+    { name: "Finaliste du Prix Vanille Illustration 2020", url: null }
+  ];
   
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
