@@ -91,6 +91,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "SEMADER, 30 REGARDS SUR LES 30 ANS" ||
     book?.id === "c5896f91-0f7c-431c-9752-00ff7fb803c1";
   
+  // Détecter si c'est "LE GRAND HAZIER, UN DOMAINE CREOLE"
+  const isGrandHazier = 
+    book?.title === "LE GRAND HAZIER, UN DOMAINE CREOLE" ||
+    book?.id === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1"; // Remplacer par l'ID correct si connu
+  
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
@@ -253,6 +258,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
+  // Log pour débogage si c'est LE GRAND HAZIER, UN DOMAINE CREOLE
+  if (isGrandHazier) {
+    console.log(`Content détecté LE GRAND HAZIER, UN DOMAINE CREOLE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
+  }
+  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -309,8 +320,10 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isPetitesHistoiresMusiques ||
     isCasesCréolesReunion ||
     isPontRiviereEst ||
-    isSemader30Regards;
-  
+    isSemader30Regards ||
+    // Exclude LE GRAND HAZIER, UN DOMAINE CREOLE from showing ISBN
+    (book?.title !== "LE GRAND HAZIER, UN DOMAINE CREOLE" && book?.id !== "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1");
+    
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}

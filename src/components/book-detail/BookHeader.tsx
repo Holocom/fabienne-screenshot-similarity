@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -20,7 +19,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     displayTitle = title.replace(/PERE[\s]?NOEL/i, "PÈRE-NOËL");
   }
   
-  // Cas spéciaux pour l'affichage
+  // Cas spécial pour Edgar, le chat souris
   const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
   
   // Cas spécial pour La Réunion des religions - condition élargie pour capture toutes les variantes possibles
@@ -135,8 +134,8 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const hasLineBreak = title?.includes('\n');
   
   // Déterminer si l'ISBN doit être affiché
-  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS, MA CUISINE BIEN-ÊTRE, ni pour les livres de catégorie COMMANDE
-  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isSemader30Regards && !isCuisineBienEtre && !isCommandeCategory;
+  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS, MA CUISINE BIEN-ÊTRE, LE GRAND HAZIER, ni pour les livres de catégorie COMMANDE
+  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isSemader30Regards && !isCuisineBienEtre && !isCommandeCategory && !isGrandHazier;
   
   return <>
       {hasLineBreak ? (
@@ -337,11 +336,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
               Jeunesse – illustré par Non spécifié – 4 Épices – 2013 – 96 pages pages
             </p>
-            {!isCommandeCategory && (
-              <p className="text-[#ea384c] text-lg md:text-xl font-medium">
-                ISBN : 9782912949509
-              </p>
-            )}
+            {/* ISBN supprimé pour LE GRAND HAZIER, UN DOMAINE CREOLE */}
           </>
         ) : (
           <>
@@ -361,4 +356,3 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
       </div>
     </>;
 };
-
