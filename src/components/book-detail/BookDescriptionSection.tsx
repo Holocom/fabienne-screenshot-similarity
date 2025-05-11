@@ -21,6 +21,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
     bookTitle?.toLowerCase().includes("saveurs metissees") ||
     bookTitle?.toLowerCase().includes("aymeric pataud");
+    
+  // Vérifier si c'est LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+  const isCoupsDeCoeurBrigitte = 
+    bookTitle === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" ||
+    bookTitle?.toLowerCase().includes("coups de cœur") ||
+    bookTitle?.toLowerCase().includes("brigitte grondin");
   
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
@@ -34,25 +40,14 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(modifiedDescription);
   }
   
-  // Pour Saveurs Métissées, séparer la biographie de l'auteur
+  // Pour Saveurs Métissées, ne pas séparer la biographie de l'auteur
   if (isSaveursMetissees && description) {
-    const biographyPattern = /Aymeric Pataud est issu de l'école Ritz Escoffier à Paris/;
-    const parts = description.split(biographyPattern);
-    
-    if (parts.length === 2) {
-      // Si la biographie est trouvée
-      return (
-        <div className="description mb-8">
-          {/* Première partie - description du livre */}
-          {renderDescription(parts[0])}
-          
-          {/* Biographie de l'auteur */}
-          <div className="mt-6">
-            {renderDescription("Aymeric Pataud est issu de l'école Ritz Escoffier à Paris" + parts[1])}
-          </div>
-        </div>
-      );
-    }
+    return renderDescription(description);
+  }
+  
+  // Pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN, on met certains passages en italique
+  if (isCoupsDeCoeurBrigitte && description) {
+    return renderDescription(description);
   }
 
   // Séparer le texte en paragraphes (double saut de ligne)
@@ -89,7 +84,13 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       // Mettre en évidence certains mots pour Z'OISEAUX RARES
       .replace(/"ma ma"/g, '<strong>"ma ma"</strong>').replace(/"mu mu"/g, '<strong>"mu mu"</strong>').replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>').replace(/"ga ga"/g, '<strong>"ga ga"</strong>').replace(/"papa"/g, '<strong>"papa"</strong>').replace(/"doudou"/g, '<strong>"doudou"</strong>').replace(/"joujou"/g, '<strong>"joujou"</strong>')
       // Gérer les doubles guillemets français qui peuvent venir du copier-coller
-      .replace(/´/g, "'").replace(/""/g, '"');
+      .replace(/´/g, "'").replace(/""/g, '"')
+      // Mettre en italique les titres de livres pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+      .replace(/Du bonheur dans votre assiette(?!<\/em>)/g, '<em>Du bonheur dans votre assiette</em>')
+      .replace(/Ma cuisine bien-être(?!<\/em>)/g, '<em>Ma cuisine bien-être</em>')
+      .replace(/"Coups de cœur"/g, '<em>"Coups de cœur"</em>')
+      .replace(/"hémisphère nord"/g, '<em>"hémisphère nord"</em>');
+      
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
       }} />;
