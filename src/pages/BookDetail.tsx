@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -156,8 +157,14 @@ const BookDetailPage = () => {
   // Ajouter le check pour LE GRAND HAZIER, UN DOMAINE CREOLE
   const isGrandHazier = bookId === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1";
   
+  // Ajouter le check pour SOCIÉTÉ ADRIEN BELLIER
+  const isSocieteAdrienBellier = bookId === "a557a8b4-5d62-4ec7-be9b-301ed5b50369";
+  
   if (isGrandHazier) {
     console.log("Livre identifié comme 'LE GRAND HAZIER, UN DOMAINE CREOLE' par son ID");
+  }
+  else if (isSocieteAdrienBellier) {
+    console.log("Livre identifié comme 'SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)' par son ID");
   }
   else if (isPetitesHistoiresMusiques) {
     console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
@@ -233,6 +240,7 @@ const BookDetailPage = () => {
                        isPontRiviereEst ? "LE PONT DE LA RIVIERE DE L'EST" :
                        isSemader30Regards ? "SEMADER, 30 REGARDS SUR LES 30 ANS" :
                        isGrandHazier ? "LE GRAND HAZIER, UN DOMAINE CREOLE" :
+                       isSocieteAdrienBellier ? "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" :
                        book.title
               }}
               bookDetails={bookDetails || {

@@ -127,6 +127,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const isGrandHazier = 
     title === "LE GRAND HAZIER, UN DOMAINE CREOLE" ||
     title?.toLowerCase().includes("grand hazier");
+    
+  // Cas spécial pour SOCIÉTÉ ADRIEN BELLIER
+  const isSocieteAdrienBellier =
+    title === "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" ||
+    title?.toLowerCase().includes("société adrien bellier") ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("societe adrien bellier");
   
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
@@ -135,8 +141,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   const hasLineBreak = title?.includes('\n');
   
   // Déterminer si l'ISBN doit être affiché
-  // Ne pas afficher pour LE PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS, LE GRAND HAZIER, ni pour les livres de catégorie COMMANDE
-  const shouldDisplayISBN = showISBN && isbn && !isPontRiviereEst && !isSemader30Regards && !isGrandHazier && !isCommandeCategory;
+  // Ne pas afficher pour certains livres spécifiques ni pour les livres de catégorie COMMANDE
+  const shouldDisplayISBN = showISBN && isbn && 
+    !isPontRiviereEst && 
+    !isSemader30Regards && 
+    !isGrandHazier && 
+    !isSocieteAdrienBellier && 
+    !isCommandeCategory;
   
   return <>
       {hasLineBreak ? (
@@ -342,6 +353,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               Beau livre - Co-écrit avec Bernard Leveneur – Photographies (hors archives) de François-Louis Athénas - Conception graphique Olivier Bard - 4 Épices – 2013 – 96 pages
             </p>
             {/* ISBN supprimé pour LE GRAND HAZIER, UN DOMAINE CREOLE */}
+          </>
+        ) : isSocieteAdrienBellier ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Beau livre - Co-écrit avec Bernard Leveneur – Photographies (hors archives) de Romain Philippon - Conception graphique Olivier Bard - 4 Épices – 2012 – 120 pages
+            </p>
+            {/* ISBN supprimé pour SOCIÉTÉ ADRIEN BELLIER */}
           </>
         ) : (
           <>

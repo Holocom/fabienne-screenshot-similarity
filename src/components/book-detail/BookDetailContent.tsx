@@ -95,6 +95,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isGrandHazier = 
     book?.title === "LE GRAND HAZIER, UN DOMAINE CREOLE" ||
     book?.id === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1";
+    
+  // Détecter si c'est "SOCIÉTÉ ADRIEN BELLIER"
+  const isSocieteAdrienBellier = 
+    book?.title === "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" ||
+    book?.id === "a557a8b4-5d62-4ec7-be9b-301ed5b50369";
   
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -174,14 +179,23 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
     (book?.title?.includes("TU ME FAIS TOURNER") && !book?.title?.includes("OU I FÉ TOURNE MON TERRE"));
   
+  // Log pour débogage si c'est "SOCIÉTÉ ADRIEN BELLIER"
+  if (isSocieteAdrienBellier) {
+    console.log(`Content détecté SOCIÉTÉ ADRIEN BELLIER avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
+  }
+  
   // Log pour débogage si c'est "LE GRAND HAZIER, UN DOMAINE CREOLE"
   if (isGrandHazier) {
     console.log(`Content détecté LE GRAND HAZIER, UN DOMAINE CREOLE avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
   }
   
-  // Log pour débogage si c'est La Réunion des religions
-  if (isLaReunionDesReligions) {
+  else if (isPetitesHistoiresMusiques) {
+    console.log(`Content détecté PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}"`);
+  }
+  else if (isLaReunionDesReligions) {
     console.log(`Content détecté La Réunion des religions avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
@@ -313,7 +327,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isManifestePourLaLecture ||
     isPetitesHistoiresMusiques ||
     isCasesCréolesReunion;
-    // Suppression de LE GRAND HAZIER, UN DOMAINE CREOLE et PONT DE LA RIVIERE DE L'EST et isSemader30Regards des livres qui affichent l'ISBN
+    // Suppression des livres qui n'affichent pas l'ISBN: LE GRAND HAZIER, UN DOMAINE CREOLE, PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS et SOCIÉTÉ ADRIEN BELLIER
   
   return (
     <>
