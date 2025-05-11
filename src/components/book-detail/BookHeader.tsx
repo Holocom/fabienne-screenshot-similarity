@@ -1,3 +1,4 @@
+
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -5,13 +6,15 @@ interface BookHeaderProps {
   showISBN: boolean;
   isbn?: string;
   categorySlug?: string; // Ajout du paramètre pour vérifier la catégorie
+  isViveLeChangementAir?: boolean; // Ajout du paramètre pour VIVE LE CHANGEMENT D'AIR
 }
 export const BookHeader: React.FC<BookHeaderProps> = ({
   title,
   editorialText,
   showISBN,
   isbn,
-  categorySlug // Récupération du paramètre categorySlug
+  categorySlug, // Récupération du paramètre categorySlug
+  isViveLeChangementAir // Récupération du paramètre isViveLeChangementAir
 }) => {
   // Add hyphen to PÈRE-NOËL if it's in the title
   let displayTitle = title;
@@ -167,6 +170,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     !isLaReunionIleOuvrages &&
     !isRouteDesTamarins &&
     !isDePlanteSucre &&
+    !isViveLeChangementAir && // Ajouté pour ne pas afficher l'ISBN pour VIVE LE CHANGEMENT D'AIR
     !isCommandeCategory;
   
   return <>
@@ -365,6 +369,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions – 2012 – 144 pages
             </p>
             {/* ISBN supprimé pour DE LA PLANTE AU SUCRE */}
+          </>
+        ) : isViveLeChangementAir ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Agenda historique - Co-écrit avec Bernard Leveneur Océan Éditions – 2010 – 144 pages
+            </p>
+            {/* ISBN supprimé pour VIVE LE CHANGEMENT D'AIR */}
           </>
         ) : (
           <>

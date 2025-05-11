@@ -29,38 +29,79 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       return false;
     }
 
-    // Special case for Ambroise Vollard book
-    if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
+    // Update for "VIVE LE CHANGEMENT D'AIR"
+    if (book.id === "821f80df-f6fe-4c27-a82a-23c639cc1bf7" || 
+        book.title === "VIVE LE CHANGEMENT D'AIR") {
       try {
+        console.log("Mise à jour des informations de VIVE LE CHANGEMENT D'AIR");
         hasUpdatedRef.current = true;
         
-        const newDescription = "Le premier ouvrage à rendre hommage à Vollard le Réunionnais et au don exceptionnel fait à son île en 1947, exposé au musée Léon Dierx. Ces 157 œuvres initiales, complétées depuis 70 ans, forment la plus grande collection d'art moderne française en dehors de la métropole. Né à La Réunion en 1866 et mort en France métropolitaine à la veille de la Seconde Guerre mondiale, Ambroise Vollard a eu une influence décisive sur l'art au tournant des XIXe et XXe siècles. Paul Cézanne, Pablo Picasso, Auguste Renoir, Georges Rouault, Paul Gauguin, Berthe Morisot, Edgar Degas, Émile Bernard... En cinquante ans, il découvrit ou accompagna les plus grands artistes de son temps. Marchand, éditeur d'art et écrivain, Vollard avait un talent unique pour repérer les artistes. Comment, alors qu'il n'est jamais revenu dans son île natale, a-t-il participé à former le regard de nombreux Réunionnais ? Comment, alors qu'il ne cachait pas son aversion pour les institutions muséales, a-t-il participé à la création du premier musée des beaux-arts des Outre-mers français ? À l'occasion du 70e anniversaire du don Vollard au musée Léon Dierx, cet ouvrage retrace le parcours de ce réunionnais au don singulier.";
+        const newDescription = "De 1998 à 2023, l'agenda d'histoire de La Réunion a connu des tirages records. Chaque année, pendant plus de 25 ans, son éditeur a invité des auteurs locaux à travailler sur un thème. L'édition 2010 était consacrée aux pratiques du changement d'air qui se sont développées à partir du XIXe siècle dans l'île. D'Hell Bourg à Cilaos en passant par l'Étang-Salé ou St-Gilles-les-Bains, ce tourisme intérieur a connu un essor important à une époque où sortir de l'île n'était pas chose simple. Réservé à une ��lite, cette pratique a toutefois permis le développement d'une première économie touristique, d'une architecture singulière... et très vite de la photographie souvenir. Toutes ces images constituent aujourd'hui un patrimoine inestimable, car elles ont permis d'immortaliser les grands paysages et surtout la vie quotidienne des Réunionnais.";
         
         const newDetails = {
-          publisher: "Ed. 4 Épices",
+          publisher: "Océan Éditions",
           illustrator: "Non spécifié", 
-          year: "2017",
-          pages: "216",
-          isbn: "9782952720496"
+          year: "2010",
+          pages: "144",
+          isbn: "9782362470035"
         };
-        
-        const newPressLinks = [
-          { url: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso", label: "https://imazpress.com/culture/le-livre-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso" },
-          { url: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html", label: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html" }
-        ];
         
         updateBookMutation.mutate({
           bookId,
           bookData: { description: newDescription },
           detailsData: newDetails,
-          pressLinks: newPressLinks,
+          pressLinks: [],
           awards: [],
           editions: []
         });
+        
         return true;
       } catch (error) {
-        console.error("Error in update effect for Ambroise Vollard book:", error);
+        console.error("Erreur lors de la mise à jour de VIVE LE CHANGEMENT D'AIR:", error);
+        toast.error("Erreur lors de la mise à jour de VIVE LE CHANGEMENT D'AIR");
         return false;
+      }
+    }
+    
+    // Special case for Ambroise Vollard book
+    else if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
+      if (!bookId || !book || hasUpdatedRef.current || isLoadingBook || isBookError) {
+        return false;
+      }
+
+      // Special case for Ambroise Vollard book
+      if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
+        try {
+          hasUpdatedRef.current = true;
+          
+          const newDescription = "Le premier ouvrage à rendre hommage à Vollard le Réunionnais et au don exceptionnel fait à son île en 1947, exposé au musée Léon Dierx. Ces 157 œuvres initiales, complétées depuis 70 ans, forment la plus grande collection d'art moderne française en dehors de la métropole. Né à La Réunion en 1866 et mort en France métropolitaine à la veille de la Seconde Guerre mondiale, Ambroise Vollard a eu une influence décisive sur l'art au tournant des XIXe et XXe siècles. Paul Cézanne, Pablo Picasso, Auguste Renoir, Georges Rouault, Paul Gauguin, Berthe Morisot, Edgar Degas, Émile Bernard... En cinquante ans, il découvrit ou accompagna les plus grands artistes de son temps. Marchand, éditeur d'art et écrivain, Vollard avait un talent unique pour repérer les artistes. Comment, alors qu'il n'est jamais revenu dans son île natale, a-t-il participé à former le regard de nombreux Réunionnais ? Comment, alors qu'il ne cachait pas son aversion pour les institutions muséales, a-t-il participé à la création du premier musée des beaux-arts des Outre-mers français ? À l'occasion du 70e anniversaire du don Vollard au musée Léon Dierx, cet ouvrage retrace le parcours de ce réunionnais au don singulier.";
+          
+          const newDetails = {
+            publisher: "Ed. 4 Épices",
+            illustrator: "Non spécifié", 
+            year: "2017",
+            pages: "216",
+            isbn: "9782952720496"
+          };
+          
+          const newPressLinks = [
+            { url: "https://imazpress.com/culture/le-livre-qui-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso", label: "https://imazpress.com/culture/le-livre-veut-faire-decouvrir-ce-reunionnais-qui-a-revele-picasso" },
+            { url: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html", label: "https://la1ere.francetvinfo.fr/reunion/culture-1ere-539729.html" }
+          ];
+          
+          updateBookMutation.mutate({
+            bookId,
+            bookData: { description: newDescription },
+            detailsData: newDetails,
+            pressLinks: newPressLinks,
+            awards: [],
+            editions: []
+          });
+          return true;
+        } catch (error) {
+          console.error("Error in update effect for Ambroise Vollard book:", error);
+          return false;
+        }
       }
     } 
     // Update for Flamboyant Père Noël book
@@ -563,6 +604,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       !book.title
     ) {
       return;
+    }
+
+    // Spécifiquement pour VIVE LE CHANGEMENT D'AIR, force la mise à jour
+    if (book.id === "821f80df-f6fe-4c27-a82a-23c639cc1bf7" || 
+        book.title === "VIVE LE CHANGEMENT D'AIR") {
+      console.log("Force la mise à jour de VIVE LE CHANGEMENT D'AIR");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
     }
 
     // Spécifiquement pour Edgar, le chat souris, force la mise à jour (même si déjà mis à jour)

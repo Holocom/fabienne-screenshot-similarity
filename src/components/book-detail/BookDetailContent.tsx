@@ -129,11 +129,28 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     bookId: book.id // Pass the book ID explicitly
   });
   
-  // Vérifier si Brown Baby a besoin d'un traitement spécial
-  const isBrownBaby = book?.title === "Brown Baby";
-
-  // Special case for "EDGAR, LE CHAT SOURIS"
-  const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS" || book?.title === "Edgar, le chat souris";
+  // Log pour débogage si c'est "VIVE LE CHANGEMENT D'AIR"
+  if (isViveLeChangementAir) {
+    console.log(`Content détecté VIVE LE CHANGEMENT D'AIR avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
+  }
+  
+  // Log pour débogage si c'est "SOCIÉTÉ ADRIEN BELLIER"
+  if (isSocieteAdrienBellier) {
+    console.log(`Content détecté SOCIÉTÉ ADRIEN BELLIER avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
+  }
+  
+  // Log pour débogage si c'est "LE GRAND HAZIER, UN DOMAINE CREOLE"
+  if (isGrandHazier) {
+    console.log(`Content détecté LE GRAND HAZIER, UN DOMAINE CREOLE avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
+  }
+  
+  else if (isPetitesHistoiresMusiques) {
+    console.log(`Content détecté PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}"`);
+  }
   
   // Special case for "La Réunion des religions" - condition élargie
   const isLaReunionDesReligions = 
@@ -169,29 +186,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
     (book?.title?.includes("TU ME FAIS TOURNER") && !book?.title?.includes("OU I FÉ TOURNE MON TERRE"));
   
-  // Log pour débogage si c'est "VIVE LE CHANGEMENT D'AIR"
-  if (isViveLeChangementAir) {
-    console.log(`Content détecté VIVE LE CHANGEMENT D'AIR avec ID: ${book?.id}`);
-    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
-  }
-  
-  // Log pour débogage si c'est "SOCIÉTÉ ADRIEN BELLIER"
-  if (isSocieteAdrienBellier) {
-    console.log(`Content détecté SOCIÉTÉ ADRIEN BELLIER avec ID: ${book?.id}`);
-    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
-  }
-  
-  // Log pour débogage si c'est "LE GRAND HAZIER, UN DOMAINE CREOLE"
-  if (isGrandHazier) {
-    console.log(`Content détecté LE GRAND HAZIER, UN DOMAINE CREOLE avec ID: ${book?.id}`);
-    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
-  }
-  
-  else if (isPetitesHistoiresMusiques) {
-    console.log(`Content détecté PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES avec ID: ${book?.id}`);
-    console.log(`Titre: "${book?.title}"`);
-  }
-  else if (isLaReunionDesReligions) {
+  if (isLaReunionDesReligions) {
     console.log(`Content détecté La Réunion des religions avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
@@ -334,6 +329,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Vérifier si c'est JACE. MAGIK GOUZOU
   const isJaceMagikGouzou = book?.title === "JACE. MAGIK GOUZOU";
   
+  // Vérifier si Brown Baby a besoin d'un traitement spécial
+  const isBrownBaby = book?.title === "Brown Baby";
+
+  // Special case for "EDGAR, LE CHAT SOURIS"
+  const isEdgarChatSouris = book?.title === "EDGAR, LE CHAT SOURIS" || book?.title === "Edgar, le chat souris";
+  
   // Add specific check for Z'OISEAUX RARES and other books that need ISBN display
   const shouldShowISBN = book.id === "d100f128-ae83-44e7-b468-3aa6466b6e31" || 
     book?.title === "AS-TU LA LANGUE BIEN PENDUE ?" || 
@@ -370,7 +371,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     !isSocieteAdrienBellier &&
     !isLaReunionIleOuvrages &&
     !isRouteDesTamarins &&
-    !isDePlanteSucre;
+    !isDePlanteSucre &&
+    !isViveLeChangementAir; // Ajouté pour ne pas afficher l'ISBN pour VIVE LE CHANGEMENT D'AIR
   
   return (
     <>
@@ -392,12 +394,17 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
             showISBN={shouldShowISBN}
             isbn={isbn}
             categorySlug={categorySlug} // Passer la catégorie
+            isViveLeChangementAir={isViveLeChangementAir} // Passer le flag pour VIVE LE CHANGEMENT D'AIR
           />
         </div>
       )}
       
       {/* Description du livre */}
-      <BookDescriptionSection description={book?.description || ""} bookTitle={book.title} />
+      <BookDescriptionSection 
+        description={book?.description || ""} 
+        bookTitle={book.title} 
+        isViveLeChangementAir={isViveLeChangementAir} // Passer le flag pour VIVE LE CHANGEMENT D'AIR
+      />
       
       {/* Section des éditions - Passer le titre du livre */}
       {uniqueEditions.length > 0 && 
