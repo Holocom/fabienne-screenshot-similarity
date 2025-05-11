@@ -15,15 +15,15 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       bookTitle?.toLowerCase().includes("manifeste pour la lecture");
     
     if (isManifestePourLaLecture) {
-      // Description spécifique pour MANIFESTE POUR LA LECTURE avec formatage personnalisé
+      // Description spécifique pour MANIFESTE POUR LA LECTURE avec formatage personnalisé exactement comme l'image
       return (
         <div className="description mb-8">
           <h3 className="font-bold uppercase text-xl mb-4">4e de couverture</h3>
-          <p className="mb-4 text-base md:text-lg leading-relaxed">Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe.</p>
+          <p className="mb-4 text-base md:text-lg leading-relaxed">Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme <span className="text-[#ea384c]">Nassuf Djailani</span> qui se remémore depuis Mayotte <em>« ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir »</em>. Ils font part de leurs rencontres comme <span className="text-[#ea384c]">Kenza Sefrioui</span> qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village.</p>
           
-          <p className="mb-4 text-base md:text-lg leading-relaxed">Ils confient leurs souvenirs d'enfance comme <span className="text-[#ea384c]">Nassuf Djailani</span> qui se remémore depuis Mayotte <em>« ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir »</em>. Ils font part de leurs rencontres comme <span className="text-[#ea384c]">Kenza Sefrioui</span> qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village.</p>
+          <p className="mb-4 text-base md:text-lg leading-relaxed">Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture.</p>
           
-          <p className="mb-4 text-base md:text-lg leading-relaxed">Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour <span className="text-[#ea384c]">Jennifer Richard</span>, le livre est <em>« un port d'attache qui tient dans la poche »</em> ; pour <span className="text-[#ea384c]">Ananda Devi</span>, les livres sont des <em>« compagnons de notre voyage de vie »</em> ; pour <span className="text-[#ea384c]">Véronique Tadjo</span>, <em>« sans livres, le monde serait clos »</em>, et, pour <span className="text-[#ea384c]">Fabienne Jonca</span>, lire, <em>« c'est s'ouvrir aux autres et à soi-même être soi »</em>.</p>
+          <p className="mb-4 text-base md:text-lg leading-relaxed">Pour <span className="text-[#ea384c]">Jennifer Richard</span>, le livre est <em>« un port d'attache qui tient dans la poche »</em> ; pour <span className="text-[#ea384c]">Ananda Devi</span>, les livres sont des <em>« compagnons de notre voyage de vie »</em> ; pour <span className="text-[#ea384c]">Véronique Tadjo</span>, <em>« sans livres, le monde serait clos »</em>, et, pour <span className="text-[#ea384c]">Fabienne Jonca</span>, lire, <em>« c'est s'ouvrir aux autres et à soi-même être soi »</em>.</p>
         </div>
       );
     }
