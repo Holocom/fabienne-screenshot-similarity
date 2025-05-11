@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookDescriptionProps {
   description: string | null;
@@ -85,15 +84,97 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     return renderDescription(customDescription);
   }
   
-  // Pour MANIFESTE POUR LA LECTURE, cas spécial avec formatage précis
+  // Pour MANIFESTE POUR LA LECTURE, cas spécial avec formatage précis des auteurs en rouge
   if (isManifestePourLaLecture && description) {
-    const manifeste_description = `Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».`;
+    // Formater les noms des auteurs en rouge
+    const manifeste_description = description.replace(
+      /Nassuf Djailani/g, 
+      '<span class="text-[#ea384c]">Nassuf Djailani</span>'
+    ).replace(
+      /Kenza Sefrioui/g, 
+      '<span class="text-[#ea384c]">Kenza Sefrioui</span>'
+    ).replace(
+      /Jennifer Richard/g, 
+      '<span class="text-[#ea384c]">Jennifer Richard</span>'
+    ).replace(
+      /Ananda Devi/g, 
+      '<span class="text-[#ea384c]">Ananda Devi</span>'
+    ).replace(
+      /Véronique Tadjo/g, 
+      '<span class="text-[#ea384c]">Véronique Tadjo</span>'
+    ).replace(
+      /Fabienne Jonca/g, 
+      '<span class="text-[#ea384c]">Fabienne Jonca</span>'
+    );
+    
+    // Séparation claire pour la 4e de couverture
+    const parts = manifeste_description.split("Pour Jennifer Richard");
+    
+    if (parts.length > 1) {
+      const mainDescription = parts[0];
+      const backCover = "Pour Jennifer Richard" + parts[1];
+      
+      return (
+        <div className="description mb-8">
+          {renderDescriptionParagraphs(mainDescription)}
+          
+          <h3 className="font-bold text-xl mt-8 mb-4">4e de couverture</h3>
+          
+          {renderDescriptionParagraphs(backCover)}
+        </div>
+      );
+    }
     
     return renderDescription(manifeste_description);
   }
 
   // Séparer le texte en paragraphes (double saut de ligne)
   return renderDescription(description || "");
+  
+  // Fonction pour rendre les paragraphes individuels
+  function renderDescriptionParagraphs(text: string) {
+    const paragraphs = text.split('\n\n');
+    return paragraphs.map((paragraph, index) => {
+      // Pour le cas où il y aurait des sauts de ligne simples dans un paragraphe
+      const formattedParagraph = paragraph
+        // Remplacer les sauts de ligne simples par des balises <br />
+        .replace(/\n/g, '<br />')
+        // Appliquer les mises en forme spécifiques comme dans la fonction originale
+        .replace(/Brown Baby/g, '<em>Brown Baby</em>')
+        // Mettre "Les religions à l'île Maurice" en italique quand il apparaît dans le texte
+        .replace(/Les religions à l['']île Maurice/g, '<em>Les religions à l\'île Maurice</em>')
+        // Mettre "LA RÉUNION DES ENFANTS" en italique quand il apparaît dans le texte
+        .replace(/LA RÉUNION DES ENFANTS/g, '<em>LA RÉUNION DES ENFANTS</em>')
+        .replace(/La Réunion des enfants/g, '<em>La Réunion des enfants</em>')
+        // Mettre "Le petit garçon qui ne souriait jamais" en italique
+        .replace(/Le petit garçon qui ne souriait jamais/gi, '<em>Le petit garçon qui ne souriait jamais</em>')
+        // Mettre "TU ME FAIS TOURNER LA TERRE" en italique
+        .replace(/TU ME FAIS TOURNER LA TERRE/g, '<em>TU ME FAIS TOURNER LA TERRE</em>')
+        .replace(/Tu me fais tourner la terre/gi, '<em>Tu me fais tourner la terre</em>')
+        // Ajouter une règle pour mettre "YOU MAKE MY WORLD SPIN" en italique
+        .replace(/YOU MAKE MY WORLD SPIN/g, '<em>YOU MAKE MY WORLD SPIN</em>')
+        // Mettre en italique les mots "Signature" et "Tradition" pour Jacqueline Dalais
+        .replace(/Signature(?!<\/em>)/g, '<em>Signature</em>')
+        .replace(/Tradition(?!<\/em>)/g, '<em>Tradition</em>')
+        // Mettre en italique "Saveurs métissées" pour SAVEURS METISSÉES D'AYMERIC PATAUD
+        .replace(/Saveurs métissées(?!<\/em>)/g, '<em>Saveurs métissées</em>')
+        // Mettre en évidence certains mots pour Z'OISEAUX RARES
+        .replace(/"ma ma"/g, '<strong>"ma ma"</strong>')
+        .replace(/"mu mu"/g, '<strong>"mu mu"</strong>')
+        .replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>')
+        .replace(/"ga ga"/g, '<strong>"ga ga"</strong>')
+        .replace(/"papa"/g, '<strong>"papa"</strong>')
+        .replace(/"doudou"/g, '<strong>"doudou"</strong>')
+        .replace(/"joujou"/g, '<strong>"joujou"</strong>')
+        // Gérer les doubles guillemets français qui peuvent venir du copier-coller
+        .replace(/´/g, "'")
+        .replace(/""/g, '"');
+      
+      return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
+        __html: formattedParagraph
+      }} />;
+    });
+  }
   
   // Fonction utilitaire pour rendre la description avec le formatage
   function renderDescription(text: string) {
