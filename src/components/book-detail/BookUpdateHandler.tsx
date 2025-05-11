@@ -432,7 +432,8 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     }
     
     // Update for "MA CUISINE BIEN-ÊTRE"
-    else if (book.title === "MA CUISINE BIEN-ÊTRE" || book.id === "c1234567-1234-1234-1234-123456789abc") {
+    else if (book.id === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9" || 
+        book.title === "MA CUISINE BIEN-ÊTRE") {
       try {
         console.log("Mise à jour des informations de MA CUISINE BIEN-ÊTRE");
         hasUpdatedRef.current = true;
@@ -442,9 +443,9 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
         const newDetails = {
           publisher: "Epsilon Éditions – 4 Épices",
           illustrator: "Non spécifié", 
-          year: "2008",
-          pages: "192",
-          isbn: "9782912949288"
+          year: "2010",
+          pages: "144",
+          isbn: "9782912949332"
         };
         
         updateBookMutation.mutate({
@@ -537,7 +538,7 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     }
     
     // Force la mise à jour pour MA CUISINE BIEN-ÊTRE
-    if (book.id === "c1234567-1234-1234-1234-123456789abc" || 
+    if (book.id === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9" || 
         book.title === "MA CUISINE BIEN-ÊTRE") {
       console.log("Force la mise à jour de MA CUISINE BIEN-ÊTRE");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
@@ -555,4 +556,3 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
 
   return null; // Ce composant ne rend rien, il gère uniquement les effets de bord
 };
-

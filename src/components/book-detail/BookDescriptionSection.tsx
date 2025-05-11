@@ -104,7 +104,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       // Ajout des mises en italique pour MA CUISINE BIEN-ÊTRE
       .replace(/cuisine familiale métissée/g, '<em>cuisine familiale métissée</em>')
       .replace(/sagesse des traditions culinaires/g, '<em>sagesse des traditions culinaires</em>')
-      .replace(/Inde ayurvédique/g, '<em>Inde ayurvédique</em>');
+      .replace(/Inde ayurvédique/g, '<em>Inde ayurvédique</em>')
+      .replace(/« Vite fait, bien fait ! »/g, '<em>« Vite fait, bien fait ! »</em>')
+      .replace(/« A table ! »/g, '<em>« A table ! »</em>')
+      .replace(/« Côté jardin »/g, '<em>« Côté jardin »</em>')
+      .replace(/« intérêts nutritionnels »/g, '<em>« intérêts nutritionnels »</em>')
+      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>');
       
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
@@ -113,4 +118,3 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     </div>;
   }
 };
-

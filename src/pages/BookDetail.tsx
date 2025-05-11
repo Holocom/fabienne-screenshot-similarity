@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -118,8 +117,8 @@ const BookDetailPage = () => {
   // Ajouter le check pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
   const isCoupsDeCoeurBrigitte = bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
   
-  // Ajouter le check pour MA CUISINE BIEN-ÊTRE
-  const isCuisineBienEtre = bookId === "c1234567-1234-1234-1234-123456789abc";
+  // Ajouter le check pour MA CUISINE BIEN-ÊTRE (avec l'ID correct)
+  const isCuisineBienEtre = bookId === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9";
   
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
