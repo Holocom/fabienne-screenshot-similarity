@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface BookDescriptionProps {
@@ -111,7 +110,10 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   // Cas spéciaux pour chaque livre
   if (isPetitesHistoiresMusiques && description) {
     // Description spécifique pour Petites Histoires des Musiques Réunionnaises
-    const petitesHistoiresDescription = `Cet ouvrage propose aux enfants de découvrir les instruments de musique traditionnels de La Réunion à travers des histoires amusantes et des illustrations colorées.`;
+    const petitesHistoiresDescription = `Cet ouvrage propose en trente portraits un tour d'horizon de l'histoire des musiques réunionnaises, de la romance au séga en passant par la fusion et le maloya classé au patrimoine mondial par l'Unesco.
+Chaque portrait est agrémenté de "petites histoires" : anecdote, texte de chanson, événement marquant, fait historique, présentation d'instruments… L'ouvrage comporte également un CD réalisé par le Pôle Régional des Musiques Actuelles.
+
+Des textes synthétiques, des encadrés de situation pour mieux comprendre le contexte historique, une grande frise chronologique, un lexique documenté, des images d'archives inédites… font de cet ouvrage, un livre incontournable pour tous ceux qui veulent découvrir les musiques réunionnaises.`;
     return renderDescription(petitesHistoiresDescription);
   }
   
