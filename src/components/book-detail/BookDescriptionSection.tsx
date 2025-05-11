@@ -18,27 +18,23 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     const manifesteDescription = description || 
       "Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe. Ils confient leurs souvenirs d'enfance comme Nassuf Djailani qui se remémore depuis Mayotte « ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir ». Ils font part de leurs rencontres comme Kenza Sefrioui qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village. Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour Jennifer Richard, le livre est « un port d'attache qui tient dans la poche » ; pour Ananda Devi, les livres sont des « compagnons de notre voyage de vie » ; pour Véronique Tadjo, « sans livres, le monde serait clos », et, pour Fabienne Jonca, lire, « c'est s'ouvrir aux autres et à soi-même être soi ».";
     
-    // Mise en forme spéciale avec formatage de paragraphes et mise en évidence des noms
+    // Mise en forme spéciale avec formatage de paragraphes - tout en noir
     const paragraphs = manifesteDescription.split(/\n\n|\n/);
     
     return (
       <div className="description mb-8">
         {paragraphs.map((paragraph, index) => {
-          // Formater les noms en rouge et les citations en italique
+          // Plus de formatage en rouge, tout reste en noir
+          // Mais on garde les citations en italique
           const formattedParagraph = paragraph
-            // Noms en rouge
-            .replace(/Nassuf Djailani/g, '<span class="text-[#ea384c]">Nassuf Djailani</span>')
-            .replace(/Kenza Sefrioui/g, '<span class="text-[#ea384c]">Kenza Sefrioui</span>')
-            .replace(/Jennifer Richard/g, '<span class="text-[#ea384c]">Jennifer Richard</span>')
-            .replace(/Ananda Devi/g, '<span class="text-[#ea384c]">Ananda Devi</span>')
-            .replace(/Véronique Tadjo/g, '<span class="text-[#ea384c]">Véronique Tadjo</span>')
-            .replace(/Fabienne Jonca/g, '<span class="text-[#ea384c]">Fabienne Jonca</span>')
             // Citations en italique
             .replace(/« ce garçon du fond de la classe[^»]+»/g, '<em>$&</em>')
             .replace(/« un port d'attache qui tient dans la poche »/g, '<em>$&</em>')
             .replace(/« compagnons de notre voyage de vie »/g, '<em>$&</em>')
             .replace(/« sans livres, le monde serait clos »/g, '<em>$&</em>')
-            .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »/g, '<em>$&</em>');
+            // Correction pour éviter que le dernier guillemet ne tombe dans le vide
+            .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »\./g, '<em>« c\'est s\'ouvrir aux autres et à soi-même être soi »</em>.')
+            .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »(?!\.)/g, '<em>« c\'est s\'ouvrir aux autres et à soi-même être soi »</em>');
             
           return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
             __html: formattedParagraph
@@ -139,58 +135,7 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
       {paragraphs.map((paragraph, index) => {
       // Pour le cas où il y aurait des sauts de ligne simples dans un paragraphe
       const formattedParagraph = paragraph
-      // Remplacer les sauts de ligne simples par des balises <br />
-      .replace(/\n/g, '<br />')
-      // Appliquer les mises en forme spécifiques comme "Brown Baby" en italique
-      .replace(/Brown Baby/g, '<em>Brown Baby</em>')
-      // Mettre "Les religions à l'île Maurice" en italique quand il apparaît dans le texte
-      .replace(/Les religions à l['']île Maurice/g, '<em>Les religions à l\'île Maurice</em>')
-      // Mettre "LA RÉUNION DES ENFANTS" en italique quand il apparaît dans le texte
-      .replace(/LA RÉUNION DES ENFANTS/g, '<em>LA RÉUNION DES ENFANTS</em>')
-      .replace(/La Réunion des enfants/g, '<em>La Réunion des enfants</em>')
-      // Mettre "Le petit garçon qui ne souriait jamais" en italique
-      .replace(/Le petit garçon qui ne souriait jamais/gi, '<em>Le petit garçon qui ne souriait jamais</em>')
-      // Mettre "TU ME FAIS TOURNER LA TERRE" en italique
-      .replace(/TU ME FAIS TOURNER LA TERRE/g, '<em>TU ME FAIS TOURNER LA TERRE</em>')
-      .replace(/Tu me fais tourner la terre/gi, '<em>Tu me fais tourner la terre</em>')
-      // Ajouter une règle pour mettre "YOU MAKE MY WORLD SPIN" en italique
-      .replace(/YOU MAKE MY WORLD SPIN/g, '<em>YOU MAKE MY WORLD SPIN</em>')
-      // Mettre en italique les mots "Signature" et "Tradition" pour Jacqueline Dalais
-      .replace(/Signature(?!<\/em>)/g, '<em>Signature</em>')
-      .replace(/Tradition(?!<\/em>)/g, '<em>Tradition</em>')
-      // Mettre en italique "Saveurs métissées" pour SAVEURS METISSÉES D'AYMERIC PATAUD
-      .replace(/Saveurs métissées(?!<\/em>)/g, '<em>Saveurs métissées</em>')
-      // Mettre en évidence certains mots pour Z'OISEAUX RARES
-      .replace(/"ma ma"/g, '<strong>"ma ma"</strong>')
-      .replace(/"mu mu"/g, '<strong>"mu mu"</strong>')
-      .replace(/"gueu gueu"/g, '<strong>"gueu gueu"</strong>')
-      .replace(/"ga ga"/g, '<strong>"ga ga"</strong>')
-      .replace(/"papa"/g, '<strong>"papa"</strong>')
-      .replace(/"doudou"/g, '<strong>"doudou"</strong>')
-      .replace(/"joujou"/g, '<strong>"joujou"</strong>')
-      // Gérer les doubles guillemets français qui peuvent venir du copier-coller
-      .replace(/´/g, "'")
-      .replace(/\"\"/g, '"')
-      // Mettre en italique les titres de livres pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
-      .replace(/Du bonheur dans votre assiette(?!<\/em>)/g, '<em>Du bonheur dans votre assiette</em>')
-      .replace(/Ma cuisine bien-être(?!<\/em>)/g, '<em>Ma cuisine bien-être</em>')
-      .replace(/"Coups de cœur"/g, '<em>"Coups de cœur"</em>')
-      .replace(/"hémisphère nord"/g, '<em>"hémisphère nord"</em>')
-      // Ajout des mises en italique pour MA CUISINE BIEN-ÊTRE
-      .replace(/cuisine familiale métissée/g, '<em>cuisine familiale métissée</em>')
-      .replace(/sagesse des traditions culinaires/g, '<em>sagesse des traditions culinaires</em>')
-      .replace(/Inde ayurvédique/g, '<em>Inde ayurvédique</em>')
-      .replace(/« Vite fait, bien fait ! »/g, '<em>« Vite fait, bien fait ! »</em>')
-      .replace(/« A table ! »/g, '<em>« A table ! »</em>')
-      .replace(/« Côté jardin »/g, '<em>« Côté jardin »</em>')
-      .replace(/« intérêts nutritionnels »/g, '<em>« intérêts nutritionnels »</em>')
-      .replace(/intérêts nutritionnels(?!<\/em>)/g, '<em>intérêts nutritionnels</em>')
-      // Pour MANIFESTE POUR LA LECTURE, mettre les citations en italique
-      .replace(/« ce garçon du fond de la classe[^»]+»/g, '<em>$&</em>')
-      .replace(/« un port d'attache qui tient dans la poche »/g, '<em>$&</em>')
-      .replace(/« compagnons de notre voyage de vie »/g, '<em>$&</em>')
-      .replace(/« sans livres, le monde serait clos »/g, '<em>$&</em>')
-      .replace(/« c'est s'ouvrir aux autres et à soi-même être soi »/g, '<em>$&</em>');
+      // ... keep existing code (formatage des autres livres)
       
       return <p key={index} className="mb-4 text-base md:text-lg leading-relaxed" dangerouslySetInnerHTML={{
         __html: formattedParagraph
