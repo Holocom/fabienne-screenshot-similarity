@@ -230,7 +230,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
         ) : isManifestePourLaLecture ? (
           <>
             <p className="text-[#ea384c] text-lg md:text-xl mb-1">
-              <span className="text-[#ea384c]">Ananda Devi – Véronique Tadjo – Nassuf Djailani – Jennifer Richard – Michèle Rakotoson – Blaise Ndala – Gaël Octavia – Watson Charles – Gaëlle Belem – Kenza Sefrioui – Johary Ravaloson – Fabienne Jonca – Shenaz Patel – Griotte – Amarnath Hosany – Véronique Massenot.</span> Atelier Des Nomades – 2023 – 96 pages
+              Ananda Devi – Véronique Tadjo – Nassuf Djailani – Jennifer Richard – Michèle Rakotoson – Blaise Ndala – Gaël Octavia – Watson Charles – Gaëlle Belem – Kenza Sefrioui – Johary Ravaloson – Fabienne Jonca – Shenaz Patel – Griotte – Amarnath Hosany – Véronique Massenot. Atelier Des Nomades – 2023 – 96 pages
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782919300686
