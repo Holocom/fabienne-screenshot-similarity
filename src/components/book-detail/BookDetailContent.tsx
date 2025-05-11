@@ -60,11 +60,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "DU BONHEUR DANS VOTRE ASSIETTE" ||
     book?.id === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
     
-  // Détecter si c'est "MA CUISINE BIEN-ÊTRE"
-  const isCuisineBienEtre = 
-    book?.title === "MA CUISINE BIEN-ÊTRE" ||
-    book?.id === "8525480b-e8cd-4149-b427-16672a5f55b4";
-    
   // Détecter si c'est "MANIFESTE POUR LA LECTURE"
   const isManifestePourLaLecture = 
     book?.title === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
@@ -90,11 +85,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isSemader30Regards = 
     book?.title === "SEMADER, 30 REGARDS SUR LES 30 ANS" ||
     book?.id === "c5896f91-0f7c-431c-9752-00ff7fb803c1";
-  
-  // Détecter si c'est "LE GRAND HAZIER, UN DOMAINE CREOLE"
-  const isGrandHazier = 
-    book?.title === "LE GRAND HAZIER, UN DOMAINE CREOLE" ||
-    book?.id === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1";
   
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -174,12 +164,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" ||
     (book?.title?.includes("TU ME FAIS TOURNER") && !book?.title?.includes("OU I FÉ TOURNE MON TERRE"));
   
-  // Log pour débogage si c'est MA CUISINE BIEN-ÊTRE
-  if (isCuisineBienEtre) {
-    console.log(`Content détecté MA CUISINE BIEN-ÊTRE avec ID: ${book?.id}`);
-    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
-  }
-  
   // Log pour débogage si c'est La Réunion des religions
   if (isLaReunionDesReligions) {
     console.log(`Content détecté La Réunion des religions avec ID: ${book?.id}`);
@@ -258,12 +242,6 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
-  // Log pour débogage si c'est LE GRAND HAZIER, UN DOMAINE CREOLE
-  if (isGrandHazier) {
-    console.log(`Content détecté LE GRAND HAZIER, UN DOMAINE CREOLE avec ID: ${book?.id}`);
-    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}"`);
-  }
-  
   // Liens spécifiques pour Edgar, le chat souris
   const edgarChatSourisLinks = [
     { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/edgar-le-chat-souris" },
@@ -320,10 +298,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isPetitesHistoiresMusiques ||
     isCasesCréolesReunion ||
     isPontRiviereEst ||
-    isSemader30Regards ||
-    // Exclude LE GRAND HAZIER, UN DOMAINE CREOLE from showing ISBN
-    (book?.title !== "LE GRAND HAZIER, UN DOMAINE CREOLE" && book?.id !== "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1");
-    
+    isSemader30Regards;
+  
   return (
     <>
       {/* Affichage spécifique pour Brown Baby avec carousel */}

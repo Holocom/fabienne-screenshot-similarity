@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -134,7 +133,7 @@ const BookDetailPage = () => {
   const isCoupsDeCoeurBrigitte = bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
   
   // Ajouter le check pour MA CUISINE BIEN-ÊTRE (avec l'ID correct)
-  const isCuisineBienEtre = bookId === "8525480b-e8cd-4149-b427-16672a5f55b4";
+  const isCuisineBienEtre = bookId === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9";
   
   // Ajouter le check pour DU BONHEUR DANS VOTRE ASSIETTE
   const isDuBonheurAssiette = bookId === "fc38c7c0-27d3-43fe-80a0-1e7e43f7ec43";
