@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -103,6 +102,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().includes("petites histoires des musiques") ||
     title?.toLowerCase().includes("musiques réunionnaises");
 
+  // Cas spécial pour CASES CRÉOLES DE LA RÉUNION
+  const isCasesCréolesReunion = 
+    title === "CASES CRÉOLES DE LA RÉUNION" ||
+    title?.toLowerCase().includes("cases créoles") ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("cases creoles");
+  
   // Vérifier si le titre contient un saut de ligne
   const hasLineBreak = title?.includes('\n');
   
@@ -240,6 +245,15 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
             </p>
             <p className="text-[#ea384c] text-lg md:text-xl font-medium">
               ISBN 9782919300686
+            </p>
+          </>
+        ) : isCasesCréolesReunion ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Bernard Leveneur – Fabienne Jonca – Nicolas Peyrebonne – Patrick Hoarau - Collection PREC (Patrimoine, Réunion, Éducation, Culture) – Canopé Éditions – 2011 – 48 pages
+            </p>
+            <p className="text-[#ea384c] text-lg md:text-xl font-medium">
+              ISBN 9782845579078
             </p>
           </>
         ) : isPetitesHistoiresMusiques ? (

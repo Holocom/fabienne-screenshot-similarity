@@ -10,8 +10,8 @@ interface BookUpdateHandlerProps {
   isBookError: boolean;
 }
 
-export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({ 
-  book, 
+export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
+  book,
   bookId,
   isLoadingBook,
   isBookError
@@ -23,10 +23,12 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     forceUpdate
   } = useBookUpdate(bookId);
   
-  // Fonction pour gérer les cas spécifiques de mise à jour
+  // Fonction pour gérer les mises à jour spécifiques à certains livres
   const handleBookSpecificUpdates = () => {
-    if (!bookId || !book?.title) return false;
-    
+    if (!bookId || !book || hasUpdatedRef.current || isLoadingBook || isBookError) {
+      return false;
+    }
+
     // Special case for Ambroise Vollard book
     if (book.title === "AMBROISE VOLLARD, UN DON SINGULIER" || book.title === "Ambroise Vollard, un don singulier") {
       try {
@@ -508,6 +510,40 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       }
     }
     
+    // Ajout spécifique pour "CASES CRÉOLES DE LA RÉUNION"
+    else if (book.id === "abe5d8a2-77bb-42b0-8c3e-250a9551c9ea" || 
+        book.title === "CASES CRÉOLES DE LA RÉUNION") {
+      try {
+        console.log("Mise à jour des informations de CASES CRÉOLES DE LA RÉUNION");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "La collection PREC a pour ambition de donner aux enseignants de l'académie des contenus et des références artistiques de qualité en rapport avec l'histoire des arts à la Réunion. Le thème de ce premier numéro vous convie au cœur de la vie quotidienne des Réunionnais. Lieu de vie privée, la Case protège, mais se doit aussi d'être belle et accueillante. Nourrie des traditions et des savoir-faire venus d'ailleurs, elle s'est adaptée au climat et a mis en valeur les matériaux locaux. Ses formes variées et ses évolutions permanentes témoignent de la diversité et de la vitalité de la société réunionnaise. Première partie sur L'histoire des cases de La Réunion co-écrite avec Bernard Leveneur.";
+        
+        const newDetails = {
+          publisher: "Canopé Éditions",
+          illustrator: "Non spécifié", 
+          year: "2011",
+          pages: "48",
+          isbn: "9782845579078"
+        };
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: [],
+          awards: [],
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de CASES CRÉOLES DE LA RÉUNION:", error);
+        toast.error("Erreur lors de la mise à jour de CASES CRÉOLES DE LA RÉUNION");
+        return false;
+      }
+    }
+    
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
   
@@ -592,6 +628,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     if (book.id === "b9b54f90-a190-49b3-a215-992362b1cc6a" || 
         book.title === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES") {
       console.log("Force la mise à jour de PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
+    // Force la mise à jour pour CASES CRÉOLES DE LA RÉUNION
+    if (book.id === "abe5d8a2-77bb-42b0-8c3e-250a9551c9ea" || 
+        book.title === "CASES CRÉOLES DE LA RÉUNION") {
+      console.log("Force la mise à jour de CASES CRÉOLES DE LA RÉUNION");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }

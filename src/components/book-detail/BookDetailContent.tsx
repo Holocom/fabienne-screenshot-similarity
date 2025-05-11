@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -72,6 +71,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     book?.title === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" ||
     book?.id === "b9b54f90-a190-49b3-a215-992362b1cc6a";
 
+  // Détecter si c'est "CASES CRÉOLES DE LA RÉUNION"
+  const isCasesCréolesReunion = 
+    book?.title === "CASES CRÉOLES DE LA RÉUNION" || 
+    book?.id === "abe5d8a2-77bb-42b0-8c3e-250a9551c9ea";
+  
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
     bookTitle: book.title, 
@@ -272,7 +276,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isCoupsDeCoeurBrigitte ||
     isDuBonheurAssiette ||
     isManifestePourLaLecture ||
-    isPetitesHistoiresMusiques;
+    isPetitesHistoiresMusiques ||
+    isCasesCréolesReunion;
   
   return (
     <>

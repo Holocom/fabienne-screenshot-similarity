@@ -144,6 +144,9 @@ const BookDetailPage = () => {
   // Ajouter le check pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
   const isPetitesHistoiresMusiques = bookId === "b9b54f90-a190-49b3-a215-992362b1cc6a";
   
+  // Ajouter le check pour CASES CRÉOLES DE LA RÉUNION
+  const isCasesCréolesReunion = bookId === "abe5d8a2-77bb-42b0-8c3e-250a9551c9ea";
+  
   if (isPetitesHistoiresMusiques) {
     console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
   } 
@@ -180,6 +183,9 @@ const BookDetailPage = () => {
   else if (isManifestePourLaLecture) {
     console.log("Livre identifié comme 'MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE' par son ID");
   }
+  else if (isCasesCréolesReunion) {
+    console.log("Livre identifié comme 'CASES CRÉOLES DE LA RÉUNION' par son ID");
+  }
   
   // Composant de gestion des mises à jour rendu correctement
   if (book) {
@@ -204,16 +210,8 @@ const BookDetailPage = () => {
                 // Force le titre correct si nécessaire
                 title: isLaReunionDesReligions ? "La Réunion des religions" : 
                        isLesReligionsIleMaurice ? "Les religions à l'ile Maurice" :
-                       isTuMeFaisTournerCreole ? "TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE" :
-                       isTuMeFaisTournerAnglais ? "TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN" :
-                       isFlamboyantNoel ? "UN FLAMBOYANT PÈRE-NOËL" :
-                       isJacquelineDalais ? "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" :
-                       isSaveursMetissees ? "SAVEURS METISSÉES D'AYMERIC PATAUD" :
-                       isCoupsDeCoeurBrigitte ? "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" :
-                       isCuisineBienEtre ? "MA CUISINE BIEN-ÊTRE" :
-                       isDuBonheurAssiette ? "DU BONHEUR DANS VOTRE ASSIETTE" :
-                       isManifestePourLaLecture ? "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" :
                        isPetitesHistoiresMusiques ? "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" :
+                       isCasesCréolesReunion ? "CASES CRÉOLES DE LA RÉUNION" :
                        book.title
               }}
               bookDetails={bookDetails || {

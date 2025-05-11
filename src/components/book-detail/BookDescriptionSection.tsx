@@ -78,6 +78,11 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     bookTitle === "DU BONHEUR DANS VOTRE ASSIETTE" ||
     bookTitle?.toLowerCase().includes("bonheur dans votre assiette");
     
+  // Vérifier si c'est CASES CRÉOLES DE LA RÉUNION
+  const isCasesCréolesReunion = 
+    bookTitle === "CASES CRÉOLES DE LA RÉUNION" ||
+    bookTitle?.toLowerCase().includes("cases créoles");
+    
   // Pour Jacqueline Dalais, insérer un saut de ligne avant la dernière phrase
   if (isJacquelineDalais && description) {
     const lastSentencePattern = /Cet ouvrage est une invitation au voyage et au partage\./;
@@ -124,7 +129,12 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     
     return renderDescription(manifeste_description);
   }
-
+  
+  // Pour CASES CRÉOLES DE LA RÉUNION, cas spécial avec formatage précis
+  if (isCasesCréolesReunion && description) {
+    return renderDescription(description);
+  }
+  
   // Séparer le texte en paragraphes (double saut de ligne)
   return renderDescription(description || "");
   
