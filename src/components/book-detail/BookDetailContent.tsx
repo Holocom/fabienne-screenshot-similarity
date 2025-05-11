@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Book, Award, Edition, PressLink, BookDetail } from '@/integrations/supabase/schema';
 import { BookHeader } from '@/components/book-detail/BookHeader';
@@ -50,6 +49,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isSaveursMetissees = 
     book?.title === "SAVEURS METISSÉES D'AYMERIC PATAUD" ||
     book?.id === "3e02b6d4-3476-421f-802b-c9e2252cb553";
+
+  // Détecter si c'est "LES COUPS DE CŒUR DE BRIGITTE GRONDIN"
+  const isCoupsDeCoeurBrigitte = 
+    book?.title === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" ||
+    book?.id === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
 
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -138,7 +142,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
 
-  // Log pour débogage si c'est La Réunion des enfants
+  // Log pour débogage si c'est LA RÉUNION DES ENFANTS
   if (isLaReunionDesEnfants) {
     console.log(`Content détecté LA RÉUNION DES ENFANTS avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
@@ -178,6 +182,12 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   if (isSaveursMetissees) {
     console.log(`Content détecté SAVEURS METISSÉES D'AYMERIC PATAUD avec ID: ${book?.id}`);
     console.log(`Titre: "${book?.title}"`);
+  }
+  
+  // Log pour débogage si c'est LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+  if (isCoupsDeCoeurBrigitte) {
+    console.log(`Content détecté LES COUPS DE CŒUR DE BRIGITTE GRONDIN avec ID: ${book?.id}`);
+    console.log(`Titre: "${book?.title}", Éditorial: "${editorialText}", ISBN: "${isbn}"`);
   }
   
   // Liens spécifiques pour Edgar, le chat souris
@@ -229,7 +239,8 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isTuMeFaisTournerAnglais ||
     isMaCuisineMarmaille ||
     isJacquelineDalais ||
-    isSaveursMetissees;
+    isSaveursMetissees ||
+    isCoupsDeCoeurBrigitte;
   
   return (
     <>

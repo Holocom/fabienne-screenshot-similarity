@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BookDetail } from '@/integrations/supabase/schema';
 
@@ -124,6 +123,12 @@ export const getBookEditorialDetails = ({ bookTitle, bookDetails, bookId }: Book
     editorialText = `Album jeunesse français / anglais - illustré par Modeste Madoré - Editions Vizavi - 2015 - 28 pages`;
     isbn = "9789990337938";
     console.log(`ISBN défini pour TU ME FAIS TOURNER LA TERRE (version anglaise): ${isbn}`);
+  }
+  // Special case for LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+  else if (bookTitle === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" || bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185") {
+    editorialText = `Recettes de Brigitte Grondin – Photographies de Pascale Béroujon - Epsilon Éditions – 4 Épices – 2012 – 96 pages`;
+    isbn = "9782912949448";
+    console.log(`ISBN défini pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN: ${isbn}`);
   }
   else {
     // Format standard pour les autres livres

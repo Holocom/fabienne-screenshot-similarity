@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -398,6 +397,39 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       }
     }
     
+    // Update for "LES COUPS DE CŒUR DE BRIGITTE GRONDIN"
+    else if (book.title === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" || book.id === "ef2cb58b-988f-46e4-a5c8-4e133db97185") {
+      try {
+        console.log("Mise à jour des informations de LES COUPS DE CŒUR DE BRIGITTE GRONDIN");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Après Du bonheur dans votre assiette, le best-seller de la cuisine créole réunionnaise et Ma cuisine bien-être, Brigitte Grondin présente ici ses \"Coups de cœur\". Au menu : les grands classiques réunionnais comme le cari poulet ou le rougail saucisse revisités par ses soins, mais aussi des inédits, comme la crème Cilaos ou le pain perdu et son coulis de mangue à la vanille. Simples et rapides, toutes ces recettes sont réalisables par tous et partout grâce à des astuces et des variantes \"hémisphère nord\".";
+        
+        const newDetails = {
+          publisher: "Epsilon Éditions – 4 Épices",
+          illustrator: "Non spécifié", 
+          year: "2012",
+          pages: "96",
+          isbn: "9782912949448"
+        };
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: [],
+          awards: [],
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de LES COUPS DE CŒUR DE BRIGITTE GRONDIN:", error);
+        toast.error("Erreur lors de la mise à jour de LES COUPS DE CŒUR DE BRIGITTE GRONDIN");
+        return false;
+      }
+    }
+    
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
   
@@ -461,7 +493,15 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }
-
+    
+    // Force la mise à jour pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+    if (book.id === "ef2cb58b-988f-46e4-a5c8-4e133db97185" || 
+        book.title === "LES COUPS DE CŒUR DE BRIGITTE GRONDIN") {
+      console.log("Force la mise à jour de LES COUPS DE CŒUR DE BRIGITTE GRONDIN");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
     // Tenter de mettre à jour le livre avec les informations spécifiques
     const wasUpdated = handleBookSpecificUpdates();
     

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -115,20 +114,32 @@ const BookDetailPage = () => {
   // Ajouter le check pour SAVEURS METISSÉES D'AYMERIC PATAUD
   const isSaveursMetissees = bookId === "3e02b6d4-3476-421f-802b-c9e2252cb553";
   
+  // Ajouter le check pour LES COUPS DE CŒUR DE BRIGITTE GRONDIN
+  const isCoupsDeCoeurBrigitte = bookId === "ef2cb58b-988f-46e4-a5c8-4e133db97185";
+  
   if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
-  } else if (isLesReligionsIleMaurice) {
+  } 
+  else if (isLesReligionsIleMaurice) {
     console.log("Livre identifié comme 'Les religions à l'ile Maurice' par son ID");
-  } else if (isTuMeFaisTournerCreole) {
-    console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE / OU I FÉ TOURNE MON TERRE' par son ID");
-  } else if (isTuMeFaisTournerAnglais) {
-    console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE / YOU MAKE MY WORLD SPIN' par son ID");
-  } else if (isFlamboyantNoel) {
+  } 
+  else if (isTuMeFaisTournerCreole) {
+    console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE\nOU I FÉ TOURNE MON TERRE' par son ID");
+  } 
+  else if (isTuMeFaisTournerAnglais) {
+    console.log("Livre identifié comme 'TU ME FAIS TOURNER LA TERRE\nYOU MAKE MY WORLD SPIN' par son ID");
+  } 
+  else if (isFlamboyantNoel) {
     console.log("Livre identifié comme 'UN FLAMBOYANT PÈRE-NOËL' par son ID");
-  } else if (isJacquelineDalais) {
+  } 
+  else if (isJacquelineDalais) {
     console.log("Livre identifié comme 'LA CLÉ DES SAVEURS DE JACQUELINE DALAIS' par son ID");
-  } else if (isSaveursMetissees) {
+  } 
+  else if (isSaveursMetissees) {
     console.log("Livre identifié comme 'SAVEURS METISSÉES D'AYMERIC PATAUD' par son ID");
+  }
+  else if (isCoupsDeCoeurBrigitte) {
+    console.log("Livre identifié comme 'LES COUPS DE CŒUR DE BRIGITTE GRONDIN' par son ID");
   }
   
   // Composant de gestion des mises à jour rendu correctement
@@ -159,12 +170,13 @@ const BookDetailPage = () => {
                        isFlamboyantNoel ? "UN FLAMBOYANT PÈRE-NOËL" :
                        isJacquelineDalais ? "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS" :
                        isSaveursMetissees ? "SAVEURS METISSÉES D'AYMERIC PATAUD" :
+                       isCoupsDeCoeurBrigitte ? "LES COUPS DE CŒUR DE BRIGITTE GRONDIN" :
                        book.title
               }}
               bookDetails={bookDetails || {
                 id: "temp-id",
                 book_id: bookId || '',
-                publisher: "Océan Jeunesse",
+                publisher: "Oc��an Jeunesse",
                 illustrator: "Audrey Caron",
                 year: "2025",
                 pages: "48",
