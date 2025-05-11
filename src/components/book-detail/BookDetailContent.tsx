@@ -94,7 +94,7 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   // Détecter si c'est "LE GRAND HAZIER, UN DOMAINE CREOLE"
   const isGrandHazier = 
     book?.title === "LE GRAND HAZIER, UN DOMAINE CREOLE" ||
-    book?.id === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1"; // Remplacer par l'ID correct si connu
+    book?.id === "b17468a7-1e30-4f25-8e85-c6c1a1fcf3b1";
   
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
