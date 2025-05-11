@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PressLink } from '@/integrations/supabase/schema';
 
@@ -65,6 +66,11 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     { url: "https://actualite.com/extraits-du-livre", label: "Actualité - Extraits du livre" },
     { url: "https://www.imazpress.com/actualites/magik-gouzou-court-au-fil-des-pages", label: "Imazpress - Magik Gouzou court au fil des pages" }
   ];
+  
+  // Ajout des liens de presse pour "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES"
+  const petitesHistoiresMusiquesLinks: SimplePressLink[] = [
+    { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/petites-histoires-des-musiques-reunionnaises", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/petites-histoires-des-musiques-reunionnaises" }
+  ];
                       
   // Determine which links to display
   let displayLinks: (PressLink | SimplePressLink)[] = pressLinks;
@@ -85,6 +91,8 @@ export const PressLinksSection: React.FC<PressLinksSectionProps> = ({ pressLinks
     displayLinks = lesReligionsIleMauriceLinks;
   } else if (bookTitle === "JACE. MAGIK GOUZOU") {
     displayLinks = jaceMagikGouzouLinks;
+  } else if (bookTitle === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES") {
+    displayLinks = petitesHistoiresMusiquesLinks;
   }
   
   // Créer une map pour stocker des liens uniques par URL

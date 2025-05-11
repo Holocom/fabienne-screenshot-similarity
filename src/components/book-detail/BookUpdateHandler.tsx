@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Book } from '@/integrations/supabase/schema';
 import { useBookUpdate } from '@/hooks/useBookUpdate';
@@ -465,6 +464,50 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
       }
     }
     
+    // Ajout spécifique pour "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES"
+    else if (book.id === "b9b54f90-a190-49b3-a215-992362b1cc6a" || 
+        book.title === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES") {
+      try {
+        console.log("Mise à jour des informations de PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES");
+        hasUpdatedRef.current = true;
+        
+        const newDescription = "Raconter en détail ce qui singularise la musique populaire de La Réunion est une démarche nécessaire pour rappeler la richesse de sa culture. C'est ce que propose le livre Petites histoires des musiques réunionnaises en ponctuant le texte par des explications sur les rythmes et les sons (shabouk, valiha, roulèr, séga, maloya...) et en présentant les compositeurs majeurs et leur démarche musicale.";
+        
+        const newDetails = {
+          publisher: "4 Épices",
+          illustrator: "Olivier Bard", 
+          year: "2012",
+          pages: "72",
+          isbn: "9782952720441"
+        };
+        
+        // Ajout des prix spécifiques
+        const newAwards = [
+          { name: "Coup de cœur Takam Tikou", year: null }
+        ];
+        
+        // Ajout des liens de presse spécifiques
+        const newPressLinks = [
+          { url: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/petites-histoires-des-musiques-reunionnaises", label: "https://takamtikou.bnf.fr/bibliographies/notices/ocean-indien/petites-histoires-des-musiques-reunionnaises" }
+        ];
+        
+        updateBookMutation.mutate({
+          bookId,
+          bookData: { description: newDescription },
+          detailsData: newDetails,
+          pressLinks: newPressLinks,
+          awards: newAwards,
+          editions: []
+        });
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur lors de la mise à jour de PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES:", error);
+        toast.error("Erreur lors de la mise à jour de PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES");
+        return false;
+      }
+    }
+    
     return false; // Aucune mise à jour spécifique n'a été effectuée
   };
   
@@ -541,6 +584,14 @@ export const BookUpdateHandler: React.FC<BookUpdateHandlerProps> = ({
     if (book.id === "cec5f8c9-9a6c-4269-895a-fd3c2a139bd9" || 
         book.title === "MA CUISINE BIEN-ÊTRE") {
       console.log("Force la mise à jour de MA CUISINE BIEN-ÊTRE");
+      hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
+      forceUpdate();
+    }
+    
+    // Force la mise à jour pour PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES
+    if (book.id === "b9b54f90-a190-49b3-a215-992362b1cc6a" || 
+        book.title === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES") {
+      console.log("Force la mise à jour de PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES");
       hasUpdatedRef.current = false; // Réinitialiser pour permettre la mise à jour
       forceUpdate();
     }
