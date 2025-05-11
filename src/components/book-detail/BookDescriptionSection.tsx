@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 interface BookDescriptionProps {
@@ -258,7 +259,13 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   
   // Pour LE PONT DE LA RIVIERE DE L'EST, cas spécial avec formattage précis
   if (isPontRiviereEst && description) {
-    const pontDescription = `Classé Monument historique en 2018, le pont suspendu de la rivière de l'Est est l'une des merveilles architecturales les plus emblématiques de l'île de La Réunion, mais aussi une merveille d'ingénierie. Ce livre richement illustré de photographies de Sébastien Marchal, retrace l'histoire de ce lieu unique, mais aussi l'impressionnant chantier de sa restauration à l'état originel. Restaurer un tel ouvrage n'a pas été une chose facile même avec les moyens actuels. On peut donc s'imaginer que dans le contexte de l'époque, les équipes ont dû relever de nombreux défis et faire des prouesses pour s'affranchir des pentes abruptes et de la rivière tumultueuse.`;
+    // Description spécifique avec saut de paragraphe respecté comme dans l'image
+    const firstParagraph = "Classé Monument historique en 2018, le pont suspendu de la rivière de l'Est est l'une des merveilles architecturales les plus emblématiques de l'île de La Réunion, mais aussi une merveille d'ingénierie. Ce livre richement illustré de photographies de Sébastien Marchal, retrace l'histoire de ce lieu unique, mais aussi l'impressionnant chantier de sa restauration à l'état originel.";
+    
+    const secondParagraph = "Restaurer un tel ouvrage n'a pas été une chose facile même avec les moyens actuels. On peut donc s'imaginer que dans le contexte de l'époque, les équipes ont dû relever de nombreux défis et faire des prouesses pour s'affranchir des pentes abruptes et de la rivière tumultueuse.";
+    
+    // Description avec paragraphes séparés
+    const pontDescription = `${firstParagraph}\n\n${secondParagraph}`;
     
     return renderDescription(pontDescription);
   }
@@ -282,3 +289,4 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   // Cas par défaut: retourner la description telle quelle
   return renderDescription(description);
 };
+
