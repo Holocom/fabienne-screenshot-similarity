@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -160,7 +159,13 @@ const BookDetailPage = () => {
   // Ajouter le check pour SOCIÉTÉ ADRIEN BELLIER
   const isSocieteAdrienBellier = bookId === "a557a8b4-5d62-4ec7-be9b-301ed5b50369";
   
-  if (isGrandHazier) {
+  // Ajouter le check pour LA REUNION, L'ILE AUX OUVRAGES
+  const isLaReunionIleOuvrages = bookId === "a63d08f5-49ff-4220-9a70-9627fcbe7643";
+  
+  if (isLaReunionIleOuvrages) {
+    console.log("Livre identifié comme 'LA REUNION, L'ILE AUX OUVRAGES' par son ID");
+  }
+  else if (isGrandHazier) {
     console.log("Livre identifié comme 'LE GRAND HAZIER, UN DOMAINE CREOLE' par son ID");
   }
   else if (isSocieteAdrienBellier) {
@@ -168,7 +173,7 @@ const BookDetailPage = () => {
   }
   else if (isPetitesHistoiresMusiques) {
     console.log("Livre identifié comme 'PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES' par son ID");
-  } 
+  }
   else if (isLaReunionDesReligions) {
     console.log("Livre identifié comme 'La Réunion des religions' par son ID");
   } 
@@ -241,6 +246,7 @@ const BookDetailPage = () => {
                        isSemader30Regards ? "SEMADER, 30 REGARDS SUR LES 30 ANS" :
                        isGrandHazier ? "LE GRAND HAZIER, UN DOMAINE CREOLE" :
                        isSocieteAdrienBellier ? "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" :
+                       isLaReunionIleOuvrages ? "LA REUNION, L'ILE AUX OUVRAGES" :
                        book.title
               }}
               bookDetails={bookDetails || {

@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookHeaderProps {
   title: string;
@@ -134,6 +133,12 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     title?.toLowerCase().includes("société adrien bellier") ||
     title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("societe adrien bellier");
   
+  // Cas spécial pour LA REUNION, L'ILE AUX OUVRAGES
+  const isLaReunionIleOuvrages = 
+    title === "LA REUNION, L'ILE AUX OUVRAGES" ||
+    title?.toLowerCase().includes("reunion, l'ile aux ouvrages") ||
+    title?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes("reunion, lile aux ouvrages");
+    
   // Vérifier si c'est un livre de la catégorie COMMANDE
   const isCommandeCategory = categorySlug === "commande";
   
@@ -147,6 +152,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
     !isSemader30Regards && 
     !isGrandHazier && 
     !isSocieteAdrienBellier && 
+    !isLaReunionIleOuvrages &&
     !isCommandeCategory;
   
   return <>
@@ -346,6 +352,13 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
               Témoignages - Photographies de Edgar Marsy et fonds Semader – Conception 21° Sud – 2015 - 72 pages
             </p>
             {/* ISBN supprimé pour SEMADER, 30 REGARDS SUR LES 30 ANS */}
+          </>
+        ) : isLaReunionIleOuvrages ? (
+          <>
+            <p className="text-[#ea384c] text-lg md:text-xl mb-1">
+              Ouvrage technique - Photographies crédits multiples - Conception graphique Olivier Bard - 4 Épices – 2e édition 2020 – 60 pages.
+            </p>
+            {/* ISBN supprimé pour LA REUNION, L'ILE AUX OUVRAGES */}
           </>
         ) : isGrandHazier ? (
           <>

@@ -100,6 +100,11 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
   const isSocieteAdrienBellier = 
     book?.title === "SOCIÉTÉ ADRIEN BELLIER, UNE HISTOIRE DE FAMILLE (1912-2012)" ||
     book?.id === "a557a8b4-5d62-4ec7-be9b-301ed5b50369";
+    
+  // Détecter si c'est "LA REUNION, L'ILE AUX OUVRAGES"
+  const isLaReunionIleOuvrages = 
+    book?.title === "LA REUNION, L'ILE AUX OUVRAGES" ||
+    book?.id === "a63d08f5-49ff-4220-9a70-9627fcbe7643";
   
   // Obtenir les détails éditoriaux en passant également l'ID du livre
   const { editorialText, isbn } = getBookEditorialDetails({ 
@@ -326,8 +331,13 @@ export const BookDetailContent: React.FC<BookDetailContentProps> = ({
     isDuBonheurAssiette ||
     isManifestePourLaLecture ||
     isPetitesHistoiresMusiques ||
-    isCasesCréolesReunion;
-    // Suppression des livres qui n'affichent pas l'ISBN: LE GRAND HAZIER, UN DOMAINE CREOLE, PONT DE LA RIVIERE DE L'EST, SEMADER 30 REGARDS et SOCIÉTÉ ADRIEN BELLIER
+    isCasesCréolesReunion &&
+    // Suppression des livres qui n'affichent pas l'ISBN
+    !isGrandHazier && 
+    !isPontRiviereEst && 
+    !isSemader30Regards && 
+    !isSocieteAdrienBellier &&
+    !isLaReunionIleOuvrages;
   
   return (
     <>
