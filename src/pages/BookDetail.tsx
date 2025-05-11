@@ -117,7 +117,7 @@ const BookDetailPage = () => {
   // Vérifier si c'est "TU ME FAIS TOURNER LA TERRE" version créole
   const isTuMeFaisTournerCreole = bookId === "451338a8-2537-454d-a990-00dbc0988370";
   
-  // Vérifie si c'est "TU ME FAIS TOURNER LA TERRE" version anglaise
+  // Vérifier si c'est "TU ME FAIS TOURNER LA TERRE" version anglaise
   const isTuMeFaisTournerAnglais = bookId === "nouveau-id-version-anglaise"; // ID à remplacer si vous avez un vrai ID
   
   // Ajouter le check pour UN FLAMBOYANT PÈRE-NOËL
@@ -165,7 +165,7 @@ const BookDetailPage = () => {
   // Ajouter le check pour ROUTE DES TAMARINS
   const isRouteDesTamarins = bookId === "5db0f368-4220-4ca4-97c7-883dab8c2559";
   
-  // Ajouter le check pour DE LA PLANTE AU SUCRE
+  // Ajouter le check pour DE LA PLANTE AU SUCRE, s'assurer qu'il est bien défini
   const isDePlanteSucre = bookId === "4458feae-b1cc-4a82-9798-377b7066ae49";
   
   if (isRouteDesTamarins) {

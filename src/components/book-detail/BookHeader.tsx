@@ -22,7 +22,7 @@ export const BookHeader: React.FC<BookHeaderProps> = ({
   // Cas spéciaux pour l'affichage
   const isEdgarChatSouris = title === "EDGAR, LE CHAT SOURIS" || title === "Edgar, le chat souris";
   
-  // Cas spécial pour DE LA PLANTE AU SUCRE
+  // Cas spécial pour DE LA PLANTE AU SUCRE - vérifier toutes les variantes possibles
   const isDePlanteSucre = 
     title === "DE LA PLANTE AU SUCRE, L'AVENTURE DE LA CANNE" ||
     title?.toLowerCase().includes("plante au sucre") ||
