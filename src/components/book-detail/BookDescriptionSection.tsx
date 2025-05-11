@@ -1,4 +1,3 @@
-
 import React from 'react';
 interface BookDescriptionProps {
   description: string | null;
@@ -8,7 +7,30 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
   description,
   bookTitle
 }) => {
-  if (!description) return <p className="text-left mx-[2px]">En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu´il double naturellement pour dire ""ma ma"", ""mu mu"" et parfois d´autres mots ""gueu gueu"", ""ga ga"". Vers neuf mois apparaissent ses premiers mots composés d´une syllabe ou de deux syllabes doublées ""papa"", ""doudou"", ""joujou"". C´est à la fois de l´imitation et de l´exploration. Cet ouvrage vous permet d´encourager votre bébé à les prononcer sur le thème des espèces protégées de l´Île de La Réunion.</p>;
+  if (!description) {
+    // Vérifier si c'est MANIFESTE POUR LA LECTURE et ajouter la description personnalisée
+    const isManifestePourLaLecture = 
+      bookTitle === "MANIFESTE POUR LA LECTURE - LES AUTEURS FRANCOPHONES CÉLÈBRENT LE LIVRE" ||
+      bookTitle === "MANIFESTE POUR LA LECTURE" ||
+      bookTitle?.toLowerCase().includes("manifeste pour la lecture");
+    
+    if (isManifestePourLaLecture) {
+      // Description spécifique pour MANIFESTE POUR LA LECTURE avec formatage personnalisé
+      return (
+        <div className="description mb-8">
+          <h3 className="font-bold uppercase text-xl mb-4">4e de couverture</h3>
+          <p className="mb-4 text-base md:text-lg leading-relaxed">Ce manifeste est destiné à ceux qui dévorent les livres, qui les picorent, qui ne lisent plus, aux enseignants, aux parents, aux jeunes. Il rassemble les témoignages, récits et histoires, de seize auteurs francophones, des îles de l'océan Indien, des Caraïbes, d'Afrique, d'Amérique du Nord et d'Europe.</p>
+          
+          <p className="mb-4 text-base md:text-lg leading-relaxed">Ils confient leurs souvenirs d'enfance comme <span className="text-[#ea384c]">Nassuf Djailani</span> qui se remémore depuis Mayotte <em>« ce garçon du fond de la classe qui avait des mots plein le ventre et qui avait tant de mal à les sortir »</em>. Ils font part de leurs rencontres comme <span className="text-[#ea384c]">Kenza Sefrioui</span> qui, admirative, raconte cet homme de soixante-dix ans qui a tant remué les montagnes du Maroc pour faire lire les enfants de son village.</p>
+          
+          <p className="mb-4 text-base md:text-lg leading-relaxed">Ces auteurs confient avec générosité, leurs expériences, le secret des mots et leur rapport intime au livre et à la lecture. Pour <span className="text-[#ea384c]">Jennifer Richard</span>, le livre est <em>« un port d'attache qui tient dans la poche »</em> ; pour <span className="text-[#ea384c]">Ananda Devi</span>, les livres sont des <em>« compagnons de notre voyage de vie »</em> ; pour <span className="text-[#ea384c]">Véronique Tadjo</span>, <em>« sans livres, le monde serait clos »</em>, et, pour <span className="text-[#ea384c]">Fabienne Jonca</span>, lire, <em>« c'est s'ouvrir aux autres et à soi-même être soi »</em>.</p>
+        </div>
+      );
+    }
+    
+    // Description par défaut pour les autres livres sans description
+    return <p className="text-left mx-[2px]">En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu´il double naturellement pour dire ""ma ma"", ""mu mu"" et parfois d´autres mots ""gueu gueu"", ""ga ga"". Vers neuf mois apparaissent ses premiers mots composés d´une syllabe ou de deux syllabes doublées ""papa"", ""doudou"", ""joujou"". C´est à la fois de l´imitation et de l´exploration. Cet ouvrage vous permet d´encourager votre bébé à les prononcer sur le thème des espèces protégées de l´Île de La Réunion.</p>;
+  }
 
   // Vérifier si c'est le livre "LA CLÉ DES SAVEURS DE JACQUELINE DALAIS"
   const isJacquelineDalais = 
