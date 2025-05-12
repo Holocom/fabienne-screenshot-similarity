@@ -18,6 +18,13 @@ export const BookDescriptionSection: React.FC<BookDescriptionProps> = ({
     ));
   };
   
+  // Cas spécial pour Z'OISEAUX RARES
+  const isZOiseauxRares = 
+    bookTitle === "Z'OISEAUX RARES" || 
+    bookTitle === "Z'oiseaux rares" || 
+    bookTitle === "ZOISEAUX RARES" ||
+    bookTitle?.toLowerCase().includes("oiseaux rares");
+    
   // Détecter le titre du livre pour appliquer des cas spéciaux
   const isPetitesHistoiresMusiques = 
     bookTitle === "PETITES HISTOIRES DES MUSIQUES RÉUNIONNAISES" ||
@@ -371,6 +378,18 @@ Des textes synthétiques, des encadrés de situation pour mieux comprendre le co
     // Utiliser dangerouslySetInnerHTML pour interpréter les balises HTML
     return (
       <div dangerouslySetInnerHTML={{ __html: formattedText }} className="text-gray-700 text-base md:text-lg space-y-4" />
+    );
+  }
+  
+  // Cas spécial pour Z'OISEAUX RARES
+  if (isZOiseauxRares && description) {
+    // Texte fixe pour éviter les problèmes de formatage avec les apostrophes
+    const zOiseauxRaresDescription = "En associant les voyelles aux consonnes, le bébé donne naissance dès le sixième mois à ses premières syllabes, qu'il double naturellement pour dire \"ma ma\", \"mu mu\" et parfois d'autres mots \"gueu gueu\", \"ga ga\". Vers neuf mois apparaissent ses premiers mots composés d'une syllabe ou de deux syllabes doublées \"papa\", \"doudou\", \"joujou\". C'est à l'imitation et à l'exploration. Cet ouvrage vous permet d'encourager votre bébé à les prononcer sur le thème des espèces protégées de l'île de La Réunion.";
+    
+    return (
+      <div className="text-gray-700 text-base md:text-lg mb-4">
+        {zOiseauxRaresDescription}
+      </div>
     );
   }
   
