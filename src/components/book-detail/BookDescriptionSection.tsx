@@ -266,8 +266,8 @@ Des textes synthétiques, des encadrés de situation pour mieux comprendre le co
   // Pour DU BONHEUR DANS VOTRE ASSIETTE, cas spécial avec formattage précis
   if (isDuBonheurAssiette && description) {
     // Formatage spécifique pour Du Bonheur dans votre Assiette avec la dernière phrase en italique
-    if (description.includes("Des recettes simples et gourmandes pour tous les jours.")) {
-      const lastSentence = "Des recettes simples et gourmandes pour tous les jours.";
+    if (description.includes("Best-seller de la cuisine réunionnaise,")) {
+      const lastSentence = "Best-seller de la cuisine réunionnaise, Du bonheur dans votre assiette s'est vendu à 40 000 exemplaires.";
       const mainText = description.replace(lastSentence, "");
       
       return (
