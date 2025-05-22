@@ -13,7 +13,7 @@ interface BookCardProps {
 const BookCard: React.FC<BookCardProps> = ({ book, onImageError, coverErrors }) => (
   <div className="mb-5 break-inside-avoid">
     <Link
-      to={`/books/${book.slug ?? book.id}`}
+      to={`/books/${book.id}`}
       className="block relative group overflow-hidden bg-transparent rounded-md shadow-sm hover:shadow-lg transition-shadow duration-300"
     >
       <div className="w-full overflow-hidden">

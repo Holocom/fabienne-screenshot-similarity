@@ -73,24 +73,6 @@ export const getBookById = async (bookId: string): Promise<Book | null> => {
   return data as Book;
 };
 
-export const getBookBySlug = async (slug: string): Promise<Book | null> => {
-  const { data, error } = await supabase
-    .from('books')
-    .select(`
-      *,
-      categories(id, name, slug)
-    `)
-    .eq('slug', slug)
-    .maybeSingle();
-
-  if (error) {
-    console.error('Error fetching book by slug:', error);
-    return null;
-  }
-
-  return data as Book;
-};
-
 export const getBookDetails = async (bookId: string): Promise<BookDetail | null> => {
   try {
     const { data, error } = await supabase

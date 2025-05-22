@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { 
   getBookById, 
-  getBookBySlug,
   getBookDetails, 
   getPressLinks, 
   getAwards,
@@ -17,29 +16,11 @@ import { BookUpdateHandler } from '@/components/book-detail/BookUpdateHandler';
 import { BookDetailContent } from '@/components/book-detail/BookDetailContent';
 
 const BookDetailPage = () => {
-  const { bookSlug } = useParams<{ bookSlug: string }>();
-  const navigate = useNavigate();
+  const { bookId } = useParams<{ bookId: string }>();
   const queryClient = useQueryClient();
-  const [bookId, setBookId] = useState<string | undefined>(undefined);
-
-  // Nouvelle logique : charger le livre par le slug
-  const { data: book, isLoading: isLoadingBook, error: bookError } = useQuery({
-    queryKey: ['book-by-slug', bookSlug],
-    queryFn: async () => {
-      if (!bookSlug) return null;
-      const found = await getBookBySlug(bookSlug);
-      if (!found?.id) {
-        // Si slug inconnu, aller vers NotFound :
-        navigate("/not-found", { replace: true });
-        return null;
-      }
-      setBookId(found.id);
-      return found;
-    },
-    enabled: !!bookSlug,
-    staleTime: 0
-  });
-
+  
+  console.log(`Chargement des détails pour le livre avec ID: ${bookId}`);
+  
   // Force a refresh of the data on every mount with stronger invalidation
   useEffect(() => {
     if (bookId) {
@@ -60,6 +41,18 @@ const BookDetailPage = () => {
       queryClient.invalidateQueries({ queryKey: ['editions', bookId] });
     }
   }, [bookId, queryClient]);
+  
+  const {
+    data: book,
+    isLoading: isLoadingBook,
+    error: bookError,
+    isError: isBookError
+  } = useQuery({
+    queryKey: ['book', bookId],
+    queryFn: () => getBookById(bookId || ''),
+    enabled: !!bookId,
+    staleTime: 0 // Ne jamais considérer les données comme fraîches
+  });
   
   const {
     data: bookDetails,
@@ -246,12 +239,11 @@ const BookDetailPage = () => {
   if (book) {
     return (
       <>
-        {/* Ensure isBookError is boolean */}
         <BookUpdateHandler 
           book={book} 
           bookId={bookId} 
           isLoadingBook={isLoadingBook} 
-          isBookError={!!bookError}
+          isBookError={isBookError} 
         />
         
         {isLoading ? (

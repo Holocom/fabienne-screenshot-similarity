@@ -14,7 +14,6 @@ export interface Book {
   category_id: string | null;
   cover_image: string | null;
   created_at: string;
-  slug?: string | null; // <-- Added slug here
   categories?: Category | null;
 }
 
