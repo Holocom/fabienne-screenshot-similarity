@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -58,8 +57,8 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/:categorySlug" element={<CategoryPage />} />
             
-            {/* Rediriger roman vers la page livre slug */}
-            <Route path="/roman" element={<Navigate to={`/books/${brownBabyBookSlug}`} replace />} />
+            {/* SUPPRESSION DE CETTE LIGNE, pour remettre la page /roman normale : */}
+            {/* <Route path="/roman" element={<Navigate to={`/books/${brownBabyBookSlug}`} replace />} /> */}
             <Route path="/art" element={<CategoryPage />} />
             <Route path="/jeunesse" element={<CategoryPage />} />
             <Route path="/cuisine" element={<CategoryPage />} />
@@ -89,4 +88,3 @@ const App = () => {
 };
 
 export default App;
-
