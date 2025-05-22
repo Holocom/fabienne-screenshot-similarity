@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -250,7 +251,7 @@ const BookDetailPage = () => {
           book={book} 
           bookId={bookId} 
           isLoadingBook={isLoadingBook} 
-          isBookError={bookError} 
+          isBookError={!!bookError} {/* Fix: ensure boolean */}
         />
         
         {isLoading ? (
