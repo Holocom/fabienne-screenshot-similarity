@@ -7,39 +7,34 @@ import { getCategories } from '@/services/bookService';
 const BookCategories = () => {
   const location = useLocation();
   const currentPath = location.pathname;
-  
-  // ID du livre Brown Baby
-  const brownBabyBookId = '0e2076f3-db50-4b64-ad3e-a8fb3d5b3308';
-  
+
+  // Slug pour roman
+  const brownBabyBookSlug = 'brown-baby';
+
   const { data: categoriesData = [], isLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories
   });
-  
-  // Définir l'ordre souhaité des catégories
+
+  // Ordre
   const desiredOrder = ['roman', 'art', 'jeunesse', 'cuisine', 'collectifs', 'commandes'];
-  
-  // Créer un nouveau tableau avec les catégories ordonnées
+
+  // Ordonnancement
   const sortedCategories = [...categoriesData].sort((a, b) => {
     const indexA = desiredOrder.indexOf(a.slug.toLowerCase());
     const indexB = desiredOrder.indexOf(b.slug.toLowerCase());
-    
-    // Si une catégorie n'est pas dans l'ordre prédéfini, la placer à la fin
     if (indexA === -1) return 1;
     if (indexB === -1) return -1;
-    
     return indexA - indexB;
   });
-  
-  // Préparer les catégories avec leurs destinations
+
+  // Préparer les catégories avec chemins slugs
   const allCategories = [
     { name: 'TOUS', slug: '', path: '/' },
     ...sortedCategories.map(cat => {
-      // Pour la catégorie "roman", rediriger vers la page de détail de Brown Baby
       const path = cat.slug.toLowerCase() === 'roman' 
-        ? `/books/${brownBabyBookId}` 
+        ? `/books/${brownBabyBookSlug}` 
         : `/${cat.slug}`;
-      
       return { 
         name: cat.name.toUpperCase(),
         slug: cat.slug,

@@ -6,24 +6,24 @@ import BookCategories from '../components/BookCategories';
 import BookGrid from '../components/BookGrid';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getBookById } from '@/services/bookService';
+import { getBookBySlug } from '@/services/bookService';
 import { Link } from 'react-router-dom';
 
 const CategoryPage = () => {
   const location = useLocation();
-  const currentCategory = location.pathname.substring(1);
-  
-  // Check if we're on the Roman category page
+  const currentCategory = location.pathname.substring(1).toLowerCase();
+
+  // Cas Roman → Slug ("brown-baby")
   const isRomanCategoryPage = currentCategory === 'roman';
-  
-  // If we're on the Roman category page, fetch Brown Baby book data
+  const brownBabyBookSlug = "brown-baby";
+
   const {
     data: brownBabyBook,
     isLoading: isLoadingBrownBaby,
   } = useQuery({
     queryKey: ['book', 'brownBaby'],
-    queryFn: () => getBookById('0e2076f3-db50-4b64-ad3e-a8fb3d5b3308'), // Brown Baby book ID
-    enabled: isRomanCategoryPage
+    queryFn: () => getBookBySlug(brownBabyBookSlug),
+    enabled: isRomanCategoryPage,
   });
 
   return (
@@ -32,8 +32,6 @@ const CategoryPage = () => {
       <Navigation />
       <main className="flex-1 w-full flex flex-col items-center pb-8">
         <BookCategories />
-        
-        {/* Show Brown Baby featured section for Roman category */}
         {isRomanCategoryPage && brownBabyBook && (
           <div className="w-full max-w-6xl mx-auto px-4 mb-12 mt-8">
             <div className="bg-white rounded-lg shadow-sm p-6 flex flex-col md:flex-row gap-8">
@@ -58,7 +56,7 @@ const CategoryPage = () => {
                     <p>Prix Seligmann contre le racisme 2024</p>
                   </div>
                   <Link 
-                    to={`/books/${brownBabyBook.id}`} 
+                    to={`/books/${brownBabyBook.slug}`}
                     className="inline-block text-sm text-white bg-[#ea384c] hover:bg-[#d41d31] transition-colors px-4 py-2 rounded"
                   >
                     Voir plus de détails
@@ -68,9 +66,8 @@ const CategoryPage = () => {
             </div>
           </div>
         )}
-        
         {/* Regular book grid - exclude Brown Baby from the Roman category */}
-        <BookGrid excludeBookId={isRomanCategoryPage ? '0e2076f3-db50-4b64-ad3e-a8fb3d5b3308' : undefined} />
+        <BookGrid excludeBookId={undefined} />
       </main>
       <footer className="w-full py-8 text-center text-sm text-gray-500">
         <p>© {new Date().getFullYear()} Fabienne Jonca. Tous droits réservés.</p>
