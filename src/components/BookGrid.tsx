@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -76,6 +75,11 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
   const formatImageUrl = (url: string | null, bookId: string, bookTitle: string) => {
     if (!url || coverErrors[bookId]) return "/placeholder.svg";
     
+    // Cas spécifique pour LE PONT DE LA RIVIERE DE L'EST (nouvelle URL)
+    if (bookTitle === "LE PONT DE LA RIVIERE DE L'EST") {
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/COUV%202%20PRE.jpg";
+    }
+    
     // Cas spécifique pour certains livres qui ont des URLs locales
     if (bookTitle === "Ambroise Vollard, un don singulier") {
       return "/lovable-uploads/8531bfd5-fdcb-48af-98cf-95d85012bf9d.png";
@@ -129,7 +133,7 @@ const BookGrid = ({ excludeBookId }: BookGridProps) => {
     }
     
     if (bookTitle === "LE PONT DE LA RIVIERE DE L'EST") {
-      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/pont-riviere-est.jpg";
+      return "https://ygsqgosylxoiqikxlsil.supabase.co/storage/v1/object/public/bookcovers/COMMANDES/COUV%202%20PRE.jpg";
     }
     
     if (bookTitle === "SEMADER, 30 REGARDS SUR LES 30 ANS") {
