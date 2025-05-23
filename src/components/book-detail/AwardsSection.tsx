@@ -37,7 +37,7 @@ export const AwardsSection: React.FC<AwardsSectionProps> = ({
     name: "Sélection Prix Verdelettres 2025",
     url: null
   }, {
-    name: "Coup de cœur Takam Tikou",
+    name: "Coup de cœur Takam Tikou (2024)",
     url: null
   }];
 
